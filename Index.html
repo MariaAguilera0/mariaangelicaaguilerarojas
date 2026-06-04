@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Mi Empresa VR</title>
+
+<script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+<link rel="stylesheet" href="style.css">
+<script src="script.js"></script>
+</head>
+<body>
+
+<header>
+    <h1>Mi Empresa</h1>
+    <img src="img/logoem.jpeg" alt="Logo de la empresa" class="logo" width="100" height="100">
+    <p>Reserva facil, disfruta rapido</p>
+</header>
+
+</nav>
+    <a href="#inicio">Inicio</a>
+    <a href="#vr">Experiencia VR</a>
+    <a href="#servicios">Servicios</a>
+    <a href="#contacto">Contacto</a>
+</nav>
+
+<section class="hero" id="inicio">
+    <h2>Bienvenido</h2>
+    <p>
+        Conoce nuestros productos y servicios mediante una experiencia
+        interactiva en realidad virtual.
+    </p>
+</section>
+
+
+<div class="tabs">
+
+    <button onclick="cargar('restaurante.html')">
+        restaurante
+    </button>
+
+    <button onclick="cargar('lavabo.html')">
+        baño
+    </button>
+
+    <button onclick="cargar('almacen.html')">
+        almacen
+    </button>
+
+    <button onclick="cargar('cocina.html')">
+        cocina
+    </button>
+
+    <button onclick="cargar('entrada.html')">
+        entrada
+    </button>
+
+</div>
+
+<iframe
+    id="visor"
+    src="tienda.html">
+</iframe>
+
+<section class="servicios" id="servicios">
+
+    <div class="card">
+        <h3>Realidad Virtual</h3>
+        <p>Experiencias inmersivas para clientes y empresas.</p>
+    </div>
+
+    <div class="card">
+        <h3>Desarrollo Web</h3>
+        <p>Sitios modernos y adaptables para cualquier dispositivo.</p>
+    </div>
+
+    <div class="card">
+        <h3>Innovación Digital</h3>
+        <p>Transformación digital para tu negocio.</p>
+    </div>
+
+</section>
+
+<footer id="contacto">
+    <h3>Contáctanos</h3>
+    <p>correo@empresa.com</p>
+    <p>+57 300 000 0000</p>
+</footer>
+
+</body>
+</html>

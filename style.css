@@ -1,0 +1,153 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#f4f4f4;
+    color:#333;
+}
+
+/* Encabezado */
+header{
+    background:#0a192f;
+    color:white;
+    padding:20px;
+    text-align:center;
+}
+
+header h1{
+    margin-bottom:10px;
+}
+
+/* Menú */
+nav{
+    background:#112240;
+    padding:15px;
+    text-align:center;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    margin:0 15px;
+    font-weight:bold;
+}
+
+nav a:hover{
+    color:#64ffda;
+}
+
+/* Hero */
+.hero{
+    text-align:center;
+    padding:60px 20px;
+    background:white;
+}
+
+.hero h2{
+    margin-bottom:15px;
+    color:#0a192f;
+}
+
+.hero p{
+    max-width:700px;
+    margin:auto;
+}
+
+/* Contenedor VR */
+.vr-container{
+    width:90%;
+    max-width:1200px;
+    margin:40px auto;
+    background:white;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+.vr-container h2{
+    text-align:center;
+    padding:20px;
+    background:#0a192f;
+    color:white;
+}
+
+/* Escena VR */
+a-scene{
+    height:600px;
+}
+
+/* Servicios */
+.servicios{
+    padding:50px 20px;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:20px;
+}
+
+.card{
+    width:300px;
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+.card h3{
+    margin-bottom:10px;
+    color:#0a192f;
+}
+
+/* Footer */
+footer{
+    background:#0a192f;
+    color:white;
+    text-align:center;
+    padding:20px;
+    margin-top:40px;
+}
+
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+}
+
+.tabs{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    width:fit-content;
+    margin:20px auto;
+    padding:10px 20px;
+    background:#0a192f;
+    border-radius:12px;
+}
+
+.tabs button{
+    padding:10px 40px;
+    border:none;
+    background:none;
+    color:white;
+    cursor:pointer;
+    font-size:18px;
+    border-radius:8px;
+    transition:0.3s;
+}
+
+.tabs button:hover{
+    background:#112240;
+}
+
+#visor{
+    width:60%;
+    height:90vh;
+    border:none;
+    border-radius:10px;
+    box-shadow:0 0 15px rgba(0,0,0,0.2);
+    display:block;
+    margin:auto;
+}
