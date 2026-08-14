@@ -37,7 +37,7 @@ nav a{
 }
 
 nav a:hover{
-    color:#93c0b5;
+    color:#165848;
 }
 
 /* Hero */
@@ -91,7 +91,7 @@ a-scene{
 
 .card{
     width:300px;
-    background:rgb(255, 255, 255)55, 255, 255);
+    background:rgb(55, 255, 255);
     padding:20px;
     border-radius:10px;
     box-shadow:0 0 10px rgba(0,0,0,0.1);

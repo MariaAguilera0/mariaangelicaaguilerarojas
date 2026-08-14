@@ -8,7 +8,7 @@
 
 <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
 <link rel="stylesheet" href="style.css">
-<script src="script.js"></script>
+
 </head>
 <body>
 
@@ -18,7 +18,7 @@
     <p>Reserva facil, disfruta rapido</p>
 </header>
 
-</nav>
+<nav>
     <a href="#inicio">Inicio</a>
     <a href="#vr">Experiencia VR</a>
     <a href="#servicios">Servicios</a>
@@ -60,7 +60,8 @@
 
 <iframe
     id="visor"
-    src="tienda.html">
+    src="tienda.html"
+    style="width:100%; height:600px; border:none;">
 </iframe>
 
 <section class="servicios" id="servicios">
@@ -72,21 +73,22 @@
 
     <div class="card">
         <h3>Desarrollo Web</h3>
-        <p>Sitios modernos y adaptables para cualquier dispositivo.</p>
+        <p>visualización de cupos disponibles en restaurantes.</p>
     </div>
 
     <div class="card">
         <h3>Innovación Digital</h3>
-        <p>Transformación digital para tu negocio.</p>
+        <p>confirmación virtual de disponibilidad.</p>
     </div>
 
 </section>
 
 <footer id="contacto">
     <h3>Contáctanos</h3>
-    <p>correo@empresa.com</p>
-    <p>+57 300 000 0000</p>
+    <p>es.freechair@gmail.com</p>
 </footer>
+<script src="script.js"></script>
+
 
 </body>
 </html>
