@@ -10,6 +10,107 @@ body{
     color:#1d101c;
 }
 
+/* Barra superior de sesión de usuario */
+.user-session-bar {
+    background: #2b1122;
+    color: #ffffff;
+    padding: 10px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.session-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.session-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.role-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.badge-superadmin {
+    background: #ffe3e3;
+    color: #c92a2a;
+    border: 1px solid #ffc9c9;
+}
+
+.badge-administrador {
+    background: #e7f5ff;
+    color: #1971c2;
+    border: 1px solid #d0ebff;
+}
+
+.badge-trabajador {
+    background: #fff9db;
+    color: #f08c00;
+    border: 1px solid #ffec99;
+}
+
+.badge-cliente {
+    background: #ebfbee;
+    color: #2b8a3e;
+    border: 1px solid #d3f9d8;
+}
+
+.btn-nav-action {
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 12.5px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-nav-login {
+    background: #da345d;
+    color: #ffffff;
+}
+
+.btn-nav-login:hover {
+    background: #b82449;
+}
+
+.btn-nav-panel {
+    background: #ffd2e5;
+    color: #cc2369;
+}
+
+.btn-nav-panel:hover {
+    background: #ffb3d4;
+}
+
+.btn-nav-logout {
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.btn-nav-logout:hover {
+    background: #c92a2a;
+    border-color: #c92a2a;
+}
+
 /* Encabezado */
 header{
     background:#ffd2e5;
@@ -109,11 +210,6 @@ footer{
     text-align:center;
     padding:20px;
     margin-top:40px;
-}
-
-body{
-    margin:0;
-    font-family:Arial, sans-serif;
 }
 
 .tabs{

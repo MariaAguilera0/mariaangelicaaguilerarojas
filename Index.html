@@ -12,6 +12,16 @@
 </head>
 <body>
 
+<!-- Barra Superior de Sesión de Usuario -->
+<div class="user-session-bar" id="user-session-bar">
+    <div class="session-left" id="session-info">
+        <span>Cargando estado de sesión...</span>
+    </div>
+    <div class="session-right" id="session-actions">
+        <a href="login.html" class="btn-nav-action btn-nav-login">Iniciar Sesión / Registro</a>
+    </div>
+</div>
+
 <header>
     <h1>freechair</h1>
     <img src="img/new logo free chair.png" alt="Logo de la empresa" class="logo" width="100" height="100">
@@ -23,6 +33,7 @@
     <a href="#vr">Experiencia VR</a>
     <a href="#servicios">Servicios</a>
     <a href="#contacto">Contacto</a>
+    <a href="panel.html" id="nav-panel-link" style="display: none; color: #da345d; font-weight: bold;">⚡ Panel de Control</a>
 </nav>
 
 <section class="hero" id="inicio">
@@ -34,7 +45,7 @@
 </section>
 
 
-<div class="tabs">
+<div class="tabs" id="vr">
 
     <button onclick="cargar('restaurante.html')">
         restaurante
@@ -87,8 +98,54 @@
     <h3>Contáctanos</h3>
     <p>es.freechair@gmail.com</p>
 </footer>
+
 <script src="script.js"></script>
 
+<!-- Integración de Autenticación Firebase -->
+<script type="module">
+    import { escucharEstadoAuth, cerrarSesion, ROLES } from "./auth.js";
+
+    const sessionInfo = document.getElementById("session-info");
+    const sessionActions = document.getElementById("session-actions");
+    const navPanelLink = document.getElementById("nav-panel-link");
+
+    escucharEstadoAuth((authData) => {
+        if (authData && authData.user) {
+            const nombre = authData.userData?.nombre || authData.user.displayName || authData.user.email;
+            const rol = authData.rol || ROLES.CLIENTE;
+
+            sessionInfo.innerHTML = `
+                <span>Hola, <strong>${nombre}</strong></span>
+                <span class="role-badge badge-${rol}">${rol}</span>
+            `;
+
+            let actionsHtml = ``;
+            if (rol === ROLES.SUPERADMIN || rol === ROLES.ADMINISTRADOR || rol === ROLES.TRABAJADOR) {
+                actionsHtml += `<a href="panel.html" class="btn-nav-action btn-nav-panel">⚙️ Panel de Control</a>`;
+                if (navPanelLink) navPanelLink.style.display = "inline-block";
+            } else {
+                actionsHtml += `<a href="panel.html" class="btn-nav-action btn-nav-panel">Mi Perfil</a>`;
+                if (navPanelLink) navPanelLink.style.display = "inline-block";
+            }
+
+            actionsHtml += `<button id="btn-logout-main" class="btn-nav-action btn-nav-logout">Cerrar Sesión</button>`;
+            sessionActions.innerHTML = actionsHtml;
+
+            const btnLogout = document.getElementById("btn-logout-main");
+            if (btnLogout) {
+                btnLogout.addEventListener("click", () => {
+                    cerrarSesion();
+                });
+            }
+        } else {
+            sessionInfo.innerHTML = `<span>Modo visitante</span>`;
+            sessionActions.innerHTML = `
+                <a href="login.html" class="btn-nav-action btn-nav-login">Iniciar Sesión / Registro</a>
+            `;
+            if (navPanelLink) navPanelLink.style.display = "none";
+        }
+    });
+</script>
 
 </body>
 </html>

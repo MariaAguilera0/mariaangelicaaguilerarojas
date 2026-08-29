@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel de Control - FreeChair</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .panel-container {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .top-user-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #ffffff;
+      padding: 15px 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      border: 1px solid #ffd2e5;
+      margin-bottom: 25px;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .user-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #ffd2e5;
+      color: #cc2369;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 20px;
+    }
+
+    .user-details h3 {
+      margin: 0;
+      color: #333;
+      font-size: 17px;
+    }
+
+    .user-details p {
+      margin: 2px 0 0;
+      color: #777;
+      font-size: 13px;
+    }
+
+    .role-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-superadmin {
+      background: #ffe3e3;
+      color: #c92a2a;
+      border: 1px solid #ffc9c9;
+    }
+
+    .badge-administrador {
+      background: #e7f5ff;
+      color: #1971c2;
+      border: 1px solid #d0ebff;
+    }
+
+    .badge-trabajador {
+      background: #fff9db;
+      color: #f08c00;
+      border: 1px solid #ffec99;
+    }
+
+    .badge-cliente {
+      background: #ebfbee;
+      color: #2b8a3e;
+      border: 1px solid #d3f9d8;
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-action {
+      padding: 9px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-vr {
+      background: #da345d;
+      color: #ffffff;
+    }
+
+    .btn-vr:hover {
+      background: #b82449;
+    }
+
+    .btn-logout {
+      background: #f1f3f5;
+      color: #495057;
+      border: 1px solid #ced4da;
+    }
+
+    .btn-logout:hover {
+      background: #e9ecef;
+      color: #c92a2a;
+    }
+
+    /* Grid de Estadísticas */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+      margin-bottom: 30px;
+    }
+
+    .stat-card {
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+      border-top: 4px solid #da345d;
+    }
+
+    .stat-card h4 {
+      margin: 0 0 8px;
+      color: #666;
+      font-size: 13px;
+      text-transform: uppercase;
+    }
+
+    .stat-card .stat-number {
+      font-size: 28px;
+      font-weight: bold;
+      color: #222;
+      margin: 0;
+    }
+
+    /* Secciones del Panel */
+    .section-card {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      margin-bottom: 30px;
+      border: 1px solid #eee;
+    }
+
+    .section-title {
+      font-size: 19px;
+      color: #222;
+      margin-top: 0;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid #ffd2e5;
+      padding-bottom: 10px;
+    }
+
+    /* Tabla de Usuarios para Superadmin */
+    .table-responsive {
+      overflow-x: auto;
+    }
+
+    .users-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    .users-table th,
+    .users-table td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+
+    .users-table th {
+      background: #fdf2f7;
+      color: #cc2369;
+      font-weight: bold;
+    }
+
+    .users-table tr:hover {
+      background: #fffbfc;
+    }
+
+    .role-select {
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 13px;
+      background: #fff;
+    }
+
+    .btn-save-role {
+      padding: 6px 12px;
+      background: #da345d;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: bold;
+      transition: background 0.2s;
+    }
+
+    .btn-save-role:hover {
+      background: #b82449;
+    }
+
+    /* Tarjetas de Áreas para Administrador y Trabajador */
+    .areas-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .area-card {
+      background: #fdf8fa;
+      border: 1px solid #f7d5e4;
+      border-radius: 10px;
+      padding: 18px;
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .area-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(218, 52, 93, 0.15);
+    }
+
+    .area-card h4 {
+      margin: 0 0 10px;
+      color: #cc2369;
+      font-size: 16px;
+    }
+
+    .area-card a {
+      display: inline-block;
+      padding: 6px 14px;
+      background: #da345d;
+      color: white;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .table-status-tag {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .status-disponible { background: #d3f9d8; color: #2b8a3e; }
+    .status-ocupada { background: #ffe3e3; color: #c92a2a; }
+    .status-reservada { background: #fff3bf; color: #d9480f; }
+
+    .loading-spinner {
+      text-align: center;
+      padding: 40px;
+      color: #777;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="app-loading" class="loading-spinner">
+    <p>Verificando sesión y permisos...</p>
+  </div>
+
+  <div class="panel-container" id="panel-content" style="display: none;">
+    <!-- Barra Superior de Usuario -->
+    <div class="top-user-bar">
+      <div class="user-info">
+        <div class="user-avatar" id="user-avatar-initial">U</div>
+        <div class="user-details">
+          <h3 id="user-name">Cargando usuario...</h3>
+          <p>
+            <span id="user-email">usuario@correo.com</span> •
+            <span class="role-badge" id="user-role-badge">ROL</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="top-actions">
+        <a href="Index.html" class="btn-action btn-vr">
+          🥽 Visor VR / Inicio
+        </a>
+        <button id="btn-cerrar-sesion" class="btn-action btn-logout">
+          Cerrar Sesión
+        </button>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 1: SUPERADMIN (Gestión de Usuarios y Roles) -->
+    <div id="section-superadmin" class="section-card" style="display: none;">
+      <div class="section-title">
+        <span>👑 Panel Superadmin - Gestión Global de Usuarios</span>
+        <button class="btn-action btn-vr" onclick="cargarUsuariosSuperadmin()" style="font-size: 12px; padding: 6px 12px;">
+          🔄 Actualizar Lista
+        </button>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card" style="border-top-color: #c92a2a;">
+          <h4>Total Usuarios</h4>
+          <p class="stat-number" id="stat-total-users">0</p>
+        </div>
+        <div class="stat-card" style="border-top-color: #1971c2;">
+          <h4>Administradores</h4>
+          <p class="stat-number" id="stat-admin-count">0</p>
+        </div>
+        <div class="stat-card" style="border-top-color: #f08c00;">
+          <h4>Trabajadores</h4>
+          <p class="stat-number" id="stat-worker-count">0</p>
+        </div>
+        <div class="stat-card" style="border-top-color: #2b8a3e;">
+          <h4>Clientes</h4>
+          <p class="stat-number" id="stat-client-count">0</p>
+        </div>
+      </div>
+
+      <p style="color: #666; font-size: 13.5px; margin-bottom: 15px;">
+        Como <strong>Superadmin</strong>, tienes permiso para asignar o cambiar el rol de cualquier usuario en tiempo real en la base de datos de Firebase:
+      </p>
+
+      <div class="table-responsive">
+        <table class="users-table">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Correo Electrónico</th>
+              <th>Rol Actual</th>
+              <th>Cambiar Rol</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody id="users-table-body">
+            <tr>
+              <td colspan="5" style="text-align: center; color: #888;">Cargando usuarios de Firebase Firestore...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 2: ADMINISTRADOR (Control del Restaurante y Reservas) -->
+    <div id="section-administrador" class="section-card" style="display: none;">
+      <div class="section-title">
+        <span>📊 Panel de Administración - Control de Espacios y Reservas</span>
+      </div>
+
+      <p style="color: #666; font-size: 14px; margin-bottom: 20px;">
+        Monitoreo de disponibilidad de mesas y acceso directo a las áreas de la plataforma:
+      </p>
+
+      <div class="areas-grid">
+        <div class="area-card">
+          <h4>🍽️ Restaurante</h4>
+          <p style="font-size: 12px; color: #666; margin-bottom: 12px;">Sala principal y distribución de mesas 3D.</p>
+          <a href="restaurante.html">Ver Espacio</a>
+        </div>
+        <div class="area-card">
+          <h4>🍳 Cocina</h4>
+          <p style="font-size: 12px; color: #666; margin-bottom: 12px;">Monitoreo de pedidos y espacio culinario.</p>
+          <a href="cocina.html">Ver Cocina</a>
+        </div>
+        <div class="area-card">
+          <h4>📦 Almacén</h4>
+          <p style="font-size: 12px; color: #666; margin-bottom: 12px;">Inventario y zona de almacenamiento.</p>
+          <a href="almacen.html">Ver Almacén</a>
+        </div>
+        <div class="area-card">
+          <h4>🚪 Entrada / Recepción</h4>
+          <p style="font-size: 12px; color: #666; margin-bottom: 12px;">Acceso principal y recepción de clientes.</p>
+          <a href="entrada.html">Ver Entrada</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 3: TRABAJADOR (Operaciones y Estado de Mesas) -->
+    <div id="section-trabajador" class="section-card" style="display: none;">
+      <div class="section-title">
+        <span>👨‍🍳 Panel de Operaciones - Trabajador</span>
+      </div>
+
+      <p style="color: #666; font-size: 14px; margin-bottom: 15px;">
+        Estado de mesas en tiempo real en la sala FreeChair:
+      </p>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px;">
+        <div style="background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px;">
+          <h4 style="margin:0 0 8px;">Mesa 1 (Ventana)</h4>
+          <p style="margin: 0 0 10px;"><span class="table-status-tag status-disponible">Disponible</span></p>
+          <small style="color: #777;">Capacidad: 4 personas</small>
+        </div>
+        <div style="background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px;">
+          <h4 style="margin:0 0 8px;">Mesa 2 (Centro)</h4>
+          <p style="margin: 0 0 10px;"><span class="table-status-tag status-ocupada">Ocupada</span></p>
+          <small style="color: #777;">Capacidad: 2 personas</small>
+        </div>
+        <div style="background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px;">
+          <h4 style="margin:0 0 8px;">Mesa 3 (Terraza)</h4>
+          <p style="margin: 0 0 10px;"><span class="table-status-tag status-reservada">Reservada</span></p>
+          <small style="color: #777;">Capacidad: 6 personas</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 4: CLIENTE (Mis Reservas y Experiencia) -->
+    <div id="section-cliente" class="section-card" style="display: none;">
+      <div class="section-title">
+        <span>🎉 Área de Cliente</span>
+      </div>
+      <p style="color: #444; font-size: 15px;">
+        ¡Hola! Como cliente puedes explorar nuestros espacios en Realidad Virtual 3D y consultar la disponibilidad de mesas.
+      </p>
+      <div style="margin-top: 15px;">
+        <a href="Index.html" class="btn-action btn-vr" style="font-size: 15px; padding: 12px 24px;">
+          🚀 Ir a la Experiencia 3D FreeChair
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <script type="module">
+    import {
+      obtenerUsuarioActual,
+      cerrarSesion,
+      obtenerTodosLosUsuarios,
+      cambiarRolUsuario,
+      ROLES
+    } from "./auth.js";
+
+    let currentUserData = null;
+
+    async function initPanel() {
+      const userAuth = await obtenerUsuarioActual();
+
+      if (!userAuth || !userAuth.user) {
+        window.location.href = "login.html";
+        return;
+      }
+
+      currentUserData = userAuth;
+      document.getElementById("app-loading").style.display = "none";
+      document.getElementById("panel-content").style.display = "block";
+
+      // Renderizar datos del usuario actual
+      const nombre = currentUserData.userData.nombre || currentUserData.user.displayName || "Usuario";
+      const email = currentUserData.user.email;
+      const rol = currentUserData.rol || ROLES.CLIENTE;
+
+      document.getElementById("user-name").textContent = nombre;
+      document.getElementById("user-email").textContent = email;
+      document.getElementById("user-avatar-initial").textContent = nombre.charAt(0).toUpperCase();
+
+      const badge = document.getElementById("user-role-badge");
+      badge.textContent = rol;
+      badge.className = `role-badge badge-${rol}`;
+
+      // Mostrar secciones según el rol
+      if (rol === ROLES.SUPERADMIN) {
+        document.getElementById("section-superadmin").style.display = "block";
+        document.getElementById("section-administrador").style.display = "block";
+        document.getElementById("section-trabajador").style.display = "block";
+        cargarUsuariosSuperadmin();
+      } else if (rol === ROLES.ADMINISTRADOR) {
+        document.getElementById("section-administrador").style.display = "block";
+        document.getElementById("section-trabajador").style.display = "block";
+      } else if (rol === ROLES.TRABAJADOR) {
+        document.getElementById("section-trabajador").style.display = "block";
+      } else {
+        document.getElementById("section-cliente").style.display = "block";
+      }
+    }
+
+    // Cargar y mostrar lista de usuarios para Superadmin
+    window.cargarUsuariosSuperadmin = async function() {
+      const tbody = document.getElementById("users-table-body");
+      tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: #888;">Cargando usuarios...</td></tr>`;
+
+      try {
+        const usuarios = await obtenerTodosLosUsuarios();
+
+        // Actualizar contadores
+        document.getElementById("stat-total-users").textContent = usuarios.length;
+        document.getElementById("stat-admin-count").textContent = usuarios.filter(u => u.rol === ROLES.ADMINISTRADOR).length;
+        document.getElementById("stat-worker-count").textContent = usuarios.filter(u => u.rol === ROLES.TRABAJADOR).length;
+        document.getElementById("stat-client-count").textContent = usuarios.filter(u => u.rol === ROLES.CLIENTE || !u.rol).length;
+
+        tbody.innerHTML = "";
+
+        if (usuarios.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: #888;">No hay usuarios registrados en Firestore.</td></tr>`;
+          return;
+        }
+
+        usuarios.forEach((u) => {
+          const tr = document.createElement("tr");
+          const userRol = u.rol || ROLES.CLIENTE;
+
+          tr.innerHTML = `
+            <td><strong>${u.nombre || "Sin nombre"}</strong></td>
+            <td>${u.email || "Sin correo"}</td>
+            <td><span class="role-badge badge-${userRol}">${userRol}</span></td>
+            <td>
+              <select class="role-select" id="select-role-${u.id}">
+                <option value="superadmin" ${userRol === "superadmin" ? "selected" : ""}>Superadmin</option>
+                <option value="administrador" ${userRol === "administrador" ? "selected" : ""}>Administrador</option>
+                <option value="trabajador" ${userRol === "trabajador" ? "selected" : ""}>Trabajador</option>
+                <option value="cliente" ${userRol === "cliente" ? "selected" : ""}>Cliente</option>
+              </select>
+            </td>
+            <td>
+              <button class="btn-save-role" onclick="guardarRol('${u.id}')">
+                💾 Guardar
+              </button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } catch (err) {
+        console.error("Error al listar usuarios:", err);
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: #c92a2a;">Error al cargar usuarios de Firestore. Verifica tus reglas de seguridad.</td></tr>`;
+      }
+    };
+
+    // Función para que Superadmin guarde el nuevo rol
+    window.guardarRol = async function(uid) {
+      const select = document.getElementById(`select-role-${uid}`);
+      const nuevoRol = select.value;
+
+      const confirmacion = confirm(`¿Estás seguro de cambiar el rol de este usuario a [${nuevoRol.toUpperCase()}]?`);
+      if (!confirmacion) return;
+
+      const res = await cambiarRolUsuario(uid, nuevoRol);
+      if (res.success) {
+        alert("¡Rol actualizado con éxito!");
+        cargarUsuariosSuperadmin();
+      } else {
+        alert("Error al actualizar rol: " + res.error);
+      }
+    };
+
+    // Botón Cerrar Sesión
+    document.getElementById("btn-cerrar-sesion").addEventListener("click", () => {
+      cerrarSesion();
+    });
+
+    initPanel();
+  </script>
+</body>
+</html>

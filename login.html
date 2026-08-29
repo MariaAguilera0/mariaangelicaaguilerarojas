@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acceso y Registro - FreeChair</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .auth-container {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #ffd2e5 0%, #fff0f5 100%);
+      padding: 20px;
+    }
+
+    .auth-card {
+      background: #ffffff;
+      width: 100%;
+      max-width: 480px;
+      padding: 35px 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(218, 52, 93, 0.15);
+      border: 1px solid #ffd2e5;
+    }
+
+    .auth-header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .auth-header img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      margin-bottom: 10px;
+    }
+
+    .auth-header h1 {
+      color: #cc2369;
+      font-size: 26px;
+      margin-bottom: 5px;
+    }
+
+    .auth-header p {
+      color: #777;
+      font-size: 14px;
+    }
+
+    .auth-tabs {
+      display: flex;
+      border-bottom: 2px solid #ffd2e5;
+      margin-bottom: 25px;
+    }
+
+    .auth-tab {
+      flex: 1;
+      text-align: center;
+      padding: 12px;
+      font-weight: bold;
+      color: #888;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: all 0.3s ease;
+      background: none;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      font-size: 15px;
+    }
+
+    .auth-tab.active {
+      color: #da345d;
+      border-bottom: 3px solid #da345d;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      color: #333;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid #e0d0d8;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: border-color 0.3s;
+      outline: none;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: #da345d;
+      box-shadow: 0 0 0 3px rgba(218, 52, 93, 0.1);
+    }
+
+    .form-group select {
+      background-color: #fff;
+      cursor: pointer;
+    }
+
+    .role-badge-preview {
+      display: inline-block;
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 12px;
+      margin-top: 4px;
+      font-weight: bold;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 13px;
+      background: #da345d;
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.1s;
+      margin-top: 10px;
+    }
+
+    .btn-submit:hover {
+      background: #b82449;
+    }
+
+    .btn-submit:active {
+      transform: scale(0.98);
+    }
+
+    .btn-submit:disabled {
+      background: #e0a3b3;
+      cursor: not-allowed;
+    }
+
+    .alert {
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 18px;
+      font-size: 13.5px;
+      display: none;
+    }
+
+    .alert-error {
+      background-color: #ffe6e9;
+      color: #c92a2a;
+      border: 1px solid #fcc2c3;
+    }
+
+    .alert-success {
+      background-color: #e6fcf5;
+      color: #0ca678;
+      border: 1px solid #c3fae8;
+    }
+
+    .roles-info-box {
+      margin-top: 25px;
+      padding: 12px;
+      background: #fdf2f7;
+      border-radius: 8px;
+      border: 1px dashed #f3bed4;
+      font-size: 12px;
+      color: #666;
+    }
+
+    .roles-info-box h4 {
+      color: #cc2369;
+      margin-bottom: 6px;
+      font-size: 13px;
+    }
+
+    .roles-info-box ul {
+      margin-left: 18px;
+      line-height: 1.5;
+    }
+
+    .guest-link {
+      text-align: center;
+      margin-top: 18px;
+    }
+
+    .guest-link a {
+      color: #777;
+      font-size: 13px;
+      text-decoration: none;
+    }
+
+    .guest-link a:hover {
+      color: #da345d;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="auth-container">
+    <div class="auth-card">
+      <div class="auth-header">
+        <img src="img/new logo free chair.png" alt="Logo FreeChair" onerror="this.style.display='none'">
+        <h1>freechair</h1>
+        <p>Sistema de Reservas y Gestión</p>
+      </div>
+
+      <div class="auth-tabs">
+        <button type="button" class="auth-tab active" id="tab-login" onclick="cambiarPestana('login')">
+          Iniciar Sesión
+        </button>
+        <button type="button" class="auth-tab" id="tab-register" onclick="cambiarPestana('register')">
+          Crear Cuenta
+        </button>
+      </div>
+
+      <!-- Alertas -->
+      <div id="alert-error" class="alert alert-error"></div>
+      <div id="alert-success" class="alert alert-success"></div>
+
+      <!-- FORMULARIO DE INICIO DE SESIÓN -->
+      <form id="form-login">
+        <div class="form-group">
+          <label for="login-email">Correo Electrónico</label>
+          <input type="email" id="login-email" placeholder="ejemplo@correo.com" required autocomplete="email">
+        </div>
+
+        <div class="form-group">
+          <label for="login-password">Contraseña</label>
+          <input type="password" id="login-password" placeholder="••••••••" required autocomplete="current-password">
+        </div>
+
+        <button type="submit" class="btn-submit" id="btn-login">
+          Ingresar
+        </button>
+      </form>
+
+      <!-- FORMULARIO DE REGISTRO -->
+      <form id="form-register" style="display: none;">
+        <div class="form-group">
+          <label for="reg-nombre">Nombre Completo</label>
+          <input type="text" id="reg-nombre" placeholder="Tu nombre" required autocomplete="name">
+        </div>
+
+        <div class="form-group">
+          <label for="reg-email">Correo Electrónico</label>
+          <input type="email" id="reg-email" placeholder="ejemplo@correo.com" required autocomplete="email">
+        </div>
+
+        <div class="form-group">
+          <label for="reg-password">Contraseña (Mínimo 6 caracteres)</label>
+          <input type="password" id="reg-password" placeholder="••••••••" required minlength="6" autocomplete="new-password">
+        </div>
+
+        <div class="form-group">
+          <label for="reg-rol">Selecciona tu Rol</label>
+          <select id="reg-rol" required>
+            <option value="cliente" selected>Cliente (Reservas y Experiencia VR)</option>
+            <option value="trabajador">Trabajador (Gestión de Mesas y Áreas)</option>
+            <option value="administrador">Administrador (Gestión General del Restaurante)</option>
+            <option value="superadmin">Superadmin (Control Total de Usuarios y Sistema)</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn-submit" id="btn-register">
+          Registrar Usuario
+        </button>
+      </form>
+
+      <div class="guest-link">
+        <a href="Index.html">← Continuar al visor VR como visitante</a>
+      </div>
+
+      <!-- Guía de Roles -->
+      <div class="roles-info-box">
+        <h4>Roles del Sistema:</h4>
+        <ul>
+          <li><strong>Superadmin:</strong> Control total, administración de roles y usuarios.</li>
+          <li><strong>Administrador:</strong> Control de reservas y gestión general.</li>
+          <li><strong>Trabajador:</strong> Actualización de estados en cocina, mesas y almacén.</li>
+          <li><strong>Cliente:</strong> Acceso a reservas y vistas interactivas.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { iniciarSesion, registrarUsuario, ROLES } from "./auth.js";
+
+    window.cambiarPestana = function(pestana) {
+      const tabLogin = document.getElementById("tab-login");
+      const tabRegister = document.getElementById("tab-register");
+      const formLogin = document.getElementById("form-login");
+      const formRegister = document.getElementById("form-register");
+      ocultarAlertas();
+
+      if (pestana === "login") {
+        tabLogin.classList.add("active");
+        tabRegister.classList.remove("active");
+        formLogin.style.display = "block";
+        formRegister.style.display = "none";
+      } else {
+        tabRegister.classList.add("active");
+        tabLogin.classList.remove("active");
+        formRegister.style.display = "block";
+        formLogin.style.display = "none";
+      }
+    };
+
+    function mostrarError(mensaje) {
+      const alertErr = document.getElementById("alert-error");
+      const alertSucc = document.getElementById("alert-success");
+      alertSucc.style.display = "none";
+      alertErr.textContent = mensaje;
+      alertErr.style.display = "block";
+    }
+
+    function mostrarExito(mensaje) {
+      const alertErr = document.getElementById("alert-error");
+      const alertSucc = document.getElementById("alert-success");
+      alertErr.style.display = "none";
+      alertSucc.textContent = mensaje;
+      alertSucc.style.display = "block";
+    }
+
+    function ocultarAlertas() {
+      document.getElementById("alert-error").style.display = "none";
+      document.getElementById("alert-success").style.display = "none";
+    }
+
+    // Redireccionar al usuario según su rol
+    function redirigirSegunRol(rol) {
+      if (rol === ROLES.SUPERADMIN || rol === ROLES.ADMINISTRADOR || rol === ROLES.TRABAJADOR) {
+        window.location.href = "panel.html";
+      } else {
+        window.location.href = "Index.html";
+      }
+    }
+
+    // Manejar Login
+    document.getElementById("form-login").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      ocultarAlertas();
+
+      const email = document.getElementById("login-email").value.trim();
+      const password = document.getElementById("login-password").value;
+      const btn = document.getElementById("btn-login");
+
+      btn.disabled = true;
+      btn.textContent = "Verificando...";
+
+      const res = await iniciarSesion(email, password);
+
+      btn.disabled = false;
+      btn.textContent = "Ingresar";
+
+      if (res.success) {
+        mostrarExito(`¡Bienvenido ${res.userData.nombre || res.user.email}! Redirigiendo...`);
+        setTimeout(() => {
+          redirigirSegunRol(res.rol);
+        }, 1200);
+      } else {
+        mostrarError(res.error);
+      }
+    });
+
+    // Manejar Registro
+    document.getElementById("form-register").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      ocultarAlertas();
+
+      const nombre = document.getElementById("reg-nombre").value.trim();
+      const email = document.getElementById("reg-email").value.trim();
+      const password = document.getElementById("reg-password").value;
+      const rol = document.getElementById("reg-rol").value;
+      const btn = document.getElementById("btn-register");
+
+      if (password.length < 6) {
+        mostrarError("La contraseña debe tener al menos 6 caracteres.");
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = "Registrando usuario...";
+
+      const res = await registrarUsuario(nombre, email, password, rol);
+
+      btn.disabled = false;
+      btn.textContent = "Registrar Usuario";
+
+      if (res.success) {
+        mostrarExito(`¡Cuenta creada exitosamente con el rol [${rol.toUpperCase()}]! Redirigiendo...`);
+        setTimeout(() => {
+          redirigirSegunRol(res.rol);
+        }, 1200);
+      } else {
+        mostrarError(res.error);
+      }
+    });
+  </script>
+</body>
+</html>
