@@ -1,129 +1,122 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href=".css">
-   
+    <title>Restaurante 3D - FreeChair</title>
+    <link rel="stylesheet" href="style.css">
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="script.js"></script>
 </head>
 <body>
     <div class="panel">
-        <h2>Tienda Virtual 3D</h2>
-       
-        <p>
-        Con el mouse puedes girar la camara y con wasd o las flechas puedes moverte.
-        </p>
-       
-        <p>
-        Mira el círculo del centro de la pantalla y apunta a los productos.
-        </p>
-       
-        <p>
-        Productos seleccionados:
-        <span id="contador">0</span>
-        </p>
-       
+        <h2>Restaurante 3D - FreeChair</h2>
+        
+        <div class="tabs">
+            <button class="active" onclick="cargar('restaurante.html', 'Restaurante')">Restaurante</button>
+            <button onclick="cargar('lavabo.html', 'Baño')">Baño</button>
+            <button onclick="cargar('almacen.html', 'Almacén')">Almacén</button>
+            <button onclick="cargar('cocina.html', 'Cocina')">Cocina</button>
+            <button onclick="cargar('entrada.html', 'Entrada')">Entrada</button>
         </div>
-        <a-scene>
 
-            <!-- CAMARA CON CURSOR -->
-            <a-entity position="0 1.6 10">
-       
-                <a-camera>
-       
-                    <!-- CURSOR -->
-                    <a-cursor
-                        color="black"
-                        fuse="true"
-                        fuse-timeout="700">
-                    </a-cursor>
-       
-                </a-camera>
-       
-            </a-entity>
-       
-            <!-- PISO -->
-            <a-plane
-                rotation="-90 0 0"
-                width="40"
-                height="40"
-                color="#d7d7d7">
-            </a-plane>
-       
-            <!-- PAREDES -->
-            <a-box position="0 4 -15" width="30" height="8" depth="0.5" color="#ffffff"></a-box>
-       
-            <!-- MOSTRADOR -->
-            <a-box position="0 1 -2" width="6" height="2" depth="2" color="#6d4c41"></a-box>
-       
-            <!-- ESTANTERIAS -->
-            <a-box position="-8 2 -8" width="6" height="4" depth="1" color="#8B4513"></a-box>
-            <a-box position="8 2 -8" width="6" height="4" depth="1" color="#8B4513"></a-box>
-       
-            <!-- PRODUCTOS -->
-            <a-box class="producto" position="-10 4 -8" color="red"></a-box>
-            <a-box class="producto" position="-8 4 -8" color="blue"></a-box>
-            <a-box class="producto" position="-6 4 -8" color="green"></a-box>
+        <p>Con el mouse puedes girar la cámara y con WASD o las flechas puedes moverte.</p>
+        <p>Apunta con el cursor del centro a las mesas o menús para interactuar.</p>
+        <p>Mesas exploradas / elementos seleccionados: <span id="contador">0</span></p>
+    </div>
 
-            <a-box class="producto" position="10 4 -8" color="yellow"></a-box>
-            <a-box class="producto" position="8 4 -8" color="orange"></a-box>
-            <a-box class="producto" position="6 4 -8" color="purple"></a-box>
-       
-            <a-sphere class="producto" position="10 2 +8" radius="0.5" color="yellow"></a-sphere>
-            <a-sphere class="producto" position="8 2 +8" radius="0.5" color="orange"></a-sphere>
-       
-            <a-cylinder class="producto" position="8 2 +8" radius="0.5" height="1" color="blue"></a-cylinder>
-            <a-cylinder class="producto" position="10 2 +8" radius="0.5" height="1" color="#009688"></a-cylinder>
-            <!-- TEXTO -->
-            <a-text
-                value="FreeChair"
-                position="-5 6 -10"
-                scale="3 3 3"
-                color="black">
-            </a-text>
-       
-            <!-- LUCES -->
-            <a-light type="ambient" intensity="1"></a-light>
-            <a-light type="point" intensity="1.5" position="0 8 0"></a-light>
-       
-            <!-- OBJETO ANIMADO -->
-            <a-torus
-                position="0 5 -6"
-                radius="1"
-                radius-tubular="0.1"
-                color="#2196F3"
-                animation="property: rotation; to: 0 360 0; loop: true; dur: 3000">
-            </a-torus>
-           
-            <a-assets>
-           
-                <img id="piso" src="img/piso.png">
-               
-                <img id="cielo" src="img/Airbrush-IMAGE-ENHANCER-1780004389708-1780004389708.jpg">
+    <a-scene>
+        <a-assets>
+            <img id="piso" src="img/piso.png">
+            <img id="cielo" src="img/Airbrush-IMAGE-ENHANCER-1780004389708-1780004389708.jpg">
+        </a-assets>
 
-                <audio id="musica" scr="sound/kontraa-water-afro-pop-music-445661.mp3"></audio>
-
-            </a-assets>
-
-            <a-sky src="#cielo"></a-sky>
-
-       
+        <!-- CAMARA CON CURSOR -->
+        <a-entity position="0 1.6 8">
+            <a-camera>
+                <a-cursor color="#da345d" fuse="true" fuse-timeout="700"></a-cursor>
+            </a-camera>
         </a-entity>
 
+        <a-sky src="#cielo"></a-sky>
 
+        <a-light type="ambient" intensity="0.9"></a-light>
+        <a-light type="point" intensity="1.5" position="0 8 0"></a-light>
+
+        <!-- PAREDES -->
+        <a-box position="0 4 -12" width="30" height="8" depth="0.5" color="#5c2e17"></a-box>
+        
+        <!-- CARTEL 3D RESTAURANTE -->
+        <a-text
+            value="RESTAURANTE FREECHAIR"
+            position="-7.5 6 -11.5"
+            scale="2.8 2.8 2.8"
+            color="#ffd2e5">
+        </a-text>
+
+        <!-- BARRA PRINCIPAL DEL RESTAURANTE -->
+        <a-box position="0 1 -7" width="8" height="1.2" depth="1.5" color="#3d1e0f">
+            <!-- Menú interactivo -->
+            <a-box class="producto" position="-2 0.7 0" width="0.4" height="0.5" depth="0.05" color="#e04a63"></a-box>
+            <a-box class="producto" position="2 0.7 0" width="0.4" height="0.5" depth="0.05" color="#e04a63"></a-box>
+        </a-box>
+
+        <!-- MESA 1 (CENTRO IZQUIERDA) -->
+        <a-entity position="-4 0 -2">
+            <!-- Tablero de Mesa -->
+            <a-cylinder class="producto" position="0 1 0" radius="1.2" height="0.1" color="#8B4513"></a-cylinder>
+            <a-cylinder position="0 0.5 0" radius="0.1" height="1" color="#333333"></a-cylinder>
+            <!-- Platos -->
+            <a-cylinder position="-0.5 1.06 0" radius="0.25" height="0.02" color="#ffffff"></a-cylinder>
+            <a-cylinder position="0.5 1.06 0" radius="0.25" height="0.02" color="#ffffff"></a-cylinder>
+            <!-- Sillas -->
+            <a-box position="-1.2 0.4 0" width="0.5" height="0.8" depth="0.5" color="#da345d"></a-box>
+            <a-box position="1.2 0.4 0" width="0.5" height="0.8" depth="0.5" color="#da345d"></a-box>
+        </a-entity>
+
+        <!-- MESA 2 (CENTRO DERECHA) -->
+        <a-entity position="4 0 -2">
+            <!-- Tablero de Mesa -->
+            <a-cylinder class="producto" position="0 1 0" radius="1.2" height="0.1" color="#8B4513"></a-cylinder>
+            <a-cylinder position="0 0.5 0" radius="0.1" height="1" color="#333333"></a-cylinder>
+            <!-- Platos -->
+            <a-cylinder position="-0.5 1.06 0" radius="0.25" height="0.02" color="#ffffff"></a-cylinder>
+            <a-cylinder position="0.5 1.06 0" radius="0.25" height="0.02" color="#ffffff"></a-cylinder>
+            <!-- Sillas -->
+            <a-box position="-1.2 0.4 0" width="0.5" height="0.8" depth="0.5" color="#255cbd"></a-box>
+            <a-box position="1.2 0.4 0" width="0.5" height="0.8" depth="0.5" color="#255cbd"></a-box>
+        </a-entity>
+
+        <!-- MESA VIP (FONDO) -->
+        <a-entity position="0 0 -5">
+            <a-box class="producto" position="0 1 0" width="2" height="0.1" depth="1.2" color="#5a2a18"></a-box>
+            <a-box position="0 0.5 0" width="0.2" height="1" depth="0.2" color="#222222"></a-box>
+            <a-box position="-1.2 0.4 0" width="0.5" height="0.8" depth="0.5" color="#f1c40f"></a-box>
+            <a-box position="1.2 0.4 0" width="0.5" height="0.8" depth="0.5" color="#f1c40f"></a-box>
+        </a-entity>
+
+        <!-- LÁMPARA ANIMADA -->
+        <a-torus
+            position="0 5 -4"
+            radius="0.8"
+            radius-tubular="0.05"
+            color="#f1c40f"
+            animation="property: rotation; to: 0 360 0; loop: true; dur: 4000">
+        </a-torus>
+
+        <!-- PISO -->
         <a-plane
             rotation="-90 0 0"
             width="40"
             height="40"
             src="#piso"
-            repeat="20 20"
+            repeat="15 15"
             shadow="receive: true">
         </a-plane>
+    </a-scene>
 
-            <script src="app.js"></script>
-   
+    <script src="script.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>

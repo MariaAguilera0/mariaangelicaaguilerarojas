@@ -1,138 +1,120 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Almacén y Bodega 3D - FreeChair</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="script.js"></script>
 </head>
 <body>
-    
-<div class="panel">
-    <h2>Tienda Virtual 3D</h2>
-    
-    <p>
-    Con el mouse puedes girar la camara y con wasd o las flechas puedes moverte.
-    </p>
-    
-    <p>
-    Mira el círculo del centro de la pantalla y apunta a los productos.
-    </p>
-    
-    <p>
-    Productos seleccionados:
-    <span id="contador">0</span>
-    </p>
-    
+    <div class="panel">
+        <h2>Almacén y Bodega 3D</h2>
+        
+        <div class="tabs">
+            <button onclick="cargar('restaurante.html', 'Restaurante')">Restaurante</button>
+            <button onclick="cargar('lavabo.html', 'Baño')">Baño</button>
+            <button class="active" onclick="cargar('almacen.html', 'Almacén')">Almacén</button>
+            <button onclick="cargar('cocina.html', 'Cocina')">Cocina</button>
+            <button onclick="cargar('entrada.html', 'Entrada')">Entrada</button>
+        </div>
+
+        <p>Con el mouse puedes girar la cámara y con WASD o las flechas puedes moverte.</p>
+        <p>Apunta con el cursor a las cajas de inventario o barriles para seleccionarlos.</p>
+        <p>Cajas e inventario inspeccionado: <span id="contador">0</span></p>
     </div>
+
     <a-scene>
+        <a-assets>
+            <img id="piso" src="img/suelojuan.jpg">
+            <img id="cielo" src="img/Airbrush-IMAGE-ENHANCER-1780004240752-1780004240752.jpg">
+        </a-assets>
 
         <!-- CAMARA CON CURSOR -->
-        <a-entity position="0 1.6 10">
-    
+        <a-entity position="0 1.6 8">
             <a-camera>
-    
-                <!-- CURSOR -->
-                <a-cursor
-                    color="black"
-                    fuse="true"
-                    fuse-timeout="700">
-                </a-cursor>
-    
+                <a-cursor color="#f39c12" fuse="true" fuse-timeout="700"></a-cursor>
             </a-camera>
-    
         </a-entity>
-    
-        <!-- PISO -->
+
+        <a-sky src="#cielo"></a-sky>
+
+        <a-light type="ambient" intensity="0.9"></a-light>
+        <a-light type="point" intensity="1.4" position="0 8 0"></a-light>
+
+        <!-- PARED TRASERA INDUSTRIAL -->
+        <a-box position="0 4 -12" width="30" height="8" depth="0.5" color="#424242"></a-box>
+
+        <!-- CARTEL 3D BODEGA -->
+        <a-text
+            value="ALMACEN E INVENTARIO"
+            position="-6.5 6.2 -11.5"
+            scale="2.6 2.6 2.6"
+            color="#f39c12">
+        </a-text>
+
+        <!-- ESTANTERÍA INDUSTRIAL IZQUIERDA -->
+        <a-entity position="-6 0 -5">
+            <!-- Estructura de Estantería -->
+            <a-box position="0 2.5 0" width="4" height="5" depth="1.2" color="#2c3e50"></a-box>
+            <!-- Cajas Nivel 1 -->
+            <a-box class="producto" position="-1 1 0" width="1" height="0.8" depth="0.9" color="#d35400"></a-box>
+            <a-box class="producto" position="1 1 0" width="1.2" height="0.9" depth="0.9" color="#e67e22"></a-box>
+            <!-- Cajas Nivel 2 -->
+            <a-box class="producto" position="-0.8 2.6 0" width="1.1" height="0.8" depth="0.9" color="#f39c12"></a-box>
+            <a-box class="producto" position="0.8 2.6 0" width="1" height="0.7" depth="0.9" color="#d35400"></a-box>
+            <!-- Cajas Nivel 3 -->
+            <a-box class="producto" position="0 4.1 0" width="1.5" height="0.7" depth="0.9" color="#e67e22"></a-box>
+        </a-entity>
+
+        <!-- ESTANTERÍA INDUSTRIAL DERECHA -->
+        <a-entity position="6 0 -5">
+            <!-- Estructura de Estantería -->
+            <a-box position="0 2.5 0" width="4" height="5" depth="1.2" color="#2c3e50"></a-box>
+            <!-- Cajas Nivel 1 -->
+            <a-box class="producto" position="-1 1 0" width="1.2" height="0.9" depth="0.9" color="#e67e22"></a-box>
+            <a-box class="producto" position="1 1 0" width="1" height="0.8" depth="0.9" color="#d35400"></a-box>
+            <!-- Cajas Nivel 2 -->
+            <a-box class="producto" position="0 2.6 0" width="1.6" height="0.8" depth="0.9" color="#f39c12"></a-box>
+            <!-- Cajas Nivel 3 -->
+            <a-box class="producto" position="-0.8 4.1 0" width="1" height="0.7" depth="0.9" color="#d35400"></a-box>
+            <a-box class="producto" position="0.8 4.1 0" width="1.1" height="0.7" depth="0.9" color="#e67e22"></a-box>
+        </a-entity>
+
+        <!-- PALET CON BARRILES AL CENTRO -->
+        <a-entity position="0 0 -3">
+            <!-- Base Palet de madera -->
+            <a-box position="0 0.1 0" width="2.4" height="0.15" depth="2.4" color="#8B4513"></a-box>
+            <!-- Barriles industriales -->
+            <a-cylinder class="producto" position="-0.6 0.8 -0.6" radius="0.4" height="1.2" color="#2980b9"></a-cylinder>
+            <a-cylinder class="producto" position="0.6 0.8 -0.6" radius="0.4" height="1.2" color="#2980b9"></a-cylinder>
+            <a-cylinder class="producto" position="-0.6 0.8 0.6" radius="0.4" height="1.2" color="#e74c3c"></a-cylinder>
+            <a-cylinder class="producto" position="0.6 0.8 0.6" radius="0.4" height="1.2" color="#e74c3c"></a-cylinder>
+        </a-entity>
+
+        <!-- GRÚA / ELEMENTO ILUMINACIÓN INDUSTRIAL -->
+        <a-torus
+            position="0 5.2 -5"
+            radius="1"
+            radius-tubular="0.06"
+            color="#f39c12"
+            animation="property: rotation; to: 0 360 0; loop: true; dur: 4000">
+        </a-torus>
+
+        <!-- PISO INDUSTRIAL -->
         <a-plane
             rotation="-90 0 0"
             width="40"
             height="40"
-            color="#d7d7d7">
+            src="#piso"
+            repeat="15 15"
+            shadow="receive: true">
         </a-plane>
-    
-        <!-- PAREDES -->
-        <a-box position="0 4 -15" width="30" height="8" depth="0.5" color="#ffffff"></a-box>
-    
-        <!-- MOSTRADOR -->
-        <a-box position="0 1 -2" width="6" height="2" depth="2" color="#6d4c41"></a-box>
-    
-        <!-- ESTANTERIAS -->
-        <a-box position="-8 2 -8" width="6" height="4" depth="1" color="#8B4513"></a-box>
-        <a-box position="8 2 -8" width="6" height="4" depth="1" color="#8B4513"></a-box>
-    
-         <!-- PRODUCTOS -->
-        <a-box class="producto" position="-10 4 -8" color="red"></a-box>
-        <a-box class="producto" position="-8 4 -8" color="blue"></a-box>
-        <a-box class="producto" position="-6 4 -8" color="green"></a-box>
-
-        <a-box class="producto" position="10 4 -8" color="yellow"></a-box>
-        <a-box class="producto" position="8 4 -8" color="purple"></a-box>
-        <a-box class="producto" position="6 4 -8" color="black"></a-box>
-    
-        <a-sphere class="producto" position="-10 2 -8" radius="0.5" color="yellow"></a-sphere>
-        <a-sphere class="producto" position="-8 2 -8" radius="0.5" color="orange"></a-sphere>
-    
-        <a-cylinder class="producto" position="8 2 -8" radius="0.5" height="1" color="purple"></a-cylinder>
-        <a-cylinder class="producto" position="10 2 -8" radius="0.5" height="1" color="#009688"></a-cylinder>
-    
-        <!-- TEXTO -->
-        <a-text
-            value="LA BODEGA DE JUANPIS"
-            position="-5 6 -10"
-            scale="3 3 3"
-            color="blue">
-        </a-text>
-    
-        <!-- LUCES -->
-        <a-light type="ambient" intensity="1"></a-light>
-        <a-light type="point" intensity="1.5" position="0 8 0"></a-light>
-    
-        <!-- OBJETO ANIMADO -->
-        <a-torus
-            position="0 5 -6"
-            radius="1"
-            radius-tubular="0.1"
-            color="#2196F3"
-            animation="property: rotation; to: 0 360 0; loop: true; dur: 3000">
-        </a-torus>
-
-        <a-assets>
-
-            <img id="piso" src="img/suelojuan.jpg">
-        
-            <img id="cielo" src="img/Airbrush-IMAGE-ENHANCER-1780004240752-1780004240752.jpg">
-        
-            <audio id="musica" src="sounds/traffic.mp3"></audio>
-        
-        </a-assets>
-        
-        <!-- CIELO -->
-        <a-sky src="#cielo"></a-sky>
-
-        <a-entity
-         sound="src: #musica;
-           autoplay: true;
-           loop: true;
-           volume: 0.5">
-    </a-entity>
-
-<!-- PISO -->
-    <a-plane
-     rotation="-90 0 0"
-     width="40"
-     height="40"
-     src="#piso"
-     repeat="20 20"
-     shadow="receive: true">
-    </a-plane>
-    
     </a-scene>
 
+    <script src="script.js"></script>
     <script src="app.js"></script>
-
-
 </body>
 </html>

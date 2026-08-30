@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baño / Lavabo 3D - FreeChair</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="script.js"></script>
+</head>
+<body>
+    <div class="panel">
+        <h2>Baño / Lavabo 3D</h2>
+        
+        <div class="tabs">
+            <button onclick="cargar('restaurante.html', 'Restaurante')">Restaurante</button>
+            <button class="active" onclick="cargar('lavabo.html', 'Baño')">Baño</button>
+            <button onclick="cargar('almacen.html', 'Almacén')">Almacén</button>
+            <button onclick="cargar('cocina.html', 'Cocina')">Cocina</button>
+            <button onclick="cargar('entrada.html', 'Entrada')">Entrada</button>
+        </div>
+
+        <p>Con el mouse puedes girar la cámara y con WASD o las flechas puedes moverte.</p>
+        <p>Apunta con el cursor a los lavabos, espejos o dispensadores para interactuar.</p>
+        <p>Elementos examinados: <span id="contador">0</span></p>
+    </div>
+
+    <a-scene>
+        <a-assets>
+            <img id="piso" src="img/suelo-azulejos-piedras-negras_1194-6238.avif">
+            <img id="cielo" src="img/las0xpnqh8c58tp8yp0yavws.jpeg">
+        </a-assets>
+
+        <!-- CAMARA CON CURSOR -->
+        <a-entity position="0 1.6 8">
+            <a-camera>
+                <a-cursor color="#00bcd4" fuse="true" fuse-timeout="700"></a-cursor>
+            </a-camera>
+        </a-entity>
+
+        <a-sky src="#cielo"></a-sky>
+
+        <a-light type="ambient" intensity="0.9"></a-light>
+        <a-light type="point" intensity="1.4" position="0 6 0"></a-light>
+
+        <!-- PARED TRASERA -->
+        <a-box position="0 4 -10" width="25" height="8" depth="0.5" color="#e0e0e0"></a-box>
+
+        <!-- CARTEL 3D BAÑO -->
+        <a-text
+            value="SERVICIOS SANITARIOS / LAVABO"
+            position="-7.5 6 -9.5"
+            scale="2.5 2.5 2.5"
+            color="#00838f">
+        </a-text>
+
+        <!-- MUEBLE PRINCIPAL DE LAVAMANOS -->
+        <a-box position="0 1 -6" width="7" height="1.1" depth="1.5" color="#ffffff">
+            <!-- Lavabo 1 -->
+            <a-cylinder class="producto" position="-2 0.58 0" radius="0.45" height="0.1" color="#b2ebf2"></a-cylinder>
+            <a-cylinder position="-2 0.8 0" radius="0.04" height="0.3" color="#78909c"></a-cylinder>
+
+            <!-- Lavabo 2 -->
+            <a-cylinder class="producto" position="2 0.58 0" radius="0.45" height="0.1" color="#b2ebf2"></a-cylinder>
+            <a-cylinder position="2 0.8 0" radius="0.04" height="0.3" color="#78909c"></a-cylinder>
+
+            <!-- Dispensador de jabón centro -->
+            <a-box class="producto" position="0 0.7 0" width="0.25" height="0.35" depth="0.2" color="#00bcd4"></a-box>
+        </a-box>
+
+        <!-- ESPEJOS DE PARED -->
+        <a-box class="producto" position="-2 3 -9.6" width="2" height="2.2" depth="0.05" color="#eceff1"></a-box>
+        <a-box class="producto" position="2 3 -9.6" width="2" height="2.2" depth="0.05" color="#eceff1"></a-box>
+
+        <!-- CUBÍCULOS SANITARIOS (DERECHA Y IZQUIERDA) -->
+        <a-box position="-6 2 -4" width="0.1" height="4" depth="4" color="#b0bec5"></a-box>
+        <a-box position="-6 2 -2" width="2" height="4" depth="0.1" color="#90a4ae"></a-box>
+
+        <a-box position="6 2 -4" width="0.1" height="4" depth="4" color="#b0bec5"></a-box>
+        <a-box position="6 2 -2" width="2" height="4" depth="0.1" color="#90a4ae"></a-box>
+
+        <!-- SECADOR DE MANOS PARED -->
+        <a-box class="producto" position="-4.5 2 -9.6" width="0.5" height="0.6" depth="0.2" color="#cfd8dc"></a-box>
+
+        <!-- LÁMPARA DE TECHO ANIMADA -->
+        <a-torus
+            position="0 5 -5"
+            radius="0.7"
+            radius-tubular="0.04"
+            color="#00bcd4"
+            animation="property: rotation; to: 0 360 0; loop: true; dur: 3500">
+        </a-torus>
+
+        <!-- PISO -->
+        <a-plane
+            rotation="-90 0 0"
+            width="40"
+            height="40"
+            src="#piso"
+            repeat="15 15"
+            shadow="receive: true">
+        </a-plane>
+    </a-scene>
+
+    <script src="script.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

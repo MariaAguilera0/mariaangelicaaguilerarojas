@@ -8,6 +8,7 @@
 
 <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
 <link rel="stylesheet" href="style.css">
+<script src="script.js"></script>
 
 </head>
 <body>
@@ -45,35 +46,39 @@
 </section>
 
 
-<div class="tabs" id="vr">
+<div class="vr-container" id="vr">
+    <h2 id="titulo-visor">Visor Virtual 3D - Restaurante</h2>
 
-    <button onclick="cargar('restaurante.html')">
-        restaurante
-    </button>
+    <div class="tabs">
 
-    <button onclick="cargar('Lavabo.html')">
-        baño
-    </button>
+        <button class="active" onclick="cargar('restaurante.html', 'Restaurante')">
+            Restaurante
+        </button>
 
-    <button onclick="cargar('almacen.html')">
-        almacen
-    </button>
+        <button onclick="cargar('lavabo.html', 'Baño')">
+            Baño
+        </button>
 
-    <button onclick="cargar('cocina.html')">
-        cocina
-    </button>
+        <button onclick="cargar('almacen.html', 'Almacén')">
+            Almacén
+        </button>
 
-    <button onclick="cargar('entrada.html')">
-        entrada
-    </button>
+        <button onclick="cargar('cocina.html', 'Cocina')">
+            Cocina
+        </button>
 
+        <button onclick="cargar('entrada.html', 'Entrada')">
+            Entrada
+        </button>
+
+    </div>
+
+    <iframe
+        id="visor"
+        src="restaurante.html"
+        style="width:100%; height:600px; border:none;">
+    </iframe>
 </div>
-
-<iframe
-    id="visor"
-    src="tienda.html"
-    style="width:100%; height:600px; border:none;">
-</iframe>
 
 <section class="servicios" id="servicios">
 
