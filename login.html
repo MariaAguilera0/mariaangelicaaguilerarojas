@@ -267,33 +267,30 @@
         </div>
 
         <div class="form-group">
-          <label for="reg-rol">Selecciona tu Rol</label>
-          <select id="reg-rol" required>
-            <option value="cliente" selected>Cliente (Reservas y Experiencia VR)</option>
-            <option value="trabajador">Trabajador (Gestión de Mesas y Áreas)</option>
-            <option value="administrador">Administrador (Gestión General del Restaurante)</option>
-            <option value="superadmin">Superadmin (Control Total de Usuarios y Sistema)</option>
-          </select>
+          <label>Tipo de Cuenta</label>
+          <div style="padding: 11px 14px; background: #ebfbee; border: 1.5px solid #d3f9d8; border-radius: 8px; color: #2b8a3e; font-size: 13.5px; font-weight: bold; display: flex; align-items: center; gap: 8px;">
+            <span>👤 Cliente (Reservas y Experiencia VR 3D)</span>
+          </div>
+          <small style="color: #777; font-size: 11.5px; margin-top: 4px; display: block;">
+            Por seguridad, las cuentas de Trabajador y Administrador solo son otorgadas internamente por la dirección.
+          </small>
         </div>
 
         <button type="submit" class="btn-submit" id="btn-register">
-          Registrar Usuario
+          Crear Cuenta de Cliente
         </button>
       </form>
 
       <div class="guest-link">
-        <a href="Index.html">← Continuar al visor VR como visitante</a>
+        <a href="index.html">← Continuar al visor VR como visitante</a>
       </div>
 
-      <!-- Guía de Roles -->
+      <!-- Guía de Seguridad -->
       <div class="roles-info-box">
-        <h4>Roles del Sistema:</h4>
-        <ul>
-          <li><strong>Superadmin:</strong> Control total, administración de roles y usuarios.</li>
-          <li><strong>Administrador:</strong> Control de reservas y gestión general.</li>
-          <li><strong>Trabajador:</strong> Actualización de estados en cocina, mesas y almacén.</li>
-          <li><strong>Cliente:</strong> Acceso a reservas y vistas interactivas.</li>
-        </ul>
+        <h4>🔒 Aviso de Seguridad y Roles:</h4>
+        <p style="margin: 0; font-size: 12.5px; line-height: 1.5; color: #666;">
+          Todos los nuevos usuarios se registran como <strong>Cliente</strong> para explorar el restaurante en 3D y hacer reservas. Los accesos especiales (<strong>Superadmin</strong>, <strong>Administrador</strong> y <strong>Trabajador</strong>) deben ser asignados desde el Panel de Administración por un Superadministrador autorizado.
+        </p>
       </div>
     </div>
   </div>
@@ -344,10 +341,12 @@
 
     // Redireccionar al usuario según su rol
     function redirigirSegunRol(rol) {
-      if (rol === ROLES.SUPERADMIN || rol === ROLES.ADMINISTRADOR || rol === ROLES.TRABAJADOR) {
+      if (rol === ROLES.SUPERADMIN || rol === ROLES.ADMINISTRADOR) {
+        window.location.href = "admin.htm";
+      } else if (rol === ROLES.TRABAJADOR) {
         window.location.href = "panel.html";
       } else {
-        window.location.href = "Index.html";
+        window.location.href = "cliente.html";
       }
     }
 
@@ -378,7 +377,7 @@
       }
     });
 
-    // Manejar Registro
+    // Manejar Registro Seguro (Rol Cliente por defecto)
     document.getElementById("form-register").addEventListener("submit", async (e) => {
       e.preventDefault();
       ocultarAlertas();
@@ -386,7 +385,7 @@
       const nombre = document.getElementById("reg-nombre").value.trim();
       const email = document.getElementById("reg-email").value.trim();
       const password = document.getElementById("reg-password").value;
-      const rol = document.getElementById("reg-rol").value;
+      const rol = ROLES.CLIENTE;
       const btn = document.getElementById("btn-register");
 
       if (password.length < 6) {
@@ -395,15 +394,15 @@
       }
 
       btn.disabled = true;
-      btn.textContent = "Registrando usuario...";
+      btn.textContent = "Creando cuenta de cliente...";
 
       const res = await registrarUsuario(nombre, email, password, rol);
 
       btn.disabled = false;
-      btn.textContent = "Registrar Usuario";
+      btn.textContent = "Crear Cuenta de Cliente";
 
       if (res.success) {
-        mostrarExito(`¡Cuenta creada exitosamente con el rol [${rol.toUpperCase()}]! Redirigiendo...`);
+        mostrarExito(`¡Cuenta de Cliente creada exitosamente para ${nombre}! Redirigiendo...`);
         setTimeout(() => {
           redirigirSegunRol(res.rol);
         }, 1200);

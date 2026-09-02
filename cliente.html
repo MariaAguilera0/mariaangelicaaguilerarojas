@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal de Cliente - Reservaciones FreeChair</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background: #fdf5f8;
+      color: #2b1122;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .cliente-container {
+      max-width: 1240px;
+      margin: 25px auto;
+      padding: 0 20px 50px;
+    }
+
+    /* Barra Superior de Sesión */
+    .cliente-top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #ffffff;
+      padding: 16px 26px;
+      border-radius: 14px;
+      box-shadow: 0 4px 18px rgba(218, 52, 93, 0.08);
+      border: 1px solid #ffd2e5;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .cliente-profile {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .cliente-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #ebfbee;
+      color: #2b8a3e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 22px;
+      border: 2px solid #2b8a3e;
+    }
+
+    .cliente-profile-info h3 {
+      margin: 0;
+      color: #2b1122;
+      font-size: 17px;
+    }
+
+    .cliente-profile-info p {
+      margin: 2px 0 0;
+      color: #777;
+      font-size: 13px;
+    }
+
+    .cliente-nav-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-portal {
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13.5px;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-portal-pink {
+      background: #da345d;
+      color: #ffffff;
+    }
+
+    .btn-portal-pink:hover {
+      background: #b82449;
+    }
+
+    .btn-portal-outline {
+      background: #ffffff;
+      color: #555;
+      border: 1px solid #ddd;
+    }
+
+    .btn-portal-outline:hover {
+      background: #f8f9fa;
+      color: #c92a2a;
+      border-color: #ffc9c9;
+    }
+
+    /* Banner de Bienvenida */
+    .cliente-hero {
+      background: linear-gradient(135deg, #da345d 0%, #cc2369 100%);
+      color: #ffffff;
+      padding: 35px 32px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(218, 52, 93, 0.25);
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .cliente-hero h1 {
+      font-size: 26px;
+      margin: 0 0 10px;
+    }
+
+    .cliente-hero p {
+      font-size: 14.5px;
+      margin: 0;
+      opacity: 0.94;
+      line-height: 1.5;
+      max-width: 650px;
+    }
+
+    .hero-stat-badge {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(8px);
+      padding: 16px 24px;
+      border-radius: 12px;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+    }
+
+    .hero-stat-badge h3 {
+      font-size: 32px;
+      margin: 0;
+      font-weight: 800;
+    }
+
+    .hero-stat-badge span {
+      font-size: 12.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: bold;
+    }
+
+    /* Secciones */
+    .cliente-section {
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 28px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.04);
+      border: 1px solid #ffd2e5;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 22px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .section-title h2 {
+      font-size: 20px;
+      color: #cc2369;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title p {
+      font-size: 13.5px;
+      color: #666;
+      margin: 4px 0 0;
+    }
+
+    /* Grid de Restaurantes y Espacios */
+    .restaurantes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .restaurante-card {
+      background: #ffffff;
+      border: 1px solid #ffd2e5;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(218, 52, 93, 0.06);
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .restaurante-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(218, 52, 93, 0.15);
+    }
+
+    .restaurante-img-header {
+      background: linear-gradient(135deg, #ffd2e5 0%, #fff0f5 100%);
+      padding: 24px;
+      text-align: center;
+      font-size: 48px;
+      border-bottom: 1px solid #ffd2e5;
+    }
+
+    .restaurante-card-body {
+      padding: 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .restaurante-card-body h3 {
+      margin: 0 0 8px;
+      color: #2b1122;
+      font-size: 17px;
+    }
+
+    .restaurante-card-body p {
+      font-size: 13px;
+      color: #666;
+      line-height: 1.5;
+      margin: 0 0 16px;
+      flex: 1;
+    }
+
+    .restaurante-card-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .tag {
+      background: #fdf2f7;
+      color: #cc2369;
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-weight: bold;
+      border: 1px solid #ffd2e5;
+    }
+
+    .restaurante-card-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-card-vr {
+      flex: 1;
+      padding: 9px;
+      background: #fdf2f7;
+      color: #cc2369;
+      border: 1px solid #ffd2e5;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: bold;
+      text-align: center;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .btn-card-vr:hover {
+      background: #ffd2e5;
+    }
+
+    .btn-card-reservar {
+      flex: 1;
+      padding: 9px;
+      background: #da345d;
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-card-reservar:hover {
+      background: #b82449;
+    }
+
+    /* Formulario de Reservas */
+    .form-reserva-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 18px;
+    }
+
+    .form-group-reserva {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group-reserva label {
+      font-size: 13px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .form-group-reserva input,
+    .form-group-reserva select,
+    .form-group-reserva textarea {
+      padding: 11px 13px;
+      border: 1.5px solid #ffd2e5;
+      border-radius: 8px;
+      font-size: 13.5px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      background: #fff;
+    }
+
+    .form-group-reserva input:focus,
+    .form-group-reserva select:focus,
+    .form-group-reserva textarea:focus {
+      border-color: #da345d;
+      box-shadow: 0 0 0 3px rgba(218, 52, 93, 0.1);
+    }
+
+    .btn-submit-reserva {
+      grid-column: 1 / -1;
+      padding: 14px;
+      background: #da345d;
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      margin-top: 10px;
+    }
+
+    .btn-submit-reserva:hover {
+      background: #b82449;
+    }
+
+    .btn-submit-reserva:active {
+      transform: scale(0.99);
+    }
+
+    /* Lista de Mis Reservaciones */
+    .reservas-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 18px;
+    }
+
+    .reserva-card {
+      background: #ffffff;
+      border: 1.5px solid #ffd2e5;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.03);
+      position: relative;
+    }
+
+    .reserva-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+      border-bottom: 1px solid #f9ebf1;
+      padding-bottom: 10px;
+    }
+
+    .reserva-codigo {
+      background: #fdf2f7;
+      color: #cc2369;
+      font-size: 11px;
+      padding: 2px 7px;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+
+    .reserva-badge {
+      font-size: 11px;
+      padding: 4px 9px;
+      border-radius: 12px;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-reserva-confirmada {
+      background: #ebfbee;
+      color: #2b8a3e;
+      border: 1px solid #d3f9d8;
+    }
+
+    .badge-reserva-cancelada {
+      background: #ffe3e3;
+      color: #c92a2a;
+      border: 1px solid #ffc9c9;
+    }
+
+    .reserva-details p {
+      font-size: 13px;
+      color: #555;
+      margin: 6px 0;
+    }
+
+    .reserva-actions {
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px dashed #f2e2ea;
+      text-align: right;
+    }
+
+    .btn-cancelar-reserva {
+      background: #fff;
+      color: #c92a2a;
+      border: 1px solid #ffc9c9;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-cancelar-reserva:hover {
+      background: #ffe3e3;
+    }
+
+    .empty-reservas-box {
+      text-align: center;
+      padding: 40px 20px;
+      background: #fdf8fa;
+      border: 1px dashed #ffd2e5;
+      border-radius: 12px;
+      grid-column: 1 / -1;
+    }
+
+    .empty-reservas-box h3 {
+      color: #cc2369;
+      margin: 10px 0 6px;
+      font-size: 17px;
+    }
+
+    .empty-reservas-box p {
+      color: #777;
+      font-size: 13.5px;
+      margin: 0;
+      max-width: 450px;
+      margin: 0 auto;
+    }
+
+    /* Toast Flotante */
+    .cliente-toast {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      padding: 14px 22px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: bold;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.18);
+      z-index: 2000;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+      pointer-events: none;
+    }
+
+    .toast-show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .toast-exito {
+      background: #2b8a3e;
+      color: #ffffff;
+    }
+
+    .toast-error {
+      background: #c92a2a;
+      color: #ffffff;
+    }
+
+    .toast-info {
+      background: #1971c2;
+      color: #ffffff;
+    }
+
+    .cliente-loading-screen {
+      text-align: center;
+      padding: 60px 20px;
+      font-size: 16px;
+      color: #cc2369;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Pantalla de carga mientras se valida la sesión -->
+  <div id="cliente-loading" class="cliente-loading-screen">
+    <p>⏳ Cargando tu experiencia y reservaciones FreeChair...</p>
+  </div>
+
+  <!-- Contenedor Principal del Cliente -->
+  <div id="cliente-content" class="cliente-container" style="display: none;">
+
+    <!-- Barra de Sesión Superior -->
+    <header class="cliente-top-bar">
+      <div class="cliente-profile">
+        <div class="cliente-avatar" id="cliente-user-avatar">C</div>
+        <div class="cliente-profile-info">
+          <h3 id="cliente-user-name">Cliente</h3>
+          <p>
+            <span id="cliente-user-email">cliente@correo.com</span> •
+            <span class="role-badge badge-cliente">CLIENTE</span>
+          </p>
+        </div>
+      </div>
+
+      <nav class="cliente-nav-actions">
+        <a href="index.html" class="btn-portal btn-portal-pink">
+          🥽 Visor VR 3D / Inicio
+        </a>
+        <button id="btn-cliente-logout" class="btn-portal btn-portal-outline">
+          🚪 Cerrar Sesión
+        </button>
+      </nav>
+    </header>
+
+    <!-- Banner Hero de Bienvenida -->
+    <section class="cliente-hero">
+      <div>
+        <h1>🍽️ ¡Bienvenido a tu Espacio FreeChair!</h1>
+        <p>
+          Explora nuestros diferentes ambientes gastronómicos en Realidad Virtual 3D interactiva y asegura tu mesa favorita sin filas ni complicaciones.
+        </p>
+      </div>
+      <div class="hero-stat-badge">
+        <h3 id="contador-reservas-activas">0</h3>
+        <span>Reservas Activas</span>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 1: NUESTROS RESTAURANTES Y AMBIENTES 3D -->
+    <section class="cliente-section">
+      <div class="section-title">
+        <div>
+          <h2>🍽️ Nuestros Restaurantes y Zonas Disponibles</h2>
+          <p>Descubre cada ambiente antes de visitarnos interactuando con nuestros visores 3D</p>
+        </div>
+      </div>
+
+      <div class="restaurantes-grid">
+        <!-- Salón Principal -->
+        <div class="restaurante-card">
+          <div class="restaurante-img-header">🏛️</div>
+          <div class="restaurante-card-body">
+            <h3>Salón Principal FreeChair</h3>
+            <p>Ambiente acogedor, climatizado y con iluminación cálida. Perfecto para almuerzos familiares o cenas especiales con vista panorámica.</p>
+            <div class="restaurante-card-tags">
+              <span class="tag">Música Suave</span>
+              <span class="tag">Mesas para 2 a 6 pax</span>
+              <span class="tag">Climatizado</span>
+            </div>
+            <div class="restaurante-card-actions">
+              <a href="restaurante.html" class="btn-card-vr">🥽 Visor 3D</a>
+              <button class="btn-card-reservar btn-seleccionar-zona" data-zona="Salón Principal">📅 Reservar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Terraza Libre -->
+        <div class="restaurante-card">
+          <div class="restaurante-img-header">🌿</div>
+          <div class="restaurante-card-body">
+            <h3>Terraza Libre & Jardín</h3>
+            <p>Espacio al aire libre con brisa natural, sombrillas y vegetación fresca. Ideal para reuniones distendidas en tardes soleadas.</p>
+            <div class="restaurante-card-tags">
+              <span class="tag">Aire Libre</span>
+              <span class="tag">Pet Friendly</span>
+              <span class="tag">Mesas Amplias</span>
+            </div>
+            <div class="restaurante-card-actions">
+              <a href="restaurante.html" class="btn-card-vr">🥽 Visor 3D</a>
+              <button class="btn-card-reservar btn-seleccionar-zona" data-zona="Terraza Libre">📅 Reservar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Zona VIP -->
+        <div class="restaurante-card">
+          <div class="restaurante-img-header">⭐</div>
+          <div class="restaurante-card-body">
+            <h3>Zona VIP & Eventos Privados</h3>
+            <p>Espacio reservado con atención personalizada, menú de degustación exclusivo y privacidad absoluta para negocios o celebraciones.</p>
+            <div class="restaurante-card-tags">
+              <span class="tag">Exclusivo</span>
+              <span class="tag">Atención Premium</span>
+              <span class="tag">Grupos hasta 8 pax</span>
+            </div>
+            <div class="restaurante-card-actions">
+              <a href="restaurante.html" class="btn-card-vr">🥽 Visor 3D</a>
+              <button class="btn-card-reservar btn-seleccionar-zona" data-zona="Zona VIP">📅 Reservar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Barra Lounge -->
+        <div class="restaurante-card">
+          <div class="restaurante-img-header">🍸</div>
+          <div class="restaurante-card-body">
+            <h3>Barra Lounge & Coctelería</h3>
+            <p>Punto dinámico para disfrutar coctelería de autor, cafés selectos y piqueos rápidos en un ambiente moderno y vibrante.</p>
+            <div class="restaurante-card-tags">
+              <span class="tag">Coctelería</span>
+              <span class="tag">Snacks</span>
+              <span class="tag">Atención Rápida</span>
+            </div>
+            <div class="restaurante-card-actions">
+              <a href="entrada.html" class="btn-card-vr">🥽 Visor 3D</a>
+              <button class="btn-card-reservar btn-seleccionar-zona" data-zona="Barra Lounge">📅 Reservar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 2: FORMULARIO DE RESERVACIÓN -->
+    <section class="cliente-section" id="seccion-formulario">
+      <div class="section-title">
+        <div>
+          <h2>📅 Haz tu Reservación en Línea</h2>
+          <p>Completa los datos y recibirás la confirmación inmediata de tu mesa</p>
+        </div>
+      </div>
+
+      <form id="form-reservar">
+        <div class="form-reserva-grid">
+          <div class="form-group-reserva">
+            <label for="reserva-zona">Zona / Ambiente del Restaurante</label>
+            <select id="reserva-zona" required>
+              <option value="Salón Principal" selected>Salón Principal (Interior)</option>
+              <option value="Terraza Libre">Terraza Libre & Jardín</option>
+              <option value="Zona VIP">Zona VIP Exclusiva</option>
+              <option value="Barra Lounge">Barra Lounge & Coctelería</option>
+            </select>
+          </div>
+
+          <div class="form-group-reserva">
+            <label for="reserva-mesa">Mesa Preferida</label>
+            <select id="reserva-mesa" required>
+              <option value="Mesa 1 (Ventana - 4 pax)">Mesa 1 (Ventana - 4 personas)</option>
+              <option value="Mesa 2 (Centro - 2 pax)">Mesa 2 (Centro - 2 personas)</option>
+              <option value="Mesa 3 (Terraza - 6 pax)">Mesa 3 (Terraza - 6 personas)</option>
+              <option value="Mesa 4 (VIP - 8 pax)">Mesa 4 (Zona VIP - 8 personas)</option>
+              <option value="Mesa 5 (Familiar - 5 pax)">Mesa 5 (Familiar - 5 personas)</option>
+              <option value="Mesa 6 (Barra - 2 pax)">Mesa 6 (Barra Lounge - 2 personas)</option>
+            </select>
+          </div>
+
+          <div class="form-group-reserva">
+            <label for="reserva-fecha">Fecha de la Reserva</label>
+            <input type="date" id="reserva-fecha" required>
+          </div>
+
+          <div class="form-group-reserva">
+            <label for="reserva-hora">Hora de la Reserva</label>
+            <select id="reserva-hora" required>
+              <option value="12:00 PM">12:00 PM (Almuerzo)</option>
+              <option value="1:00 PM">1:00 PM (Almuerzo)</option>
+              <option value="2:00 PM">2:00 PM (Almuerzo)</option>
+              <option value="6:00 PM">6:00 PM (Tardeo)</option>
+              <option value="7:00 PM" selected>7:00 PM (Cena)</option>
+              <option value="8:00 PM">8:00 PM (Cena)</option>
+              <option value="9:00 PM">9:00 PM (Cena)</option>
+            </select>
+          </div>
+
+          <div class="form-group-reserva">
+            <label for="reserva-personas">Número de Personas</label>
+            <select id="reserva-personas" required>
+              <option value="1">1 Persona</option>
+              <option value="2" selected>2 Personas</option>
+              <option value="3">3 Personas</option>
+              <option value="4">4 Personas</option>
+              <option value="5">5 Personas</option>
+              <option value="6">6 Personas</option>
+              <option value="8">8 Personas (VIP)</option>
+            </select>
+          </div>
+
+          <div class="form-group-reserva">
+            <label for="reserva-ocasion">Motivo u Ocasión Especial</label>
+            <select id="reserva-ocasion">
+              <option value="ninguna" selected>Cena Casual / Normal</option>
+              <option value="Cumpleaños">🎂 Cumpleaños</option>
+              <option value="Aniversario">💑 Aniversario</option>
+              <option value="Cita Romántica">🌹 Cita Romántica</option>
+              <option value="Reunión de Negocios">💼 Reunión de Negocios</option>
+            </select>
+          </div>
+
+          <div class="form-group-reserva" style="grid-column: 1 / -1;">
+            <label for="reserva-notas">Peticiones Especiales o Alergias (Opcional)</label>
+            <textarea id="reserva-notas" rows="2" placeholder="Ej: Mesa cerca a la ventana, silla para bebé, decoración de felicitaciones..."></textarea>
+          </div>
+
+          <button type="submit" class="btn-submit-reserva">
+            🍽️ Confirmar y Asegurar mi Reservación
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- SECCIÓN 3: MIS RESERVACIONES ACTIVAS -->
+    <section class="cliente-section" id="seccion-mis-reservas">
+      <div class="section-title">
+        <div>
+          <h2>📋 Mis Reservaciones</h2>
+          <p>Gestiona y consulta el estado de tus reservas en tiempo real</p>
+        </div>
+      </div>
+
+      <div class="reservas-container" id="lista-reservas">
+        <!-- Generado dinámicamente por cliente.js -->
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Componente Toast de Notificación -->
+  <div id="cliente-toast" class="cliente-toast"></div>
+
+  <!-- Controlador Modular JavaScript -->
+  <script type="module" src="cliente.js"></script>
+</body>
+</html>

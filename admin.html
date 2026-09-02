@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administración - FreeChair</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background: #fdf5f8;
+      color: #2b1122;
+      min-height: 100vh;
+    }
+
+    .admin-container {
+      max-width: 1240px;
+      margin: 25px auto;
+      padding: 0 20px 40px;
+    }
+
+    /* Barra Superior de Sesión */
+    .admin-top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #ffffff;
+      padding: 16px 26px;
+      border-radius: 14px;
+      box-shadow: 0 4px 18px rgba(218, 52, 93, 0.08);
+      border: 1px solid #ffd2e5;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .admin-profile {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .admin-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #ffd2e5;
+      color: #cc2369;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 22px;
+      border: 2px solid #da345d;
+    }
+
+    .admin-profile-info h3 {
+      margin: 0;
+      color: #2b1122;
+      font-size: 17px;
+    }
+
+    .admin-profile-info p {
+      margin: 2px 0 0;
+      color: #777;
+      font-size: 13px;
+    }
+
+    .admin-nav-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-admin {
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13.5px;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-admin-pink {
+      background: #da345d;
+      color: #ffffff;
+    }
+
+    .btn-admin-pink:hover {
+      background: #b82449;
+    }
+
+    .btn-admin-soft {
+      background: #ffd2e5;
+      color: #cc2369;
+    }
+
+    .btn-admin-soft:hover {
+      background: #ffb8d7;
+    }
+
+    .btn-admin-outline {
+      background: #ffffff;
+      color: #555;
+      border: 1px solid #ddd;
+    }
+
+    .btn-admin-outline:hover {
+      background: #f8f9fa;
+      color: #c92a2a;
+      border-color: #ffc9c9;
+    }
+
+    /* Cabecera del Panel */
+    .admin-banner {
+      background: linear-gradient(135deg, #cc2369 0%, #da345d 100%);
+      color: #ffffff;
+      padding: 28px 30px;
+      border-radius: 14px;
+      box-shadow: 0 8px 25px rgba(204, 35, 105, 0.25);
+      margin-bottom: 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .admin-banner h1 {
+      font-size: 24px;
+      margin-bottom: 6px;
+    }
+
+    .admin-banner p {
+      font-size: 14px;
+      opacity: 0.92;
+      margin: 0;
+    }
+
+    /* Grid de Métricas / KPI */
+    .admin-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 18px;
+      margin-bottom: 30px;
+    }
+
+    .admin-stat-card {
+      background: #ffffff;
+      padding: 20px 22px;
+      border-radius: 12px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.04);
+      border: 1px solid #fae1ec;
+      border-top: 4px solid #da345d;
+      transition: transform 0.2s;
+    }
+
+    .admin-stat-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .admin-stat-card h4 {
+      margin: 0 0 6px;
+      color: #777;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .admin-stat-number {
+      font-size: 32px;
+      font-weight: 800;
+      color: #2b1122;
+      margin: 0;
+    }
+
+    /* Secciones */
+    .admin-section {
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 25px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.04);
+      border: 1px solid #ffd2e5;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .section-header h2 {
+      font-size: 19px;
+      color: #cc2369;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-controls {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .search-input {
+      padding: 9px 14px;
+      border: 1.5px solid #ffd2e5;
+      border-radius: 8px;
+      font-size: 13.5px;
+      outline: none;
+      min-width: 250px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .search-input:focus {
+      border-color: #da345d;
+      box-shadow: 0 0 0 3px rgba(218, 52, 93, 0.12);
+    }
+
+    /* Tabla de Usuarios */
+    .table-container {
+      overflow-x: auto;
+      border-radius: 10px;
+      border: 1px solid #f2e2ea;
+    }
+
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    .admin-table th {
+      background: #fdf2f7;
+      color: #cc2369;
+      padding: 13px 16px;
+      font-weight: 700;
+      border-bottom: 2px solid #ffd2e5;
+      font-size: 13px;
+      text-transform: uppercase;
+    }
+
+    .admin-table td {
+      padding: 13px 16px;
+      border-bottom: 1px solid #f9ebf1;
+      color: #444;
+      vertical-align: middle;
+    }
+
+    .admin-table tr:hover {
+      background: #fffbfe;
+    }
+
+    .admin-role-select {
+      padding: 6px 10px;
+      border: 1.5px solid #e0c8d4;
+      border-radius: 6px;
+      font-size: 13px;
+      background: #ffffff;
+      outline: none;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .admin-role-select:focus {
+      border-color: #da345d;
+    }
+
+    .btn-table-action {
+      padding: 6px 12px;
+      border-radius: 6px;
+      border: none;
+      font-size: 12.5px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-save {
+      background: #ebfbee;
+      color: #2b8a3e;
+      border: 1px solid #d3f9d8;
+    }
+
+    .btn-save:hover {
+      background: #2b8a3e;
+      color: #ffffff;
+    }
+
+    .btn-delete {
+      background: #ffe3e3;
+      color: #c92a2a;
+      border: 1px solid #ffc9c9;
+    }
+
+    .btn-delete:hover {
+      background: #c92a2a;
+      color: #ffffff;
+    }
+
+    /* Grid de Mesas del Restaurante */
+    .tables-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 18px;
+    }
+
+    .table-card {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 18px;
+      border: 1px solid #ffd2e5;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+      transition: all 0.2s ease;
+    }
+
+    .table-card:hover {
+      box-shadow: 0 6px 16px rgba(218, 52, 93, 0.12);
+    }
+
+    .table-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #f6e6ee;
+      padding-bottom: 8px;
+    }
+
+    .table-header h4 {
+      margin: 0;
+      color: #2b1122;
+      font-size: 16px;
+    }
+
+    .table-info {
+      font-size: 13px;
+      color: #666;
+      margin: 5px 0;
+    }
+
+    .table-actions {
+      margin-top: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .table-actions label {
+      font-size: 12px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    .table-state-select {
+      padding: 7px 10px;
+      border-radius: 6px;
+      border: 1.5px solid #ffd2e5;
+      font-size: 13px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .table-badge {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-disponible { background: #d3f9d8; color: #2b8a3e; border: 1px solid #b2f2bb; }
+    .badge-ocupada { background: #ffe3e3; color: #c92a2a; border: 1px solid #ffc9c9; }
+    .badge-reservada { background: #fff3bf; color: #d9480f; border: 1px solid #ffec99; }
+
+    /* Espacios 3D */
+    .spaces-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .space-card {
+      background: #fdf8fa;
+      border: 1px solid #f5d4e4;
+      border-radius: 10px;
+      padding: 16px;
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .space-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(218, 52, 93, 0.12);
+    }
+
+    .space-card h4 {
+      margin: 0 0 6px;
+      color: #cc2369;
+      font-size: 15px;
+    }
+
+    .space-card p {
+      font-size: 12px;
+      color: #777;
+      margin-bottom: 12px;
+    }
+
+    .space-card a {
+      display: inline-block;
+      padding: 6px 14px;
+      background: #da345d;
+      color: #fff;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 12.5px;
+      font-weight: bold;
+    }
+
+    .space-card a:hover {
+      background: #b82449;
+    }
+
+    /* Modal Crear Usuario */
+    .admin-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .admin-modal-card {
+      background: #ffffff;
+      width: 100%;
+      max-width: 480px;
+      border-radius: 14px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      border: 1px solid #ffd2e5;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .modal-header h3 {
+      margin: 0;
+      color: #cc2369;
+      font-size: 19px;
+    }
+
+    .btn-close-x {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: #888;
+    }
+
+    .btn-close-x:hover {
+      color: #da345d;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 13px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1.5px solid #ffd2e5;
+      border-radius: 8px;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: #da345d;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    /* Toast Flotante */
+    .admin-toast {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      padding: 14px 22px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: bold;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.18);
+      z-index: 2000;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+      pointer-events: none;
+    }
+
+    .toast-show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .toast-exito {
+      background: #2b8a3e;
+      color: #ffffff;
+    }
+
+    .toast-error {
+      background: #c92a2a;
+      color: #ffffff;
+    }
+
+    .toast-info {
+      background: #1971c2;
+      color: #ffffff;
+    }
+
+    /* Loading Spinner */
+    .admin-loading-screen {
+      text-align: center;
+      padding: 60px 20px;
+      font-size: 16px;
+      color: #cc2369;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Pantalla de carga mientras se valida rol -->
+  <div id="admin-loading" class="admin-loading-screen">
+    <p>⏳ Verificando credenciales administrativas en FreeChair...</p>
+  </div>
+
+  <!-- Contenedor Principal del Panel de Administración -->
+  <div id="admin-content" class="admin-container" style="display: none;">
+
+    <!-- Barra de Sesión Superior -->
+    <header class="admin-top-bar">
+      <div class="admin-profile">
+        <div class="admin-avatar" id="admin-user-avatar">A</div>
+        <div class="admin-profile-info">
+          <h3 id="admin-user-name">Administrador</h3>
+          <p>
+            <span id="admin-user-email">admin@freechair.com</span> •
+            <span class="role-badge badge-administrador" id="admin-user-badge">ADMIN</span>
+          </p>
+        </div>
+      </div>
+
+      <nav class="admin-nav-actions">
+        <a href="index.html" class="btn-admin btn-admin-pink">
+          🥽 Visor VR / Inicio
+        </a>
+        <a href="panel.html" class="btn-admin btn-admin-soft">
+          📋 Panel General
+        </a>
+        <button id="btn-admin-logout" class="btn-admin btn-admin-outline">
+          🚪 Cerrar Sesión
+        </button>
+      </nav>
+    </header>
+
+    <!-- Banner Principal -->
+    <section class="admin-banner">
+      <div>
+        <h1>👑 Centro de Gestión Administrativa</h1>
+        <p>Control total de usuarios, asignación de permisos, supervisión de mesas y accesos de FreeChair.</p>
+      </div>
+    </section>
+
+    <!-- Grid de Métricas Principales -->
+    <section class="admin-stats-grid">
+      <div class="admin-stat-card" style="border-top-color: #da345d;">
+        <h4>Total Registrados</h4>
+        <p class="admin-stat-number" id="admin-stat-total">0</p>
+      </div>
+      <div class="admin-stat-card" style="border-top-color: #1971c2;">
+        <h4>Administradores</h4>
+        <p class="admin-stat-number" id="admin-stat-admins">0</p>
+      </div>
+      <div class="admin-stat-card" style="border-top-color: #f08c00;">
+        <h4>Trabajadores</h4>
+        <p class="admin-stat-number" id="admin-stat-workers">0</p>
+      </div>
+      <div class="admin-stat-card" style="border-top-color: #2b8a3e;">
+        <h4>Clientes</h4>
+        <p class="admin-stat-number" id="admin-stat-clients">0</p>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 1: Gestión de Usuarios y Roles -->
+    <section class="admin-section">
+      <div class="section-header">
+        <h2>👥 Control de Usuarios y Asignación de Roles</h2>
+        <div class="section-controls">
+          <input 
+            type="text" 
+            id="admin-search-users" 
+            class="search-input" 
+            placeholder="🔍 Buscar por nombre, email o rol..."
+          >
+          <button id="btn-refresh-users" class="btn-admin btn-admin-soft" title="Actualizar lista">
+            🔄 Actualizar
+          </button>
+          <button id="btn-open-create-modal" class="btn-admin btn-admin-pink">
+            ➕ Crear Usuario
+          </button>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Usuario</th>
+              <th>Correo Electrónico</th>
+              <th>Rol Actual</th>
+              <th>Asignar Nuevo Rol</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="admin-users-tbody">
+            <tr>
+              <td colspan="5" style="text-align: center; color: #888; padding: 20px;">
+                Cargando datos de Firestore...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 2: Gestión de Mesas del Restaurante -->
+    <section class="admin-section">
+      <div class="section-header">
+        <h2>🪑 Estado de Mesas y Distribución en Sala</h2>
+        <p style="margin: 0; color: #777; font-size: 13px;">Actualiza el estado en tiempo real para trabajadores y clientes.</p>
+      </div>
+
+      <div class="tables-grid" id="admin-tables-grid">
+        <!-- Generado dinámicamente por admin.js -->
+      </div>
+    </section>
+
+    <!-- SECCIÓN 3: Accesos Rápidos a Espacios 3D / VR -->
+    <section class="admin-section">
+      <div class="section-header">
+        <h2>🌐 Monitoreo de Espacios Interactivos 3D</h2>
+      </div>
+
+      <div class="spaces-grid">
+        <div class="space-card">
+          <h4>🍽️ Restaurante</h4>
+          <p>Visor principal de mesas 3D</p>
+          <a href="restaurante.html">Abrir Espacio</a>
+        </div>
+        <div class="space-card">
+          <h4>🚽 Lavabo / Baño</h4>
+          <p>Distribución de servicios sanitarios</p>
+          <a href="lavabo.html">Abrir Espacio</a>
+        </div>
+        <div class="space-card">
+          <h4>🍳 Cocina</h4>
+          <p>Área de preparación y pedidos</p>
+          <a href="cocina.html">Abrir Espacio</a>
+        </div>
+        <div class="space-card">
+          <h4>📦 Almacén</h4>
+          <p>Control de insumos y mobiliario</p>
+          <a href="almacen.html">Abrir Espacio</a>
+        </div>
+        <div class="space-card">
+          <h4>🚪 Recepción / Entrada</h4>
+          <p>Punto de bienvenida al local</p>
+          <a href="entrada.html">Abrir Espacio</a>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Modal para Crear Nuevo Usuario -->
+  <div id="modal-create-user" class="admin-modal-overlay" style="display: none;">
+    <div class="admin-modal-card">
+      <div class="modal-header">
+        <h3>➕ Registrar Nuevo Usuario</h3>
+        <button id="btn-close-modal" class="btn-close-x">&times;</button>
+      </div>
+
+      <form id="form-create-user">
+        <div class="form-group">
+          <label for="new-user-name">Nombre Completo</label>
+          <input type="text" id="new-user-name" placeholder="Ej: Carlos Gómez" required>
+        </div>
+
+        <div class="form-group">
+          <label for="new-user-email">Correo Electrónico</label>
+          <input type="email" id="new-user-email" placeholder="carlos@correo.com" required>
+        </div>
+
+        <div class="form-group">
+          <label for="new-user-password">Contraseña (Mínimo 6 caracteres)</label>
+          <input type="password" id="new-user-password" placeholder="••••••••" required minlength="6">
+        </div>
+
+        <div class="form-group">
+          <label for="new-user-role">Rol Asignado</label>
+          <select id="new-user-role" required>
+            <option value="cliente" selected>Cliente</option>
+            <option value="trabajador">Trabajador</option>
+            <option value="administrador">Administrador</option>
+            <option value="superadmin">Superadmin</option>
+          </select>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" id="btn-cancel-modal" class="btn-admin btn-admin-outline">
+            Cancelar
+          </button>
+          <button type="submit" class="btn-admin btn-admin-pink">
+            Crear Usuario
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Componente Toast de Notificación -->
+  <div id="admin-toast" class="admin-toast"></div>
+
+  <!-- Controlador Modular JavaScript -->
+  <script type="module" src="admin.js"></script>
+</body>
+</html>
