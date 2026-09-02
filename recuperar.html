@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recuperar Contraseña - FreeChair</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .auth-container {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #ffd2e5 0%, #fff0f5 100%);
+      padding: 20px;
+    }
+
+    .auth-card {
+      background: #ffffff;
+      width: 100%;
+      max-width: 480px;
+      padding: 35px 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(218, 52, 93, 0.15);
+      border: 1px solid #ffd2e5;
+    }
+
+    .auth-header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .auth-header img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      margin-bottom: 10px;
+    }
+
+    .auth-header h1 {
+      color: #cc2369;
+      font-size: 26px;
+      margin-bottom: 5px;
+    }
+
+    .auth-header p {
+      color: #777;
+      font-size: 14px;
+    }
+
+    .recovery-title {
+      font-size: 18px;
+      color: #333;
+      margin-bottom: 8px;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .recovery-desc {
+      font-size: 13.5px;
+      color: #666;
+      text-align: center;
+      margin-bottom: 22px;
+      line-height: 1.5;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      color: #333;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid #e0d0d8;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      outline: none;
+    }
+
+    .form-group input:focus {
+      border-color: #da345d;
+      box-shadow: 0 0 0 3px rgba(218, 52, 93, 0.1);
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 13px;
+      background: #da345d;
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.1s;
+    }
+
+    .btn-submit:hover {
+      background: #b82449;
+    }
+
+    .btn-submit:active {
+      transform: scale(0.98);
+    }
+
+    .btn-submit:disabled {
+      background: #e0a3b3;
+      cursor: not-allowed;
+    }
+
+    .alert {
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 18px;
+      font-size: 13.5px;
+      display: none;
+    }
+
+    .alert-error {
+      background-color: #ffe6e9;
+      color: #c92a2a;
+      border: 1px solid #fcc2c3;
+    }
+
+    .alert-success {
+      background-color: #e6fcf5;
+      color: #0ca678;
+      border: 1px solid #c3fae8;
+      line-height: 1.5;
+    }
+
+    .recovery-info-box {
+      margin-top: 25px;
+      padding: 14px;
+      background: #fdf2f7;
+      border-radius: 8px;
+      border: 1px dashed #f3bed4;
+      font-size: 12.5px;
+      color: #666;
+      line-height: 1.5;
+    }
+
+    .recovery-info-box h4 {
+      color: #cc2369;
+      margin-bottom: 6px;
+      font-size: 13px;
+    }
+
+    .recovery-info-box ul {
+      margin-left: 18px;
+    }
+
+    .auth-links {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 22px;
+      text-align: center;
+    }
+
+    .auth-links a {
+      color: #da345d;
+      font-size: 13.5px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .auth-links a:hover {
+      color: #9e143b;
+      text-decoration: underline;
+    }
+
+    .guest-link a {
+      color: #777;
+      font-size: 13px;
+    }
+
+    .guest-link a:hover {
+      color: #da345d;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="auth-container">
+    <div class="auth-card">
+      <div class="auth-header">
+        <img src="img/new logo free chair.png" alt="Logo FreeChair" onerror="this.style.display='none'">
+        <h1>freechair</h1>
+        <p>Sistema de Reservas y Gestión</p>
+      </div>
+
+      <div class="recovery-title">¿Olvidaste tu contraseña?</div>
+      <div class="recovery-desc">
+        Ingresa el correo electrónico asociado a tu cuenta y te enviaremos las instrucciones para restablecer tu contraseña.
+      </div>
+
+      <!-- Alertas -->
+      <div id="alert-error" class="alert alert-error"></div>
+      <div id="alert-success" class="alert alert-success"></div>
+
+      <!-- FORMULARIO DE RECUPERACIÓN -->
+      <form id="form-recuperar">
+        <div class="form-group">
+          <label for="email-recuperar">Correo Electrónico Registrado</label>
+          <input 
+            type="email" 
+            id="email-recuperar" 
+            placeholder="ejemplo@correo.com" 
+            required 
+            autocomplete="email"
+          >
+        </div>
+
+        <button type="submit" class="btn-submit" id="btn-recuperar">
+          Enviar enlace de recuperación
+        </button>
+      </form>
+
+      <!-- Instrucciones de ayuda -->
+      <div class="recovery-info-box">
+        <h4>Información importante:</h4>
+        <ul>
+          <li>Te llegará un enlace seguro directo de Firebase para generar tu nueva clave.</li>
+          <li>Si no ves el mensaje en tu bandeja principal, revisa la carpeta de <strong>Spam</strong> o <strong>Correo no deseado</strong>.</li>
+          <li>El enlace de recuperación expira por razones de seguridad tras un periodo de tiempo.</li>
+        </ul>
+      </div>
+
+      <div class="auth-links">
+        <a href="login.html">← Volver al inicio de sesión</a>
+        <div class="guest-link">
+          <a href="index.html">← Continuar al visor VR como visitante</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="recuperar.js"></script>
+</body>
+</html>

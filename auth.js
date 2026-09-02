@@ -5,7 +5,8 @@ import {
   createUserWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
-  updateProfile
+  updateProfile,
+  sendPasswordResetEmail
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 import {
@@ -36,6 +37,8 @@ export function traducirErrorFirebase(codigo) {
   switch (codigo) {
     case "auth/invalid-email":
       return "El formato del correo electrónico no es válido.";
+    case "auth/missing-email":
+      return "Por favor ingresa un correo electrónico.";
     case "auth/user-disabled":
       return "Esta cuenta ha sido deshabilitada.";
     case "auth/user-not-found":
@@ -56,6 +59,26 @@ export function traducirErrorFirebase(codigo) {
       return "Permiso denegado en Firestore (permission-denied). Publica las reglas en la consola de Firebase.";
     default:
       return "Ocurrió un error: " + (codigo || "Desconocido");
+  }
+}
+
+/**
+ * Enviar correo para restablecer la contraseña
+ */
+export async function recuperarContrasena(email) {
+  try {
+    await sendPasswordResetEmail(auth, email);
+    return {
+      success: true,
+      mensaje: "Se ha enviado un enlace de recuperación a tu correo electrónico. Por favor revisa tu bandeja de entrada o la carpeta de spam."
+    };
+  } catch (error) {
+    console.error("Error al enviar correo de recuperación:", error);
+    return {
+      success: false,
+      error: traducirErrorFirebase(error.code || error.message),
+      rawError: error
+    };
   }
 }
 
