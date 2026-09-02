@@ -4,12 +4,13 @@ import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-aut
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDJ-19i9AJGZoESY6KsI4RHeTmSI-wbuME",
-  authDomain: "freechair-ebf52.firebaseapp.com",
-  projectId: "freechair-ebf52",
-  storageBucket: "freechair-ebf52.firebasestorage.app",
-  messagingSenderId: "250304395781",
-  appId: "1:250304395781:web:fc59380d61de95d2c1fa6c"
+  apiKey: 'AIzaSyDnMLypV_JhPBjgLnZNEPeNbcCGruPUCtQ',
+  authDomain: 'freechair-ca817.firebaseapp.com',
+  projectId: 'freechair-ca817',
+  storageBucket: 'freechair-ca817.firebasestorage.app',
+  messagingSenderId: '383603153531',
+  appId: '1:383603153531:web:3bba5cf9e964c4f66ae0de',
+  measurementId: 'G-M3VR36LZ2H'
 };
 
 // Inicializar Firebase
