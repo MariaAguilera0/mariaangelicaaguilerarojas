@@ -7,23 +7,23 @@ service cloud.firestore {
       // Cualquier usuario autenticado puede leer datos de usuarios
       allow read: if request.auth != null;
 
-      // Un usuario puede crear su propio documento al registrarse
-      allow create: if request.auth != null && request.auth.uid == userId;
-
-      // El usuario puede actualizar su propio perfil, o un superadmin puede actualizar roles
-      allow update: if request.auth != null && (
+      // Un usuario puede crear o actualizar su propio registro al registrarse o iniciar sesión
+      allow create, update: if request.auth != null && (
         request.auth.uid == userId ||
-        get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.rol == 'superadmin'
+        (exists(/databases/$(database)/documents/usuarios/$(request.auth.uid)) &&
+         get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.rol == 'superadmin')
       );
 
       // Solo superadmin puede eliminar usuarios
       allow delete: if request.auth != null &&
+        exists(/databases/$(database)/documents/usuarios/$(request.auth.uid)) &&
         get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.rol == 'superadmin';
     }
 
-    // Reglas generales para otras colecciones (reservas, mesas, etc.)
+    // Reglas generales para todas las demás colecciones (reservas, mesas, etc.)
     match /{document=**} {
       allow read, write: if request.auth != null;
     }
   }
 }
+

@@ -28,6 +28,11 @@ export const ROLES = {
 
 // Traductor de errores comunes de Firebase a español amigable
 export function traducirErrorFirebase(codigo) {
+  const str = String(codigo || "");
+  if (str.includes("permission-denied") || str.includes("Missing or insufficient permissions")) {
+    return "Error de permisos en Firestore (permission-denied). Debes configurar las Reglas de Seguridad en la consola de Firebase.";
+  }
+
   switch (codigo) {
     case "auth/invalid-email":
       return "El formato del correo electrónico no es válido.";
@@ -47,6 +52,8 @@ export function traducirErrorFirebase(codigo) {
       return "Error de conexión. Revisa tu conexión a internet.";
     case "auth/too-many-requests":
       return "Demasiados intentos fallidos. Intenta de nuevo más tarde.";
+    case "permission-denied":
+      return "Permiso denegado en Firestore (permission-denied). Publica las reglas en la consola de Firebase.";
     default:
       return "Ocurrió un error: " + (codigo || "Desconocido");
   }
