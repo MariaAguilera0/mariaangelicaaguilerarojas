@@ -282,6 +282,32 @@
     .status-ocupada { background: #ffe3e3; color: #c92a2a; }
     .status-reservada { background: #fff3bf; color: #d9480f; }
 
+    /* Propinas y Calificaciones de Trabajador */
+    .worker-tips-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+    .reviews-list-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+    .review-card {
+      background: #fdf8fa;
+      border: 1px solid #ffd2e5;
+      border-radius: 10px;
+      padding: 16px;
+    }
+    .review-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
     .loading-spinner {
       text-align: center;
       padding: 40px;
@@ -411,32 +437,155 @@
       </div>
     </div>
 
-    <!-- SECCIÓN 3: TRABAJADOR (Operaciones y Estado de Mesas) -->
+    <!-- SECCIÓN 3: TRABAJADOR (Operaciones, Propinas y Calificaciones) -->
     <div id="section-trabajador" class="section-card" style="display: none;">
       <div class="section-title">
-        <span>👨‍🍳 Panel de Operaciones - Trabajador</span>
+        <span>👨‍🍳 Panel de Operaciones y Propinas - Trabajador</span>
+        <button class="btn-action btn-vr" id="btn-refresh-worker-data" style="font-size: 12px; padding: 6px 12px;">
+          🔄 Actualizar Datos
+        </button>
       </div>
 
-      <p style="color: #666; font-size: 14px; margin-bottom: 15px;">
-        Estado de mesas en tiempo real en la sala FreeChair:
-      </p>
+      <!-- Métricas de Propinas y Calificaciones -->
+      <div class="worker-tips-grid">
+        <div class="stat-card" style="border-top-color: #2b8a3e;">
+          <h4>💰 Total Propinas Acumuladas</h4>
+          <p class="stat-number" id="worker-total-tips" style="color: #2b8a3e;">$0 COP</p>
+          <small id="worker-tips-count" style="color: #666; font-weight: bold;">0 propinas recibidas</small>
+        </div>
+        <div class="stat-card" style="border-top-color: #f59f00;">
+          <h4>⭐ Calificación Promedio</h4>
+          <p class="stat-number" id="worker-avg-rating" style="color: #f59f00;">5.0 ★</p>
+          <small id="worker-total-reviews" style="color: #666; font-weight: bold;">0 opiniones de clientes</small>
+        </div>
+        <div class="stat-card" style="border-top-color: #da345d;">
+          <h4>🍽️ Mesas en Atención</h4>
+          <p class="stat-number" id="worker-active-tables" style="color: #cc2369;">0</p>
+          <small style="color: #666;">Mesas ocupadas o reservadas</small>
+        </div>
+      </div>
 
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px;">
-        <div style="background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px;">
-          <h4 style="margin:0 0 8px;">Mesa 1 (Ventana)</h4>
-          <p style="margin: 0 0 10px;"><span class="table-status-tag status-disponible">Disponible</span></p>
-          <small style="color: #777;">Capacidad: 4 personas</small>
+      <!-- Historial Detallado de Propinas -->
+      <div style="margin-top: 25px; margin-bottom: 25px;">
+        <h4 style="margin: 0 0 12px; color: #2b1122; font-size: 17px; display: flex; align-items: center; gap: 8px;">
+          💵 Historial de Propinas Recibidas
+        </h4>
+        <div class="table-responsive">
+          <table class="users-table">
+            <thead>
+              <tr>
+                <th>Fecha y Hora</th>
+                <th>Cliente</th>
+                <th>Monto de Propina</th>
+                <th>Mensaje / Nota</th>
+              </tr>
+            </thead>
+            <tbody id="worker-tips-tbody">
+              <tr>
+                <td colspan="4" style="text-align: center; color: #888; padding: 15px;">Cargando historial de propinas...</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <div style="background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px;">
-          <h4 style="margin:0 0 8px;">Mesa 2 (Centro)</h4>
-          <p style="margin: 0 0 10px;"><span class="table-status-tag status-ocupada">Ocupada</span></p>
-          <small style="color: #777;">Capacidad: 2 personas</small>
+      </div>
+
+      <!-- Muro de Reseñas y Calificaciones Recibidas -->
+      <div style="margin-top: 25px; margin-bottom: 30px;">
+        <h4 style="margin: 0 0 12px; color: #2b1122; font-size: 17px; display: flex; align-items: center; gap: 8px;">
+          ⭐ Opiniones y Reseñas de tus Clientes
+        </h4>
+        <div class="reviews-list-grid" id="worker-reviews-container">
+          <div style="grid-column: 1/-1; text-align: center; color: #888; padding: 20px;">
+            Cargando calificaciones y opiniones...
+          </div>
         </div>
-        <div style="background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px;">
-          <h4 style="margin:0 0 8px;">Mesa 3 (Terraza)</h4>
-          <p style="margin: 0 0 10px;"><span class="table-status-tag status-reservada">Reservada</span></p>
-          <small style="color: #777;">Capacidad: 6 personas</small>
+      </div>
+
+      <!-- Estado de las Mesas de la Sala -->
+      <div style="margin-top: 25px;">
+        <h4 style="margin: 0 0 12px; color: #2b1122; font-size: 17px;">
+          🪑 Estado y Control de Mesas en la Sala FreeChair
+        </h4>
+        <p style="color: #666; font-size: 13px; margin: 0 0 12px;">
+          Puedes cambiar el estado de cualquier mesa directamente aquí cuando los comensales lleguen o se retiren:
+        </p>
+        <div id="worker-tables-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px;">
+          <!-- Generado dinámicamente -->
         </div>
+      </div>
+
+      <!-- Control de Menú y Disponibilidad para Trabajadores y Cocina -->
+      <div style="margin-top: 35px; margin-bottom: 25px; border-top: 1px solid #ffd2e5; padding-top: 25px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
+          <div>
+            <h4 style="margin: 0; color: #2b1122; font-size: 17px; display: flex; align-items: center; gap: 8px;">
+              🍽️ Control de Disponibilidad del Menú
+            </h4>
+            <p style="color: #666; font-size: 13px; margin: 4px 0 0;">
+              Como trabajador, puedes marcar qué platos se agotaron en cocina o habilitarlos de nuevo cuando estén listos.
+            </p>
+          </div>
+          <button id="btn-worker-add-menu" class="btn-action btn-vr" style="font-size: 12.5px; padding: 7px 15px; background: #da345d;">
+            ➕ Agregar Plato al Menú
+          </button>
+        </div>
+
+        <div class="table-responsive">
+          <table class="users-table">
+            <thead>
+              <tr>
+                <th>Plato / Bebida</th>
+                <th>Categoría</th>
+                <th>Precio</th>
+                <th>Estado Actual</th>
+                <th>Acción de Disponibilidad</th>
+              </tr>
+            </thead>
+            <tbody id="worker-menu-tbody">
+              <tr>
+                <td colspan="5" style="text-align: center; color: #888; padding: 15px;">Cargando menú de cocina...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal para Agregar Plato desde el Panel de Trabajador -->
+    <div id="modal-worker-menu" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; padding: 20px;">
+      <div style="background: #ffffff; border-radius: 12px; width: 100%; max-width: 480px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #ffd2e5; padding-bottom: 10px;">
+          <h3 style="margin: 0; color: #cc2369;">➕ Agregar Plato al Menú</h3>
+          <button id="btn-close-worker-modal" style="background: none; border: none; font-size: 22px; cursor: pointer; color: #888;">&times;</button>
+        </div>
+        <form id="form-worker-menu">
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; font-size: 13px; font-weight: bold; margin-bottom: 5px;">Nombre del Plato o Bebida</label>
+            <input type="text" id="worker-new-name" required style="width: 100%; padding: 8px 12px; border: 1.5px solid #ffd2e5; border-radius: 6px; box-sizing: border-box; outline: none;">
+          </div>
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; font-size: 13px; font-weight: bold; margin-bottom: 5px;">Categoría</label>
+            <select id="worker-new-cat" required style="width: 100%; padding: 8px 12px; border: 1.5px solid #ffd2e5; border-radius: 6px; box-sizing: border-box; outline: none;">
+              <option value="Platos Fuertes">Platos Fuertes</option>
+              <option value="Entradas">Entradas</option>
+              <option value="Bebidas">Bebidas</option>
+              <option value="Cocteles">Cocteles</option>
+              <option value="Postres">Postres</option>
+            </select>
+          </div>
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; font-size: 13px; font-weight: bold; margin-bottom: 5px;">Precio ($ COP)</label>
+            <input type="number" id="worker-new-price" min="0" required style="width: 100%; padding: 8px 12px; border: 1.5px solid #ffd2e5; border-radius: 6px; box-sizing: border-box; outline: none;">
+          </div>
+          <div style="margin-bottom: 15px;">
+            <label style="display: block; font-size: 13px; font-weight: bold; margin-bottom: 5px;">Descripción</label>
+            <textarea id="worker-new-desc" rows="2" style="width: 100%; padding: 8px 12px; border: 1.5px solid #ffd2e5; border-radius: 6px; box-sizing: border-box; outline: none;"></textarea>
+          </div>
+          <div style="display: flex; justify-content: flex-end; gap: 10px;">
+            <button type="button" id="btn-cancel-worker-modal" style="padding: 8px 16px; border: 1px solid #ccc; background: #fff; border-radius: 6px; cursor: pointer;">Cancelar</button>
+            <button type="submit" style="padding: 8px 16px; border: none; background: #da345d; color: #fff; font-weight: bold; border-radius: 6px; cursor: pointer;">Guardar Plato</button>
+          </div>
+        </form>
       </div>
     </div>
 
@@ -468,6 +617,14 @@
       cambiarRolUsuario,
       ROLES
     } from "./auth.js";
+
+    import {
+      obtenerMetricasTrabajador,
+      obtenerMenu,
+      crearItemMenu,
+      actualizarItemMenu,
+      formatearMoneda
+    } from "./restaurant-service.js";
 
     let currentUserData = null;
 
@@ -502,14 +659,28 @@
         document.getElementById("section-administrador").style.display = "block";
         document.getElementById("section-trabajador").style.display = "block";
         cargarUsuariosSuperadmin();
+        cargarDatosTrabajador(currentUserData.user.uid);
       } else if (rol === ROLES.ADMINISTRADOR) {
         document.getElementById("section-administrador").style.display = "block";
         document.getElementById("section-trabajador").style.display = "block";
+        cargarDatosTrabajador(currentUserData.user.uid);
       } else if (rol === ROLES.TRABAJADOR) {
         document.getElementById("section-trabajador").style.display = "block";
+        cargarDatosTrabajador(currentUserData.user.uid);
       } else {
         document.getElementById("section-cliente").style.display = "block";
       }
+
+      // Evento de refrescar datos del trabajador
+      const btnRefreshWorker = document.getElementById("btn-refresh-worker-data");
+      if (btnRefreshWorker) {
+        btnRefreshWorker.addEventListener("click", () => {
+          cargarDatosTrabajador(currentUserData.user.uid);
+        });
+      }
+
+      // Modal de agregar plato para trabajadores
+      configurarModalMenuTrabajador();
     }
 
     // Cargar y mostrar lista de usuarios para Superadmin
@@ -579,6 +750,237 @@
         alert("Error al actualizar rol: " + res.error);
       }
     };
+
+    // Cargar y renderizar métricas, propinas, calificaciones, mesas y menú del trabajador
+    async function cargarDatosTrabajador(trabajadorUid) {
+      const tbodyTips = document.getElementById("worker-tips-tbody");
+      const containerReviews = document.getElementById("worker-reviews-container");
+      const tbodyMenu = document.getElementById("worker-menu-tbody");
+
+      if (tbodyTips) tbodyTips.innerHTML = `<tr><td colspan="4" style="text-align: center; color: #888; padding: 15px;">Actualizando propinas...</td></tr>`;
+      if (containerReviews) containerReviews.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: #888; padding: 15px;">Actualizando calificaciones...</div>`;
+      if (tbodyMenu) tbodyMenu.innerHTML = `<tr><td colspan="5" style="text-align: center; color: #888; padding: 15px;">Actualizando menú de cocina...</td></tr>`;
+
+      try {
+        const metricas = await obtenerMetricasTrabajador(trabajadorUid);
+
+        // 1. Tarjetas de Métricas
+        const elTotalTips = document.getElementById("worker-total-tips");
+        const elTipsCount = document.getElementById("worker-tips-count");
+        const elAvgRating = document.getElementById("worker-avg-rating");
+        const elTotalReviews = document.getElementById("worker-total-reviews");
+
+        if (elTotalTips) elTotalTips.textContent = formatearMoneda(metricas.totalPropinas);
+        if (elTipsCount) elTipsCount.textContent = `${metricas.totalTransaccionesPropinas} propina(s) recibida(s)`;
+        if (elAvgRating) elAvgRating.textContent = `${metricas.promedioEstrellas} ★`;
+        if (elTotalReviews) elTotalReviews.textContent = `${metricas.totalCalificaciones} opinión(es) de clientes`;
+
+        // 2. Historial de Propinas
+        if (tbodyTips) {
+          tbodyTips.innerHTML = "";
+          if (metricas.propinas.length === 0) {
+            tbodyTips.innerHTML = `<tr><td colspan="4" style="text-align: center; color: #777; padding: 20px;">Aún no tienes propinas registradas. ¡Pronto tus comensales reconocerán tu excelente servicio!</td></tr>`;
+          } else {
+            metricas.propinas.forEach(p => {
+              const tr = document.createElement("tr");
+              const fechaStr = p.fecha ? new Date(p.fecha).toLocaleString("es-CO") : "Reciente";
+              tr.innerHTML = `
+                <td><small style="color: #666;">${fechaStr}</small></td>
+                <td><strong>${p.clienteNombre || "Cliente"}</strong></td>
+                <td><span style="color: #2b8a3e; font-weight: bold; font-size: 15px;">${formatearMoneda(p.monto)}</span></td>
+                <td><em>${p.mensaje || "Sin mensaje adicional"}</em></td>
+              `;
+              tbodyTips.appendChild(tr);
+            });
+          }
+        }
+
+        // 3. Muro de Calificaciones y Opiniones
+        if (containerReviews) {
+          containerReviews.innerHTML = "";
+          if (metricas.calificaciones.length === 0) {
+            containerReviews.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: #777; padding: 20px;">Aún no tienes reseñas de comensales registradas.</div>`;
+          } else {
+            metricas.calificaciones.forEach(c => {
+              const card = document.createElement("div");
+              card.className = "review-card";
+              const fechaStr = c.fecha ? new Date(c.fecha).toLocaleDateString("es-CO") : "Reciente";
+              const estrellasStr = "⭐".repeat(c.estrellas || 5);
+
+              card.innerHTML = `
+                <div class="review-card-header">
+                  <strong>👤 ${c.clienteNombre || "Comensal"}</strong>
+                  <span style="font-size: 14px;">${estrellasStr}</span>
+                </div>
+                <p style="margin: 6px 0; font-size: 13.5px; color: #444; line-height: 1.4;">
+                  "${c.comentario || "Excelente servicio y atención."}"
+                </p>
+                <small style="color: #999; font-size: 11px;">📅 ${fechaStr}</small>
+              `;
+              containerReviews.appendChild(card);
+            });
+          }
+        }
+
+        // 4. Control Interactivo de Mesas en la Sala
+        const tablesGrid = document.getElementById("worker-tables-grid");
+        const activeTablesEl = document.getElementById("worker-active-tables");
+        if (tablesGrid) {
+          tablesGrid.innerHTML = "";
+          let mesas = [
+            { id: "mesa-1", numero: 1, ubicacion: "Ventana Panorámica", capacidad: 4, estado: "disponible" },
+            { id: "mesa-2", numero: 2, ubicacion: "Centro Principal", capacidad: 2, estado: "ocupada" },
+            { id: "mesa-3", numero: 3, ubicacion: "Terraza Libre", capacidad: 6, estado: "reservada" },
+            { id: "mesa-4", numero: 4, ubicacion: "Zona VIP Exclusiva", capacidad: 8, estado: "disponible" },
+            { id: "mesa-5", numero: 5, ubicacion: "Familiar Jardín", capacidad: 5, estado: "disponible" },
+            { id: "mesa-6", numero: 6, ubicacion: "Barra Lounge", capacidad: 2, estado: "disponible" }
+          ];
+
+          try {
+            const guardadas = localStorage.getItem("freechair_admin_mesas");
+            if (guardadas) mesas = JSON.parse(guardadas);
+          } catch (_) {}
+
+          const ocupadasOreservadas = mesas.filter(m => m.estado === "ocupada" || m.estado === "reservada").length;
+          if (activeTablesEl) activeTablesEl.textContent = ocupadasOreservadas;
+
+          mesas.forEach(m => {
+            const card = document.createElement("div");
+            card.style.cssText = "background: #fff; border: 1.5px solid #ffd2e5; border-radius: 10px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);";
+            card.innerHTML = `
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <h4 style="margin:0; color:#2b1122;">Mesa ${m.numero}</h4>
+                <span class="table-status-tag status-${m.estado}">${m.estado.toUpperCase()}</span>
+              </div>
+              <p style="margin: 0 0 6px; font-size:12px; color:#666;">📍 ${m.ubicacion}</p>
+              <p style="margin: 0 0 10px; font-size:12px; color:#666;">👥 Capacidad: <strong>${m.capacidad} pax</strong></p>
+              <div style="border-top:1px solid #f7d5e4; padding-top:8px;">
+                <label style="font-size:11px; font-weight:bold; color:#777; display:block; margin-bottom:4px;">Cambiar Estado:</label>
+                <select class="worker-table-state-select" data-mesa-id="${m.id}" style="width:100%; padding:6px 8px; border:1px solid #ffd2e5; border-radius:6px; font-size:12px; background:#fff; font-weight:bold;">
+                  <option value="disponible" ${m.estado === "disponible" ? "selected" : ""}>🟢 Disponible</option>
+                  <option value="ocupada" ${m.estado === "ocupada" ? "selected" : ""}>🔴 Ocupada</option>
+                  <option value="reservada" ${m.estado === "reservada" ? "selected" : ""}>🟡 Reservada</option>
+                </select>
+              </div>
+            `;
+            tablesGrid.appendChild(card);
+          });
+
+          // Escuchar cambios de estado en mesas por parte del trabajador
+          tablesGrid.querySelectorAll(".worker-table-state-select").forEach(sel => {
+            sel.addEventListener("change", (e) => {
+              const mesaId = e.target.getAttribute("data-mesa-id");
+              const nuevoEstado = e.target.value;
+              mesas = mesas.map(m => m.id === mesaId ? { ...m, estado: nuevoEstado } : m);
+              localStorage.setItem("freechair_admin_mesas", JSON.stringify(mesas));
+              alert(`Estado de ${mesaId.toUpperCase()} cambiado a [${nuevoEstado.toUpperCase()}]`);
+              cargarDatosTrabajador(trabajadorUid);
+            });
+          });
+        }
+
+        // 5. Control de Disponibilidad del Menú para el Trabajador
+        if (tbodyMenu) {
+          const menuItems = await obtenerMenu();
+          tbodyMenu.innerHTML = "";
+
+          if (menuItems.length === 0) {
+            tbodyMenu.innerHTML = `<tr><td colspan="5" style="text-align: center; color: #777; padding: 20px;">No hay productos registrados en el menú.</td></tr>`;
+          } else {
+            menuItems.forEach(item => {
+              const tr = document.createElement("tr");
+              const disponible = item.disponible !== false;
+              const badgeClass = disponible ? "status-disponible" : "status-ocupada";
+              const badgeTexto = disponible ? "DISPONIBLE" : "AGOTADO";
+
+              tr.innerHTML = `
+                <td>
+                  <strong>${item.nombre}</strong>
+                  ${item.descripcion ? `<br><small style="color: #777;">${item.descripcion}</small>` : ""}
+                </td>
+                <td><span class="role-badge" style="background:#fdf2f7; color:#cc2369;">${item.categoria || "Especial"}</span></td>
+                <td><strong style="color: #2b8a3e;">${formatearMoneda(item.precio)}</strong></td>
+                <td><span class="table-status-tag ${badgeClass}">${badgeTexto}</span></td>
+                <td>
+                  <button class="btn-save-role btn-worker-toggle-disp" data-id="${item.id}" data-disp="${disponible}" style="background: ${disponible ? '#c92a2a' : '#2b8a3e'}; padding: 6px 12px; font-size: 12px; border-radius: 6px; cursor: pointer;">
+                    ${disponible ? "🚫 Marcar Agotado" : "✅ Habilitar Plato"}
+                  </button>
+                </td>
+              `;
+              tbodyMenu.appendChild(tr);
+            });
+
+            // Evento para alternar disponibilidad desde el panel del trabajador
+            tbodyMenu.querySelectorAll(".btn-worker-toggle-disp").forEach(btn => {
+              btn.addEventListener("click", async () => {
+                const id = btn.getAttribute("data-id");
+                const actual = btn.getAttribute("data-disp") === "true";
+                btn.disabled = true;
+                btn.textContent = "Actualizando...";
+
+                await actualizarItemMenu(id, { disponible: !actual });
+                alert(`¡Disponibilidad actualizada exitosamente a: ${!actual ? "DISPONIBLE" : "AGOTADO"}!`);
+                cargarDatosTrabajador(trabajadorUid);
+              });
+            });
+          }
+        }
+
+      } catch (err) {
+        console.error("Error al cargar datos del trabajador:", err);
+      }
+    }
+
+    // Configurar Modal para que el Trabajador agregue platos
+    function configurarModalMenuTrabajador() {
+      const btnOpen = document.getElementById("btn-worker-add-menu");
+      const modal = document.getElementById("modal-worker-menu");
+      const btnClose = document.getElementById("btn-close-worker-modal");
+      const btnCancel = document.getElementById("btn-cancel-worker-modal");
+      const form = document.getElementById("form-worker-menu");
+
+      if (btnOpen && modal) {
+        btnOpen.addEventListener("click", () => {
+          modal.style.display = "flex";
+          if (form) form.reset();
+        });
+      }
+
+      const cerrar = () => {
+        if (modal) modal.style.display = "none";
+      };
+
+      if (btnClose) btnClose.addEventListener("click", cerrar);
+      if (btnCancel) btnCancel.addEventListener("click", cerrar);
+
+      if (form) {
+        form.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const nombre = document.getElementById("worker-new-name")?.value.trim();
+          const categoria = document.getElementById("worker-new-cat")?.value;
+          const precio = Number(document.getElementById("worker-new-price")?.value) || 0;
+          const descripcion = document.getElementById("worker-new-desc")?.value.trim();
+
+          if (!nombre || precio <= 0) {
+            alert("Por favor ingresa un nombre y un precio válido.");
+            return;
+          }
+
+          const btnSubmit = form.querySelector("button[type='submit']");
+          if (btnSubmit) {
+            btnSubmit.disabled = true;
+            btnSubmit.textContent = "Guardando...";
+          }
+
+          await crearItemMenu({ nombre, categoria, precio, descripcion, disponible: true });
+          alert(`¡Plato "${nombre}" agregado al menú exitosamente!`);
+          cerrar();
+          if (currentUserData) {
+            cargarDatosTrabajador(currentUserData.user.uid);
+          }
+        });
+      }
+    }
 
     // Botón Cerrar Sesión
     document.getElementById("btn-cerrar-sesion").addEventListener("click", () => {

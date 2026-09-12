@@ -15,6 +15,7 @@ import {
   getDoc,
   getDocs,
   updateDoc,
+  deleteDoc,
   collection,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
@@ -188,9 +189,25 @@ export async function cerrarSesion() {
 /**
  * Obtener datos completos del usuario actualmente autenticado
  */
-export function obtenerUsuarioActual() {
+export function obtenerUsuarioActual(timeoutMs = 7000) {
   return new Promise((resolve) => {
-    onAuthStateChanged(auth, async (user) => {
+    let finalizado = false;
+
+    // Temporizador de seguridad para evitar esperas infinitas
+    const temporizador = setTimeout(() => {
+      if (!finalizado) {
+        finalizado = true;
+        if (typeof unsubscribe === "function") unsubscribe();
+        resolve(null);
+      }
+    }, timeoutMs);
+
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (finalizado) return;
+      finalizado = true;
+      clearTimeout(temporizador);
+      if (typeof unsubscribe === "function") unsubscribe();
+
       if (!user) {
         resolve(null);
         return;
@@ -295,10 +312,25 @@ export async function obtenerTodosLosUsuarios() {
 export async function cambiarRolUsuario(uid, nuevoRol) {
   try {
     const userDocRef = doc(db, "usuarios", uid);
-    await updateDoc(userDocRef, { rol: nuevoRol });
+    await updateDoc(userDocRef, { rol: nuevoRol.toLowerCase() });
     return { success: true };
   } catch (error) {
     console.error("Error al cambiar rol:", error);
-    return { success: false, error: error.message };
+    return { success: false, error: traducirErrorFirebase(error.code || error.message) };
   }
 }
+
+/**
+ * Eliminar un usuario de Firestore (Función exclusiva de Superadmin)
+ */
+export async function eliminarUsuario(uid) {
+  try {
+    const userDocRef = doc(db, "usuarios", uid);
+    await deleteDoc(userDocRef);
+    return { success: true };
+  } catch (error) {
+    console.error("Error al eliminar usuario:", error);
+    return { success: false, error: traducirErrorFirebase(error.code || error.message) };
+  }
+}
+

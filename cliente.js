@@ -11,12 +11,26 @@ import {
   updateDoc
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
+import {
+  obtenerCapacidadRestaurante,
+  obtenerMenu,
+  obtenerTrabajadores,
+  enviarCalificacion,
+  enviarPropina,
+  formatearMoneda
+} from "./restaurant-service.js";
+
 let currentAuth = null;
 let misReservas = [];
+let listaMenuCliente = [];
+let categoriaClienteSeleccionada = "todos";
+let listaTrabajadoresCliente = [];
 
-document.addEventListener("DOMContentLoaded", () => {
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", inicializarPortalCliente);
+} else {
   inicializarPortalCliente();
-});
+}
 
 /**
  * Inicializar portal de cliente y verificar sesión
@@ -48,8 +62,18 @@ async function inicializarPortalCliente() {
     // Cargar y mostrar reservaciones del cliente
     await cargarMisReservas();
 
-    // Configurar eventos
+    // Actualizar capacidad disponible en tiempo real
+    await actualizarCapacidadCliente();
+
+    // Cargar menú gastronómico
+    await cargarMenuCliente();
+
+    // Cargar trabajadores para calificación y propinas
+    await cargarTrabajadoresCliente();
+
+    // Configurar eventos generales y de calificaciones/propinas
     configurarEventos();
+    configurarEventosCalificacionYPropinas();
 
   } catch (error) {
     console.error("Error al inicializar portal de cliente:", error);
@@ -341,6 +365,269 @@ function configurarEventos() {
       mostrarToast(`Zona seleccionada: ${zona}`, "info");
     });
   });
+}
+
+// ============================================================
+// 1. CAPACIDAD EN VIVO PARA EL CLIENTE
+// ============================================================
+
+async function actualizarCapacidadCliente() {
+  const badgeAforo = document.getElementById("cliente-aforo-disponible");
+  if (!badgeAforo) return;
+
+  try {
+    const total = await obtenerCapacidadRestaurante();
+
+    // Contar ocupación según mesas en local
+    let ocupados = 0;
+    try {
+      const mesas = JSON.parse(localStorage.getItem("freechair_admin_mesas") || "[]");
+      ocupados = mesas.reduce((sum, m) => {
+        if (m.estado === "ocupada" || m.estado === "reservada") {
+          return sum + (Number(m.capacidad) || 2);
+        }
+        return sum;
+      }, 0);
+    } catch (_) {}
+
+    const disponibles = Math.max(0, total - ocupados);
+    badgeAforo.textContent = `${disponibles} / ${total}`;
+  } catch (e) {
+    console.warn("Error al calcular aforo en cliente:", e);
+  }
+}
+
+// ============================================================
+// 2. MENÚ GASTRONÓMICO DEL CLIENTE
+// ============================================================
+
+async function cargarMenuCliente() {
+  const contenedor = document.getElementById("cliente-menu-grid");
+  if (contenedor) {
+    contenedor.innerHTML = `<div style="grid-column: 1/-1; text-align:center; color:#888; padding:20px;">Cargando menú delicioso...</div>`;
+  }
+
+  try {
+    listaMenuCliente = await obtenerMenu();
+    renderizarMenuCliente(filtrarMenuCliente(listaMenuCliente, categoriaClienteSeleccionada));
+  } catch (err) {
+    console.error("Error al cargar menú en cliente:", err);
+    if (contenedor) {
+      contenedor.innerHTML = `<div style="grid-column: 1/-1; text-align:center; color:#c92a2a; padding:20px;">No se pudo cargar el menú gastronómico.</div>`;
+    }
+  }
+
+  // Filtros de categoría en cliente
+  const botonesCat = document.querySelectorAll("#cliente-menu-categories .btn-cat-filter");
+  botonesCat.forEach(btn => {
+    btn.addEventListener("click", () => {
+      botonesCat.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      categoriaClienteSeleccionada = btn.getAttribute("data-cat");
+      renderizarMenuCliente(filtrarMenuCliente(listaMenuCliente, categoriaClienteSeleccionada));
+    });
+  });
+}
+
+function filtrarMenuCliente(items, cat) {
+  if (!cat || cat === "todos") return items;
+  return items.filter(it => (it.categoria || "").toLowerCase() === cat.toLowerCase());
+}
+
+function renderizarMenuCliente(items) {
+  const grid = document.getElementById("cliente-menu-grid");
+  if (!grid) return;
+
+  if (items.length === 0) {
+    grid.innerHTML = `<div style="grid-column: 1/-1; text-align:center; color:#777; padding:20px;">No hay productos disponibles en esta categoría actualmente.</div>`;
+    return;
+  }
+
+  grid.innerHTML = "";
+
+  const iconosCat = {
+    "Platos Fuertes": "🍔",
+    "Entradas": "🥗",
+    "Bebidas": "🍹",
+    "Cocteles": "🍸",
+    "Postres": "🍰"
+  };
+
+  items.forEach(plato => {
+    const card = document.createElement("div");
+    card.className = "menu-client-card";
+
+    const disponible = plato.disponible !== false;
+    const icono = iconosCat[plato.categoria] || "🍽️";
+
+    card.innerHTML = `
+      <div class="menu-card-top">
+        <h4 class="menu-card-title">${icono} ${plato.nombre}</h4>
+        <span class="menu-card-price">${formatearMoneda(plato.precio)}</span>
+      </div>
+      <p class="menu-card-desc">${plato.descripcion || "Preparación fresca de nuestra cocina de autor con ingredientes de primera calidad."}</p>
+      <div class="menu-card-footer">
+        <span class="tag" style="background:#fdf5f8; color:#da345d;">${plato.categoria || "Especial"}</span>
+        <span class="${disponible ? 'badge-reserva-confirmada' : 'badge-reserva-cancelada'}" style="font-size:11px; padding:3px 8px; border-radius:6px;">
+          ${disponible ? "Disponible" : "Agotado hoy"}
+        </span>
+      </div>
+    `;
+
+    grid.appendChild(card);
+  });
+}
+
+// ============================================================
+// 3. CALIFICACIONES Y PROPINAS A TRABAJADORES
+// ============================================================
+
+async function cargarTrabajadoresCliente() {
+  const select = document.getElementById("calif-trabajador");
+  if (!select) return;
+
+  try {
+    listaTrabajadoresCliente = await obtenerTrabajadores();
+    select.innerHTML = `<option value="" disabled selected>-- Elige a la persona que te atendió --</option>`;
+
+    listaTrabajadoresCliente.forEach(t => {
+      const opt = document.createElement("option");
+      opt.value = t.id;
+      opt.textContent = `👤 ${t.nombre}`;
+      select.appendChild(opt);
+    });
+  } catch (err) {
+    console.error("Error al cargar trabajadores:", err);
+  }
+}
+
+function configurarEventosCalificacionYPropinas() {
+  // Selector de estrellas
+  const starContainer = document.getElementById("rating-stars-picker");
+  const hiddenEstrellas = document.getElementById("calif-estrellas");
+
+  if (starContainer && hiddenEstrellas) {
+    const stars = starContainer.querySelectorAll(".rating-star");
+    stars.forEach(star => {
+      star.addEventListener("click", () => {
+        const val = Number(star.getAttribute("data-val")) || 5;
+        hiddenEstrellas.value = val;
+
+        stars.forEach(s => {
+          const sVal = Number(s.getAttribute("data-val"));
+          if (sVal <= val) {
+            s.classList.add("selected");
+          } else {
+            s.classList.remove("selected");
+          }
+        });
+      });
+    });
+  }
+
+  // Botones de presets de propina
+  const tipButtons = document.querySelectorAll(".btn-tip-preset");
+  const tipInput = document.getElementById("propina-monto");
+
+  tipButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      tipButtons.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      const monto = btn.getAttribute("data-monto");
+      if (tipInput) {
+        tipInput.value = monto;
+      }
+    });
+  });
+
+  if (tipInput) {
+    tipInput.addEventListener("input", () => {
+      tipButtons.forEach(b => b.classList.remove("active"));
+    });
+  }
+
+  // Manejo del envío del formulario de Calificación y Propina
+  const formCalif = document.getElementById("form-calificar-propina");
+  if (formCalif) {
+    formCalif.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const trabajadorId = document.getElementById("calif-trabajador")?.value;
+      if (!trabajadorId) {
+        mostrarToast("Por favor selecciona al trabajador que deseas calificar.", "error");
+        return;
+      }
+
+      const trabajadorObj = listaTrabajadoresCliente.find(t => t.id === trabajadorId);
+      const trabajadorNombre = trabajadorObj ? trabajadorObj.nombre : "Trabajador";
+
+      const estrellas = Number(document.getElementById("calif-estrellas")?.value) || 5;
+      const comentario = document.getElementById("calif-comentario")?.value.trim();
+      const montoPropina = Number(document.getElementById("propina-monto")?.value) || 0;
+      const mensajePropina = document.getElementById("propina-mensaje")?.value.trim();
+
+      const btnSubmit = document.getElementById("btn-submit-calif-propina");
+      if (btnSubmit) {
+        btnSubmit.disabled = true;
+        btnSubmit.textContent = "Registrando tu reconocimiento...";
+      }
+
+      const clienteNombre = currentAuth?.userData?.nombre || currentAuth?.user?.displayName || "Cliente Agradecido";
+      const clienteId = currentAuth?.user?.uid || "cliente-anon";
+
+      try {
+        // 1. Guardar calificación
+        await enviarCalificacion({
+          trabajadorId,
+          trabajadorNombre,
+          clienteId,
+          clienteNombre,
+          estrellas,
+          comentario
+        });
+
+        // 2. Guardar propina si el monto es mayor a 0
+        if (montoPropina > 0) {
+          await enviarPropina({
+            trabajadorId,
+            trabajadorNombre,
+            clienteId,
+            clienteNombre,
+            monto: montoPropina,
+            mensaje: mensajePropina
+          });
+        }
+
+        const mensajeExito = montoPropina > 0
+          ? `¡Muchas gracias! Has calificado a ${trabajadorNombre} con ${estrellas}★ y le has enviado ${formatearMoneda(montoPropina)} de propina.`
+          : `¡Muchas gracias! Has calificado el servicio de ${trabajadorNombre} con ${estrellas} estrellas.`;
+
+        mostrarToast(mensajeExito, "exito");
+
+        // Resetear formulario
+        formCalif.reset();
+        if (document.getElementById("calif-estrellas")) {
+          document.getElementById("calif-estrellas").value = 5;
+        }
+        document.querySelectorAll("#rating-stars-picker .rating-star").forEach(s => s.classList.add("selected"));
+        document.querySelectorAll(".btn-tip-preset").forEach(b => b.classList.remove("active"));
+        const btnDefault = document.querySelector(".btn-tip-preset[data-monto='5000']");
+        if (btnDefault) btnDefault.classList.add("active");
+        if (document.getElementById("propina-monto")) {
+          document.getElementById("propina-monto").value = 5000;
+        }
+
+      } catch (err) {
+        console.error("Error al registrar calificación y propina:", err);
+        mostrarToast("Ocurrió un error al procesar tu calificación.", "error");
+      } finally {
+        if (btnSubmit) {
+          btnSubmit.disabled = false;
+          btnSubmit.textContent = "⭐ Enviar Calificación y Propina";
+        }
+      }
+    });
+  }
 }
 
 /**
