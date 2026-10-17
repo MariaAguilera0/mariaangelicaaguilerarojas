@@ -6,7 +6,7 @@
 
 const CONOCIMIENTO = {
   nombreBot: "Asistente SKYAPPS",
-  bienvenida: "¡Hola! 👋 Soy el asistente virtual de **SKYAPPS**. Puedo contarte sobre nuestros servicios, precios o cómo contactarnos. ¿En qué te ayudo?",
+  bienvenida: "¡Hola! 👋 Soy el asistente virtual de SKYAPPS. Puedo contarte sobre nuestros servicios, precios o cómo contactarnos. ¿En qué te ayudo?",
   noEntiendo: "Mmm, no estoy seguro de haber entendido 🤔. Prueba con otra forma de preguntarlo o elige una de estas opciones:",
   sugerencias: [
     "¿Qué servicios ofrecen?",
@@ -29,17 +29,17 @@ const CONOCIMIENTO = {
     },
     {
       preguntas: ["que servicios ofrecen", "que hacen", "a que se dedican", "servicios", "que ofrecen", "que venden"],
-      respuesta: "Ofrecemos:\n\n🌐 **Realidad Virtual**: experiencias inmersivas.\n💻 **Desarrollo Web**: sitios modernos para cualquier dispositivo.\n🚀 **Innovación Digital**: transformación digital para tu negocio.",
+      respuesta: "Ofrecemos:Desarrollo de sistemas y apps segun lo que necesites **Realidad Virtual**: experiencias inmersivas.\n💻 **Desarrollo Web**: sitios modernos para cualquier dispositivo.\n🚀 **Innovación Digital**: transformación digital para tu negocio.",
       accion: { texto: "Ver servicios", url: "#servicios" }
     },
     {
       preguntas: ["precio", "cuanto cuesta", "cuanto vale", "precios", "cotización", "cotizar", "tarifas"],
       respuesta: "Los precios dependen de cada proyecto. Escríbenos a **correo@empresa.com** y te enviamos una **cotización sin costo**. 😊",
-      accion: { texto: "Pedir cotización", url: "mailto:correo@empresa.com?subject=Cotización" }
+      accion: { texto: "Pedir cotización", url:"mailto:es.freechair@gmail.com" }
     },
     {
-      preguntas: ["contacto", "como los contacto", "telefono", "correo", "email", "whatsapp", "hablar con alguien", "asesor"],
-      respuesta: "Puedes escribirnos o llamarnos:\n\n📧 **correo@empresa.com**\n📞 **+57 300 000 0000**",
+      preguntas: ["contacto", "como los contacto", "correo", "email", "hablar con alguien", "asesor"],
+      respuesta: "Puedes escribirnos o llamarnos:\n\n📧 **es.freechair@gmail.com**",
       accion: { texto: "Enviar correo", url: "mailto:correo@empresa.com" }
     },
     {
