@@ -34,7 +34,7 @@ const CONOCIMIENTO = {
     },
     {
       preguntas: ["precio", "cuanto cuesta", "cuanto vale", "precios", "cotización", "cotizar", "tarifas"],
-      respuesta: "Los precios dependen de cada proyecto. Escríbenos a **correo@empresa.com** y te enviamos una **cotización sin costo**. 😊",
+      respuesta: "Los precios dependen de cada proyecto. Escríbenos a **es.freechair@gmail.com** y te enviamos una **cotización sin costo**. 😊",
       accion: { texto: "Pedir cotización", url:"mailto:es.freechair@gmail.com" }
     },
     {
