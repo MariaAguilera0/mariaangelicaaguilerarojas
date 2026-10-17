@@ -5,8 +5,8 @@
 */
 
 const CONOCIMIENTO = {
-  nombreBot: "Asistente Mi Empresa",
-  bienvenida: "¡Hola! 👋 Soy el asistente virtual de **Mi Empresa**. Puedo contarte sobre nuestros servicios, precios o cómo contactarnos. ¿En qué te ayudo?",
+  nombreBot: "Asistente SKYAPPS",
+  bienvenida: "¡Hola! 👋 Soy el asistente virtual de **SKYAPPS**. Puedo contarte sobre nuestros servicios, precios o cómo contactarnos. ¿En qué te ayudo?",
   noEntiendo: "Mmm, no estoy seguro de haber entendido 🤔. Prueba con otra forma de preguntarlo o elige una de estas opciones:",
   sugerencias: [
     "¿Qué servicios ofrecen?",
@@ -17,7 +17,7 @@ const CONOCIMIENTO = {
   temas: [
     {
       preguntas: ["hola", "buenas", "buenos días", "buenas tardes", "buenas noches", "que tal", "saludos"],
-      respuesta: "¡Hola! 😊 ¿Qué te gustaría saber? Puedo ayudarte con nuestros **servicios**, **precios** o **datos de contacto**."
+      respuesta: "¡Hola! 😊 Soy el asistente de **SKYAPPS**. ¿Qué te gustaría saber? Puedo ayudarte con nuestros **servicios**, **precios** o **datos de contacto**."
     },
     {
       preguntas: ["gracias", "muchas gracias", "te agradezco", "genial", "excelente"],
