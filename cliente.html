@@ -658,9 +658,22 @@
           <h2>🍽️ Nuestros Restaurantes y Zonas Disponibles</h2>
           <p>Descubre cada ambiente antes de visitarnos interactuando con nuestros visores 3D</p>
         </div>
+        <input
+          type="text"
+          id="buscar-restaurante"
+          placeholder="🔍 Buscar zona o ambiente..."
+          oninput="filtrarRestaurantes(this.value)"
+          style="padding: 9px 14px; border: 1.5px solid #ffd2e5; border-radius: 8px; font-size: 13.5px; outline: none; min-width: 220px; color: #2b1122; background: #fff; transition: border-color 0.2s;"
+          onfocus="this.style.borderColor='#da345d'"
+          onblur="this.style.borderColor='#ffd2e5'"
+        >
       </div>
 
-      <div class="restaurantes-grid">
+      <p id="sin-resultados-restaurantes" style="display:none; color:#cc2369; font-size:14px; text-align:center; padding:20px 0;">
+        😕 No se encontraron zonas que coincidan con tu búsqueda.
+      </p>
+
+      <div class="restaurantes-grid" id="restaurantes-grid">
         <!-- Salón Principal -->
         <div class="restaurante-card">
           <div class="restaurante-img-header">🏛️</div>
@@ -925,6 +938,28 @@
 
   <!-- Controlador Modular JavaScript -->
   <script type="module" src="cliente.js"></script>
+
+  <!-- Buscador de Restaurantes -->
+  <script>
+    function filtrarRestaurantes(query) {
+      const texto = query.toLowerCase().trim();
+      const tarjetas = document.querySelectorAll('#restaurantes-grid .restaurante-card');
+      const sinResultados = document.getElementById('sin-resultados-restaurantes');
+      let visibles = 0;
+
+      tarjetas.forEach(function (card) {
+        const nombre = (card.querySelector('h3') || card.querySelector('h4') || {}).textContent || '';
+        const desc   = (card.querySelector('p') || {}).textContent || '';
+        const tags   = Array.from(card.querySelectorAll('.tag')).map(t => t.textContent).join(' ');
+        const hayCoincidencia = (nombre + ' ' + desc + ' ' + tags).toLowerCase().includes(texto);
+
+        card.style.display = hayCoincidencia ? '' : 'none';
+        if (hayCoincidencia) visibles++;
+      });
+
+      sinResultados.style.display = (visibles === 0 && texto !== '') ? 'block' : 'none';
+    }
+  </script>
 
   <!-- Mapa de Ubicación -->
   <div class="cliente-container" style="padding-bottom: 30px;">

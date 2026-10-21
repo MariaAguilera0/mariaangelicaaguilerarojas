@@ -1,9 +1,9 @@
 /* ====== CHATBOT — estilos ====== */
 
 .cb {
-  --cb-oscuro: #9a192f;
-  --cb-medio: #112240;
-  --cb-acento: #64ffda;
+  --cb-oscuro: #9a194a;
+  --cb-medio: #f87bf8;
+  --cb-acento: #ffa9e5;
   --cb-fondo: #f4f6fa;
   font-family: Arial, sans-serif;
   position: fixed; right: 20px; bottom: 20px; z-index: 9999;

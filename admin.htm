@@ -1363,10 +1363,18 @@
     <!-- SECCIÓN 3: Accesos Rápidos a Espacios 3D / VR -->
     <section class="admin-section">
       <div class="section-header">
-        <h2>🌐 Monitoreo de Espacios Interactivos 3D</h2>
+        <div>
+          <h2>🌐 Monitoreo de Espacios Interactivos 3D</h2>
+          <p style="margin: 0; color: #777; font-size: 13px;">Gestiona los espacios y ambientes del restaurante.</p>
+        </div>
+        <div class="section-controls">
+          <button id="btn-open-restaurant-modal" class="btn-admin btn-admin-pink">
+            ➕ Agregar Restaurante
+          </button>
+        </div>
       </div>
 
-      <div class="spaces-grid">
+      <div class="spaces-grid" id="admin-spaces-grid">
         <div class="space-card">
           <h4>🍽️ Restaurante</h4>
           <p>Visor principal de mesas 3D</p>
@@ -1571,6 +1579,107 @@
 
   <!-- Controlador Modular JavaScript -->
   <script type="module" src="admin.js"></script>
+
+  <!-- Modal para Agregar Restaurante / Espacio -->
+  <div id="modal-add-restaurant" class="admin-modal-overlay" style="display: none;">
+    <div class="admin-modal-card">
+      <div class="modal-header">
+        <h3>➕ Agregar Nuevo Espacio / Restaurante</h3>
+        <button id="btn-close-restaurant-modal" class="btn-close-x">&times;</button>
+      </div>
+
+      <form id="form-add-restaurant">
+        <div class="form-group">
+          <label for="rest-emoji">Ícono / Emoji del Espacio</label>
+          <input type="text" id="rest-emoji" placeholder="Ej: 🍽️ 🌿 ⭐ 🍸" maxlength="4" required style="font-size: 22px; text-align: center; width: 80px;">
+        </div>
+
+        <div class="form-group">
+          <label for="rest-nombre">Nombre del Espacio</label>
+          <input type="text" id="rest-nombre" placeholder="Ej: Terraza Norte, Salón VIP..." required>
+        </div>
+
+        <div class="form-group">
+          <label for="rest-descripcion">Descripción</label>
+          <input type="text" id="rest-descripcion" placeholder="Ej: Ambiente al aire libre con vista al jardín" required>
+        </div>
+
+        <div class="form-group">
+          <label for="rest-url">Enlace del Visor (HTML)</label>
+          <input type="text" id="rest-url" placeholder="Ej: restaurante.html" required>
+        </div>
+
+        <div class="form-group">
+          <label for="rest-tags">Etiquetas (separadas por coma)</label>
+          <input type="text" id="rest-tags" placeholder="Ej: Aire Libre, Pet Friendly, Mesas Amplias">
+        </div>
+
+        <div style="display: flex; gap: 10px; margin-top: 18px;">
+          <button type="submit" class="btn-admin btn-admin-pink" style="flex: 1;">
+            💾 Agregar Espacio
+          </button>
+          <button type="button" id="btn-cancel-restaurant-modal" class="btn-admin btn-admin-outline" style="flex: 1;">
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Modal Agregar Restaurante
+    (function () {
+      const btnOpen    = document.getElementById('btn-open-restaurant-modal');
+      const modal      = document.getElementById('modal-add-restaurant');
+      const btnClose   = document.getElementById('btn-close-restaurant-modal');
+      const btnCancel  = document.getElementById('btn-cancel-restaurant-modal');
+      const form       = document.getElementById('form-add-restaurant');
+      const grid       = document.getElementById('admin-spaces-grid');
+
+      function abrirModal() { modal.style.display = 'flex'; }
+      function cerrarModal() { modal.style.display = 'none'; form.reset(); }
+
+      if (btnOpen)   btnOpen.addEventListener('click', abrirModal);
+      if (btnClose)  btnClose.addEventListener('click', cerrarModal);
+      if (btnCancel) btnCancel.addEventListener('click', cerrarModal);
+      modal.addEventListener('click', function (e) {
+        if (e.target === modal) cerrarModal();
+      });
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const emoji  = document.getElementById('rest-emoji').value.trim() || '🍽️';
+        const nombre = document.getElementById('rest-nombre').value.trim();
+        const desc   = document.getElementById('rest-descripcion').value.trim();
+        const url    = document.getElementById('rest-url').value.trim();
+        const tags   = document.getElementById('rest-tags').value.trim();
+
+        const card = document.createElement('div');
+        card.className = 'space-card';
+
+        const tagsHtml = tags
+          ? tags.split(',').map(t => `<span style="background:#fdf2f7;color:#cc2369;font-size:11px;padding:3px 8px;border-radius:12px;font-weight:bold;border:1px solid #ffd2e5;margin:2px;">${t.trim()}</span>`).join('')
+          : '';
+
+        card.innerHTML = `
+          <h4>${emoji} ${nombre}</h4>
+          <p>${desc}</p>
+          ${tagsHtml ? `<div style="display:flex;flex-wrap:wrap;gap:4px;margin:8px 0;">${tagsHtml}</div>` : ''}
+          <a href="${url}">Abrir Espacio</a>
+        `;
+
+        grid.appendChild(card);
+        cerrarModal();
+
+        const toast = document.getElementById('admin-toast');
+        if (toast) {
+          toast.textContent = `✅ Espacio "${nombre}" agregado correctamente`;
+          toast.className = 'admin-toast toast-exito toast-show';
+          setTimeout(() => { toast.className = 'admin-toast'; }, 3500);
+        }
+      });
+    })();
+  </script>
 
   <!-- Mapa de Ubicación -->
   <div style="max-width:1240px; margin:0 auto 40px; padding:0 20px;">
