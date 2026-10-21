@@ -104,6 +104,26 @@
 <footer id="contacto">
     <h3>Contáctanos</h3>
     <p>es.freechair@gmail.com</p>
+    <p>📍 La Coruña, Ciudad Bolívar, Bogotá, Colombia</p>
+
+    <!-- Mapa con Leaflet + OpenStreetMap (gratuito, sin API Key) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <div id="mapa" style="width:100%; max-width:700px; height:350px; margin:20px auto; border-radius:12px; overflow:hidden;"></div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        var mapa = L.map('mapa').setView([4.578193, -74.152101], 15);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(mapa);
+        L.marker([4.578193, -74.152101])
+            .addTo(mapa)
+            .bindPopup('<b>FreeChair</b><br>La Coruña, Ciudad Bolívar<br>Bogotá, Colombia')
+            .openPopup();
+
+        // Recalcula el tamaño del mapa cuando el layout cambia (ej: al iniciar sesión)
+        setTimeout(function() { mapa.invalidateSize(); }, 500);
+        window.addEventListener('resize', function() { mapa.invalidateSize(); });
+    </script>
 </footer>
 
 <script src="script.js"></script>

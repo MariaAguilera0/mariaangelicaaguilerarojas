@@ -925,5 +925,34 @@
 
   <!-- Controlador Modular JavaScript -->
   <script type="module" src="cliente.js"></script>
+
+  <!-- Mapa de Ubicación -->
+  <div class="cliente-container" style="padding-bottom: 30px;">
+    <div class="cliente-section">
+      <div class="section-title">
+        <div>
+          <h2>📍 Nuestra Ubicación</h2>
+          <p>La Coruña, Ciudad Bolívar, Bogotá, Colombia</p>
+        </div>
+      </div>
+      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+      <div id="mapa-cliente" style="width:100%; height:350px; border-radius:12px; overflow:hidden;"></div>
+      <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+      <script>
+        window.addEventListener('load', function () {
+          var mapa = L.map('mapa-cliente').setView([4.578193, -74.152101], 15);
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          }).addTo(mapa);
+          L.marker([4.578193, -74.152101])
+            .addTo(mapa)
+            .bindPopup('<b>FreeChair</b><br>La Coruña, Ciudad Bolívar<br>Bogotá, Colombia')
+            .openPopup();
+          setTimeout(function () { mapa.invalidateSize(); }, 400);
+        });
+      </script>
+    </div>
+  </div>
+
 </body>
 </html>
