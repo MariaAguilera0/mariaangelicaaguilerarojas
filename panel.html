@@ -338,7 +338,7 @@
 
       <div class="top-actions">
         <a href="Index.html" class="btn-action btn-vr">
-          🥽 Visor VR / Inicio
+          Visor VR / Inicio
         </a>
         <button id="btn-cerrar-sesion" class="btn-action btn-logout">
           Cerrar Sesión
@@ -349,9 +349,9 @@
     <!-- SECCIÓN 1: SUPERADMIN (Gestión de Usuarios y Roles) -->
     <div id="section-superadmin" class="section-card" style="display: none;">
       <div class="section-title">
-        <span>👑 Panel Superadmin - Gestión Global de Usuarios</span>
+        <span>Panel Superadmin - Gestión Global de Usuarios</span>
         <button class="btn-action btn-vr" onclick="cargarUsuariosSuperadmin()" style="font-size: 12px; padding: 6px 12px;">
-          🔄 Actualizar Lista
+          Actualizar Lista
         </button>
       </div>
 
@@ -401,7 +401,7 @@
     <!-- SECCIÓN 2: ADMINISTRADOR (Control del Restaurante y Reservas) -->
     <div id="section-administrador" class="section-card" style="display: none;">
       <div class="section-title">
-        <span>📊 Panel de Administración - Control de Espacios y Reservas</span>
+        <span>Panel de Administración - Control de Espacios y Reservas</span>
       </div>
 
       <p style="color: #666; font-size: 14px; margin-bottom: 20px;">
@@ -410,27 +410,27 @@
 
       <div class="areas-grid">
         <div class="area-card">
-          <h4>🍽️ Restaurante</h4>
+          <h4>Restaurante</h4>
           <p style="font-size: 12px; color: #666; margin-bottom: 12px;">Sala principal y distribución de mesas 3D.</p>
           <a href="restaurante.html">Ver Espacio</a>
         </div>
         <div class="area-card">
-          <h4>🚽 Baño / Lavabo</h4>
+          <h4>Baño / Lavabo</h4>
           <p style="font-size: 12px; color: #666; margin-bottom: 12px;">Zona de servicios sanitarios y lavabos 3D.</p>
           <a href="lavabo.html">Ver Baño</a>
         </div>
         <div class="area-card">
-          <h4>🍳 Cocina</h4>
+          <h4>Cocina</h4>
           <p style="font-size: 12px; color: #666; margin-bottom: 12px;">Monitoreo de pedidos y espacio culinario.</p>
           <a href="cocina.html">Ver Cocina</a>
         </div>
         <div class="area-card">
-          <h4>📦 Almacén</h4>
+          <h4>Almacén</h4>
           <p style="font-size: 12px; color: #666; margin-bottom: 12px;">Inventario y zona de almacenamiento.</p>
           <a href="almacen.html">Ver Almacén</a>
         </div>
         <div class="area-card">
-          <h4>🚪 Entrada / Recepción</h4>
+          <h4>Entrada / Recepción</h4>
           <p style="font-size: 12px; color: #666; margin-bottom: 12px;">Acceso principal y recepción de clientes.</p>
           <a href="entrada.html">Ver Entrada</a>
         </div>
@@ -440,26 +440,26 @@
     <!-- SECCIÓN 3: TRABAJADOR (Operaciones, Propinas y Calificaciones) -->
     <div id="section-trabajador" class="section-card" style="display: none;">
       <div class="section-title">
-        <span>👨‍🍳 Panel de Operaciones y Propinas - Trabajador</span>
+        <span>Panel de Operaciones y Propinas - Trabajador</span>
         <button class="btn-action btn-vr" id="btn-refresh-worker-data" style="font-size: 12px; padding: 6px 12px;">
-          🔄 Actualizar Datos
+          Actualizar Datos
         </button>
       </div>
 
       <!-- Métricas de Propinas y Calificaciones -->
       <div class="worker-tips-grid">
         <div class="stat-card" style="border-top-color: #2b8a3e;">
-          <h4>💰 Total Propinas Acumuladas</h4>
+          <h4>Total Propinas Acumuladas</h4>
           <p class="stat-number" id="worker-total-tips" style="color: #2b8a3e;">$0 COP</p>
           <small id="worker-tips-count" style="color: #666; font-weight: bold;">0 propinas recibidas</small>
         </div>
         <div class="stat-card" style="border-top-color: #f59f00;">
-          <h4>⭐ Calificación Promedio</h4>
-          <p class="stat-number" id="worker-avg-rating" style="color: #f59f00;">5.0 ★</p>
+          <h4>Calificación Promedio</h4>
+          <p class="stat-number" id="worker-avg-rating" style="color: #f59f00;">5.0 / 5.0</p>
           <small id="worker-total-reviews" style="color: #666; font-weight: bold;">0 opiniones de clientes</small>
         </div>
         <div class="stat-card" style="border-top-color: #da345d;">
-          <h4>🍽️ Mesas en Atención</h4>
+          <h4>Mesas en Atención</h4>
           <p class="stat-number" id="worker-active-tables" style="color: #cc2369;">0</p>
           <small style="color: #666;">Mesas ocupadas o reservadas</small>
         </div>
@@ -468,7 +468,7 @@
       <!-- Historial Detallado de Propinas -->
       <div style="margin-top: 25px; margin-bottom: 25px;">
         <h4 style="margin: 0 0 12px; color: #2b1122; font-size: 17px; display: flex; align-items: center; gap: 8px;">
-          💵 Historial de Propinas Recibidas
+          Historial de Propinas Recibidas
         </h4>
         <div class="table-responsive">
           <table class="users-table">
@@ -492,7 +492,7 @@
       <!-- Muro de Reseñas y Calificaciones Recibidas -->
       <div style="margin-top: 25px; margin-bottom: 30px;">
         <h4 style="margin: 0 0 12px; color: #2b1122; font-size: 17px; display: flex; align-items: center; gap: 8px;">
-          ⭐ Opiniones y Reseñas de tus Clientes
+          Opiniones y Reseñas de tus Clientes
         </h4>
         <div class="reviews-list-grid" id="worker-reviews-container">
           <div style="grid-column: 1/-1; text-align: center; color: #888; padding: 20px;">
@@ -504,7 +504,7 @@
       <!-- Estado de las Mesas de la Sala -->
       <div style="margin-top: 25px;">
         <h4 style="margin: 0 0 12px; color: #2b1122; font-size: 17px;">
-          🪑 Estado y Control de Mesas en la Sala FreeChair
+          Estado y Control de Mesas en la Sala FreeChair
         </h4>
         <p style="color: #666; font-size: 13px; margin: 0 0 12px;">
           Puedes cambiar el estado de cualquier mesa directamente aquí cuando los comensales lleguen o se retiren:
@@ -519,14 +519,14 @@
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
           <div>
             <h4 style="margin: 0; color: #2b1122; font-size: 17px; display: flex; align-items: center; gap: 8px;">
-              🍽️ Control de Disponibilidad del Menú
+              Control de Disponibilidad del Menú
             </h4>
             <p style="color: #666; font-size: 13px; margin: 4px 0 0;">
               Como trabajador, puedes marcar qué platos se agotaron en cocina o habilitarlos de nuevo cuando estén listos.
             </p>
           </div>
           <button id="btn-worker-add-menu" class="btn-action btn-vr" style="font-size: 12.5px; padding: 7px 15px; background: #da345d;">
-            ➕ Agregar Plato al Menú
+            Agregar Plato al Menú
           </button>
         </div>
 
@@ -555,7 +555,7 @@
     <div id="modal-worker-menu" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; padding: 20px;">
       <div style="background: #ffffff; border-radius: 12px; width: 100%; max-width: 480px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #ffd2e5; padding-bottom: 10px;">
-          <h3 style="margin: 0; color: #cc2369;">➕ Agregar Plato al Menú</h3>
+          <h3 style="margin: 0; color: #cc2369;">Agregar Plato al Menú</h3>
           <button id="btn-close-worker-modal" style="background: none; border: none; font-size: 22px; cursor: pointer; color: #888;">&times;</button>
         </div>
         <form id="form-worker-menu">
@@ -592,17 +592,17 @@
     <!-- SECCIÓN 4: CLIENTE (Mis Reservas y Experiencia) -->
     <div id="section-cliente" class="section-card" style="display: none;">
       <div class="section-title">
-        <span>🎉 Área de Cliente - Reservaciones y Restaurantes</span>
+        <span>Área de Cliente - Reservaciones y Restaurantes</span>
       </div>
       <p style="color: #444; font-size: 15px; line-height: 1.5;">
         ¡Hola! Como cliente tienes acceso a tu portal exclusivo donde puedes explorar los diferentes restaurantes en Realidad Virtual 3D y gestionar todas tus reservaciones de mesa en tiempo real.
       </p>
       <div style="margin-top: 18px; display: flex; gap: 12px; flex-wrap: wrap;">
         <a href="cliente.html" class="btn-action btn-vr" style="font-size: 15px; padding: 12px 24px; background: #da345d;">
-          🍽️ Ir a mi Portal de Reservaciones
+          Ir a mi Portal de Reservaciones
         </a>
         <a href="index.html" class="btn-action" style="font-size: 15px; padding: 12px 24px; background: #fdf2f7; color: #cc2369; border: 1px solid #ffd2e5; text-decoration: none;">
-          🥽 Visor VR 3D
+          Visor VR 3D
         </a>
       </div>
     </div>
@@ -722,7 +722,7 @@
             </td>
             <td>
               <button class="btn-save-role" onclick="guardarRol('${u.id}')">
-                💾 Guardar
+                Guardar
               </button>
             </td>
           `;
@@ -772,7 +772,7 @@
 
         if (elTotalTips) elTotalTips.textContent = formatearMoneda(metricas.totalPropinas);
         if (elTipsCount) elTipsCount.textContent = `${metricas.totalTransaccionesPropinas} propina(s) recibida(s)`;
-        if (elAvgRating) elAvgRating.textContent = `${metricas.promedioEstrellas} ★`;
+        if (elAvgRating) elAvgRating.textContent = `${metricas.promedioEstrellas} / 5.0`;
         if (elTotalReviews) elTotalReviews.textContent = `${metricas.totalCalificaciones} opinión(es) de clientes`;
 
         // 2. Historial de Propinas
@@ -805,17 +805,17 @@
               const card = document.createElement("div");
               card.className = "review-card";
               const fechaStr = c.fecha ? new Date(c.fecha).toLocaleDateString("es-CO") : "Reciente";
-              const estrellasStr = "⭐".repeat(c.estrellas || 5);
+              const estrellasStr = `${c.estrellas || 5}/5`;
 
               card.innerHTML = `
                 <div class="review-card-header">
-                  <strong>👤 ${c.clienteNombre || "Comensal"}</strong>
+                  <strong>${c.clienteNombre || "Comensal"}</strong>
                   <span style="font-size: 14px;">${estrellasStr}</span>
                 </div>
                 <p style="margin: 6px 0; font-size: 13.5px; color: #444; line-height: 1.4;">
                   "${c.comentario || "Excelente servicio y atención."}"
                 </p>
-                <small style="color: #999; font-size: 11px;">📅 ${fechaStr}</small>
+                <small style="color: #999; font-size: 11px;">${fechaStr}</small>
               `;
               containerReviews.appendChild(card);
             });
@@ -852,14 +852,14 @@
                 <h4 style="margin:0; color:#2b1122;">Mesa ${m.numero}</h4>
                 <span class="table-status-tag status-${m.estado}">${m.estado.toUpperCase()}</span>
               </div>
-              <p style="margin: 0 0 6px; font-size:12px; color:#666;">📍 ${m.ubicacion}</p>
-              <p style="margin: 0 0 10px; font-size:12px; color:#666;">👥 Capacidad: <strong>${m.capacidad} pax</strong></p>
+              <p style="margin: 0 0 6px; font-size:12px; color:#666;">${m.ubicacion}</p>
+              <p style="margin: 0 0 10px; font-size:12px; color:#666;">Capacidad: <strong>${m.capacidad} pax</strong></p>
               <div style="border-top:1px solid #f7d5e4; padding-top:8px;">
                 <label style="font-size:11px; font-weight:bold; color:#777; display:block; margin-bottom:4px;">Cambiar Estado:</label>
                 <select class="worker-table-state-select" data-mesa-id="${m.id}" style="width:100%; padding:6px 8px; border:1px solid #ffd2e5; border-radius:6px; font-size:12px; background:#fff; font-weight:bold;">
-                  <option value="disponible" ${m.estado === "disponible" ? "selected" : ""}>🟢 Disponible</option>
-                  <option value="ocupada" ${m.estado === "ocupada" ? "selected" : ""}>🔴 Ocupada</option>
-                  <option value="reservada" ${m.estado === "reservada" ? "selected" : ""}>🟡 Reservada</option>
+                  <option value="disponible" ${m.estado === "disponible" ? "selected" : ""}>Disponible</option>
+                  <option value="ocupada" ${m.estado === "ocupada" ? "selected" : ""}>Ocupada</option>
+                  <option value="reservada" ${m.estado === "reservada" ? "selected" : ""}>Reservada</option>
                 </select>
               </div>
             `;
@@ -903,7 +903,7 @@
                 <td><span class="table-status-tag ${badgeClass}">${badgeTexto}</span></td>
                 <td>
                   <button class="btn-save-role btn-worker-toggle-disp" data-id="${item.id}" data-disp="${disponible}" style="background: ${disponible ? '#c92a2a' : '#2b8a3e'}; padding: 6px 12px; font-size: 12px; border-radius: 6px; cursor: pointer;">
-                    ${disponible ? "🚫 Marcar Agotado" : "✅ Habilitar Plato"}
+                    ${disponible ? "Marcar Agotado" : "Habilitar Plato"}
                   </button>
                 </td>
               `;
@@ -993,7 +993,7 @@
   <!-- Mapa de Ubicación -->
   <div style="max-width:1200px; margin:0 auto 40px; padding:0 20px;">
     <div style="background:#ffffff; border-radius:14px; padding:28px; box-shadow:0 4px 18px rgba(0,0,0,0.04); border:1px solid #ffd2e5;">
-      <h2 style="font-size:20px; color:#cc2369; margin:0 0 6px; display:flex; align-items:center; gap:8px;">📍 Nuestra Ubicación</h2>
+      <h2 style="font-size:20px; color:#cc2369; margin:0 0 6px; display:flex; align-items:center; gap:8px;">Nuestra Ubicación</h2>
       <p style="font-size:13.5px; color:#666; margin:0 0 18px;">La Coruña, Ciudad Bolívar, Bogotá, Colombia</p>
       <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
       <div id="mapa-panel" style="width:100%; height:350px; border-radius:12px; overflow:hidden;"></div>

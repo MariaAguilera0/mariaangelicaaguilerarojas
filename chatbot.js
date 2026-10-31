@@ -90,15 +90,15 @@ d="M4 4h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6l-4 4V6a2 2 0 0 1 2-2z"/></svg>
     </button>
     <section class="cb-ventana" role="dialog" aria-label="${esc(KB.nombreBot)}">
       <header class="cb-cabecera">
-        <div class="cb-avatar">🤖</div>
+        <div class="cb-avatar"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.38 5.07L2 22l5.07-1.38C8.42 21.5 10.15 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.61 0-3.09-.46-4.36-1.25l-.31-.19-3.23.88.88-3.23-.19-.31C3.96 15.09 3.5 13.61 3.5 12 3.5 7.31 7.31 3.5 12 3.5S20.5 7.31 20.5 12 16.69 20 12 20z"/></svg></div>
         <div><strong>${esc(KB.nombreBot)}</strong><small>En línea</small></div>
-        <button class="cb-cerrar" aria-label="Cerrar chat">✕</button>
+        <button class="cb-cerrar" aria-label="Cerrar chat">&times;</button>
       </header>
       <div class="cb-mensajes" aria-live="polite"></div>
       <form class="cb-form">
         <input type="text" placeholder="Escribe tu pregunta..." autocomplete="off"
 maxlength="300" aria-label="Mensaje">
-        <button type="submit" aria-label="Enviar">➤</button>
+        <button type="submit" aria-label="Enviar"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button>
       </form>
     </section>`;
   document.body.appendChild(raizUI);

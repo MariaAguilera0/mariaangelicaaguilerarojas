@@ -167,7 +167,7 @@ function renderizarTarjetasReservas(reservas) {
   if (reservas.length === 0) {
     contenedor.innerHTML = `
       <div class="empty-reservas-box">
-        <span style="font-size: 38px;">🍽️</span>
+
         <h3>Aún no tienes reservaciones activas</h3>
         <p>Selecciona tu restaurante o zona preferida arriba y completa el formulario para asegurar tu mesa en segundos.</p>
       </div>
@@ -197,18 +197,18 @@ function renderizarTarjetasReservas(reservas) {
       </div>
 
       <div class="reserva-details">
-        <p><strong>🪑 Mesa:</strong> ${res.mesa || "Mesa asignada"}</p>
-        <p><strong>📅 Fecha:</strong> ${res.fecha || "Hoy"}</p>
-        <p><strong>⏰ Hora:</strong> ${res.hora || "7:00 PM"}</p>
-        <p><strong>👥 Comensales:</strong> ${res.personas || 2} personas</p>
-        ${res.ocasion && res.ocasion !== "ninguna" ? `<p><strong>🎉 Ocasión:</strong> ${res.ocasion}</p>` : ""}
-        ${res.notas ? `<p><strong>📝 Notas:</strong> ${res.notas}</p>` : ""}
+        <p><strong>Mesa:</strong> ${res.mesa || "Mesa asignada"}</p>
+        <p><strong>Fecha:</strong> ${res.fecha || "Hoy"}</p>
+        <p><strong>Hora:</strong> ${res.hora || "7:00 PM"}</p>
+        <p><strong>Comensales:</strong> ${res.personas || 2} personas</p>
+        ${res.ocasion && res.ocasion !== "ninguna" ? `<p><strong>Ocasión:</strong> ${res.ocasion}</p>` : ""}
+        ${res.notas ? `<p><strong>Notas:</strong> ${res.notas}</p>` : ""}
       </div>
 
       <div class="reserva-actions">
         ${!esCancelada ? `
           <button class="btn-cancelar-reserva" data-id="${res.id}">
-            ❌ Cancelar Reservación
+            Cancelar Reservación
           </button>
         ` : `
           <span style="font-size: 12px; color: #999; font-style: italic;">Esta reservación fue cancelada</span>
@@ -331,7 +331,7 @@ function configurarEventos() {
 
       if (btnSubmit) {
         btnSubmit.disabled = false;
-        btnSubmit.textContent = "🍽️ Confirmar Reservación";
+        btnSubmit.textContent = "Confirmar Reservación";
       }
 
       formReserva.reset();
@@ -446,11 +446,11 @@ function renderizarMenuCliente(items) {
   grid.innerHTML = "";
 
   const iconosCat = {
-    "Platos Fuertes": "🍔",
-    "Entradas": "🥗",
-    "Bebidas": "🍹",
-    "Cocteles": "🍸",
-    "Postres": "🍰"
+    "Platos Fuertes": "",
+    "Entradas": "",
+    "Bebidas": "",
+    "Cocteles": "",
+    "Postres": "",
   };
 
   items.forEach(plato => {
@@ -458,11 +458,11 @@ function renderizarMenuCliente(items) {
     card.className = "menu-client-card";
 
     const disponible = plato.disponible !== false;
-    const icono = iconosCat[plato.categoria] || "🍽️";
+    const icono = "";
 
     card.innerHTML = `
       <div class="menu-card-top">
-        <h4 class="menu-card-title">${icono} ${plato.nombre}</h4>
+        <h4 class="menu-card-title">${plato.nombre}</h4>
         <span class="menu-card-price">${formatearMoneda(plato.precio)}</span>
       </div>
       <p class="menu-card-desc">${plato.descripcion || "Preparación fresca de nuestra cocina de autor con ingredientes de primera calidad."}</p>
@@ -493,7 +493,7 @@ async function cargarTrabajadoresCliente() {
     listaTrabajadoresCliente.forEach(t => {
       const opt = document.createElement("option");
       opt.value = t.id;
-      opt.textContent = `👤 ${t.nombre}`;
+      opt.textContent = t.nombre;
       select.appendChild(opt);
     });
   } catch (err) {
@@ -599,7 +599,7 @@ function configurarEventosCalificacionYPropinas() {
         }
 
         const mensajeExito = montoPropina > 0
-          ? `¡Muchas gracias! Has calificado a ${trabajadorNombre} con ${estrellas}★ y le has enviado ${formatearMoneda(montoPropina)} de propina.`
+          ? `¡Muchas gracias! Has calificado a ${trabajadorNombre} con ${estrellas} estrellas y le has enviado ${formatearMoneda(montoPropina)} de propina.`
           : `¡Muchas gracias! Has calificado el servicio de ${trabajadorNombre} con ${estrellas} estrellas.`;
 
         mostrarToast(mensajeExito, "exito");
@@ -623,7 +623,7 @@ function configurarEventosCalificacionYPropinas() {
       } finally {
         if (btnSubmit) {
           btnSubmit.disabled = false;
-          btnSubmit.textContent = "⭐ Enviar Calificación y Propina";
+          btnSubmit.textContent = "Enviar Calificación y Propina";
         }
       }
     });

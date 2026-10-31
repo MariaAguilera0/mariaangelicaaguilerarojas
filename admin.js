@@ -73,7 +73,7 @@ async function inicializarAdmin() {
     if (!userAuth || !userAuth.user) {
       if (loading) {
         loading.innerHTML = `
-          <p style="color: #c92a2a; font-weight: bold;">⚠️ No has iniciado sesión</p>
+          <p style="color: #c92a2a; font-weight: bold;">No has iniciado sesión</p>
           <p style="color: #666; font-size: 14px;">Redirigiendo a la pantalla de inicio de sesión...</p>
         `;
       }
@@ -89,7 +89,7 @@ async function inicializarAdmin() {
     if (rol !== ROLES.SUPERADMIN && rol !== ROLES.ADMINISTRADOR) {
       if (loading) {
         loading.innerHTML = `
-          <p style="color: #c92a2a; font-weight: bold;">⛔ Acceso denegado</p>
+          <p style="color: #c92a2a; font-weight: bold;">Acceso denegado</p>
           <p style="color: #555; font-size: 14px;">Tu cuenta tiene el rol <strong>[${rol.toUpperCase()}]</strong>. Esta sección es exclusiva para Administradores y Superadmins.</p>
           <div style="margin-top: 15px;">
             <a href="index.html" class="btn-admin btn-admin-pink" style="display: inline-block; text-decoration: none;">Ir al Inicio</a>
@@ -139,7 +139,7 @@ async function inicializarAdmin() {
     console.error("Error al inicializar panel admin:", err);
     if (loading) {
       loading.innerHTML = `
-        <p style="color: #c92a2a; font-weight: bold;">❌ Error al inicializar panel administrativo</p>
+        <p style="color: #c92a2a; font-weight: bold;">Error al inicializar panel administrativo</p>
         <p style="color: #666; font-size: 14px;">${err.message || "Error al conectar con la base de datos."}</p>
         <div style="margin-top: 15px;">
           <a href="login.html" class="btn-admin btn-admin-pink" style="display: inline-block; text-decoration: none;">Iniciar Sesión</a>
@@ -178,10 +178,10 @@ function renderizarPerfilUsuario() {
   const elBannerDesc = document.querySelector(".admin-banner p");
   if (elBannerTitle && elBannerDesc) {
     if (rol === ROLES.SUPERADMIN) {
-      elBannerTitle.textContent = "👑 Centro de Superadministración";
+      elBannerTitle.textContent = "Centro de Superadministración";
       elBannerDesc.textContent = "Acceso total del sistema: CRUD de usuarios, permisos, operaciones, ventas, pedidos e inventario.";
     } else {
-      elBannerTitle.textContent = "📊 Centro de Gestión Administrativa";
+      elBannerTitle.textContent = "Centro de Gestión Administrativa";
       elBannerDesc.textContent = "Control operativo y comercial: ventas del día, pedidos, reservas de hoy, mesas, inventario y menú.";
     }
   }
@@ -189,10 +189,10 @@ function renderizarPerfilUsuario() {
   const elNote = document.getElementById("admin-user-roles-note");
   if (elNote) {
     if (rol === ROLES.SUPERADMIN) {
-      elNote.innerHTML = `👑 <strong>Modo Superadmin:</strong> Tienes permisos completos para el CRUD de usuarios, modificación de roles y eliminación de cuentas.`;
+      elNote.innerHTML = `<strong>Modo Superadmin:</strong> Tienes permisos completos para el CRUD de usuarios, modificación de roles y eliminación de cuentas.`;
       elNote.style.color = "#2b8a3e";
     } else {
-      elNote.innerHTML = `🔒 <strong>Modo Administrador:</strong> El CRUD de usuarios está restringido a cuentas con rango <strong>Superadmin</strong>.`;
+      elNote.innerHTML = `<strong>Modo Administrador:</strong> El CRUD de usuarios está restringido a cuentas con rango <strong>Superadmin</strong>.`;
       elNote.style.color = "#d9480f";
     }
   }
@@ -305,7 +305,7 @@ function renderizarTablaUsuarios(usuarios) {
           </select>
         ` : `
           <span style="font-size: 12.5px; color: #888; display: inline-flex; align-items: center; gap: 5px;">
-            <span>🔒</span> <em>Exclusivo Superadmin</em>
+            <em>Exclusivo Superadmin</em>
           </span>
         `}
       </td>
@@ -313,11 +313,11 @@ function renderizarTablaUsuarios(usuarios) {
         <div style="display: flex; gap: 6px; align-items: center;">
           ${esSuperadmin ? `
             <button class="btn-table-action btn-save" title="Guardar Rol" data-action="save" data-uid="${u.id}">
-              💾 Guardar
+              Guardar
             </button>
             ${!esElMismo ? `
               <button class="btn-table-action btn-delete" title="Eliminar Usuario" data-action="delete" data-uid="${u.id}" data-name="${u.nombre || u.email}">
-                🗑️
+                Eliminar
               </button>
             ` : ""}
           ` : `
@@ -357,7 +357,7 @@ function renderizarTablaUsuarios(usuarios) {
 async function guardarCambioRol(uid) {
   // Validación estricta de rol
   if (currentUser.rol !== ROLES.SUPERADMIN) {
-    mostrarToast("⛔ Acción restringida: Solo los usuarios con rol SUPERADMIN tienen autorización para cambiar roles.", "error");
+    mostrarToast("Acción restringida: Solo los usuarios con rol SUPERADMIN tienen autorización para cambiar roles.", "error");
     return;
   }
 
@@ -388,7 +388,7 @@ async function guardarCambioRol(uid) {
 async function ejecutarEliminarUsuario(uid, nombre) {
   // Validación estricta de rol
   if (currentUser.rol !== ROLES.SUPERADMIN) {
-    mostrarToast("⛔ Acción restringida: Solo los usuarios con rol SUPERADMIN pueden eliminar usuarios.", "error");
+    mostrarToast("Acción restringida: Solo los usuarios con rol SUPERADMIN pueden eliminar usuarios.", "error");
     return;
   }
 
@@ -472,7 +472,7 @@ function configurarEventos() {
       e.preventDefault();
 
       if (currentUser?.rol !== ROLES.SUPERADMIN) {
-        mostrarToast("⛔ Acción restringida: Solo los usuarios con rol SUPERADMIN tienen autorización para crear cuentas.", "error");
+        mostrarToast("Acción restringida: Solo los usuarios con rol SUPERADMIN tienen autorización para crear cuentas.", "error");
         return;
       }
 
@@ -559,8 +559,8 @@ function renderizarMesas(mesas) {
         <h4>Mesa ${mesa.numero}</h4>
         <span class="table-badge badge-${mesa.estado}">${mesa.estado.toUpperCase()}</span>
       </div>
-      <p class="table-info">📍 ${mesa.ubicacion}</p>
-      <p class="table-info">👥 Capacidad: <strong>${mesa.capacidad} personas</strong></p>
+      <p class="table-info">${mesa.ubicacion}</p>
+      <p class="table-info">Capacidad: <strong>${mesa.capacidad} personas</strong></p>
       <div class="table-actions">
         <label>Cambiar Estado:</label>
         <select class="table-state-select" data-mesa-id="${mesa.id}">
@@ -631,7 +631,7 @@ async function inicializarCapacidad() {
       capacidadTotalRestaurante = nuevoValor;
 
       btnSave.disabled = false;
-      btnSave.textContent = "💾 Guardar";
+      btnSave.textContent = "Guardar";
 
       actualizarMetricasCapacidad();
       mostrarToast(`Aforo máximo establecido en ${nuevoValor} personas.`, "exito");
@@ -739,10 +739,10 @@ function renderizarTablaMenu(items) {
             ${disponible ? "Marcar Agotado" : "Habilitar"}
           </button>
           <button class="btn-table-action btn-edit-menu" data-id="${item.id}" title="Editar Producto" style="background:#1971c2; color:white; border:none; border-radius:6px; padding:6px 10px; cursor:pointer;">
-            ✏️
+            Editar
           </button>
           <button class="btn-table-action btn-delete btn-delete-menu" data-id="${item.id}" data-nombre="${item.nombre}" title="Eliminar Producto">
-            🗑️
+            Eliminar
           </button>
         </div>
       </td>
@@ -869,7 +869,7 @@ function abrirModalMenu(item = null) {
   if (form) form.reset();
 
   if (item) {
-    if (title) title.textContent = "✏️ Editar Producto del Menú";
+    if (title) title.textContent = "Editar Producto del Menú";
     document.getElementById("menu-item-id").value = item.id;
     document.getElementById("menu-item-nombre").value = item.nombre || "";
     document.getElementById("menu-item-categoria").value = item.categoria || "Platos Fuertes";
@@ -877,7 +877,7 @@ function abrirModalMenu(item = null) {
     document.getElementById("menu-item-descripcion").value = item.descripcion || "";
     document.getElementById("menu-item-disponible").checked = item.disponible !== false;
   } else {
-    if (title) title.textContent = "➕ Agregar Producto al Menú";
+    if (title) title.textContent = "Agregar Producto al Menú";
     document.getElementById("menu-item-id").value = "";
     document.getElementById("menu-item-disponible").checked = true;
   }
@@ -1022,7 +1022,7 @@ function renderizarTablaVentas(ventas) {
       <td>${v.cliente || "Cliente"}</td>
       <td><span style="color: #da345d; font-weight: 600;">${v.mesa || "Mesa"}</span></td>
       <td style="max-width: 250px; font-size: 13px;">${detalleItems}</td>
-      <td><span style="font-size: 12px; color: #555;">💳 ${v.metodoPago || "Efectivo"}</span></td>
+      <td><span style="font-size: 12px; color: #555;">${v.metodoPago || "Efectivo"}</span></td>
       <td><strong style="color: #2b8a3e; font-size: 14px;">${formatearMoneda(v.total || 0)}</strong></td>
       <td>${estadoBadge}</td>
       <td style="font-size: 12px; color: #777;">${fechaFormateada}</td>
@@ -1060,8 +1060,8 @@ function renderizarRankingTopVendidos(ranking) {
       <div class="ranking-info">
         <div class="ranking-name">${prod.nombre}</div>
         <div class="ranking-meta">
-          <span>📦 <strong>${prod.cantidadVendida}</strong> unidades</span>
-          <span>🔥 ${pct}% demanda</span>
+          <span><strong>${prod.cantidadVendida}</strong> unidades</span>
+          <span>${pct}% demanda</span>
         </div>
         <div class="ranking-bar-track">
           <div class="ranking-bar-fill" style="width: ${pct}%;"></div>
@@ -1128,9 +1128,9 @@ function renderizarTablaReservasHoy(reservas) {
     tr.innerHTML = `
       <td><strong>${r.userNombre || "Cliente"}</strong></td>
       <td style="font-size: 13px; color: #666;">${r.userEmail || "Sin email"}</td>
-      <td><span style="color: #da345d; font-weight: 600;">📍 ${r.mesa || "Mesa asignada"}</span></td>
-      <td><strong style="color: #2b1122;">⏰ ${r.hora || "Por definir"}</strong></td>
-      <td>👥 ${r.personas || 2} personas</td>
+      <td><span style="color: #da345d; font-weight: 600;">${r.mesa || "Mesa asignada"}</span></td>
+      <td><strong style="color: #2b1122;">${r.hora || "Por definir"}</strong></td>
+      <td>${r.personas || 2} personas</td>
       <td style="font-size: 13px; color: #555;">${r.ocasion || r.notas || "Reserva estándar"}</td>
       <td>${estadoBadge}</td>
       <td>
@@ -1217,11 +1217,11 @@ function renderizarTablaInventario(inventario) {
 
     let badge = "";
     if (stock <= 5) {
-      badge = `<span class="stock-level-badge stock-level-critical">🚨 CRÍTICO (${stock})</span>`;
+      badge = `<span class="stock-level-badge stock-level-critical">CRÍTICO (${stock})</span>`;
     } else if (stock <= min) {
-      badge = `<span class="stock-level-badge stock-level-low">⚡ BAJO (${stock})</span>`;
+      badge = `<span class="stock-level-badge stock-level-low">BAJO (${stock})</span>`;
     } else {
-      badge = `<span class="stock-level-badge stock-level-ok">✅ ÓPTIMO (${stock})</span>`;
+      badge = `<span class="stock-level-badge stock-level-ok">ÓPTIMO (${stock})</span>`;
     }
 
     tr.innerHTML = `
@@ -1234,7 +1234,7 @@ function renderizarTablaInventario(inventario) {
       <td>${badge}</td>
       <td>
         <button class="btn-restock-quick" data-inv-id="${it.id}" title="Añadir 10 unidades al stock">
-          ➕ +10 Reabastecer
+          +10 Reabastecer
         </button>
       </td>
     `;
@@ -1393,7 +1393,7 @@ function configurarEventosComerciales() {
 
       if (btnSubmit) {
         btnSubmit.disabled = false;
-        btnSubmit.textContent = "💳 Confirmar y Facturar";
+        btnSubmit.textContent = "Confirmar y Facturar";
       }
 
       if (res.success) {

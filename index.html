@@ -35,8 +35,8 @@
     <a href="#vr">Experiencia VR</a>
     <a href="#servicios">Servicios</a>
     <a href="#contacto">Contacto</a>
-    <a href="panel.html" id="nav-panel-link" style="display: none; color: #da345d; font-weight: bold;">⚡ Panel de Control</a>
-    <a href="admin.htm" id="nav-admin-link" style="display: none; color: #cc2369; font-weight: bold;">👑 Administración</a>
+    <a href="panel.html" id="nav-panel-link" style="display: none; color: #da345d; font-weight: bold;">Panel de Control</a>
+    <a href="admin.htm" id="nav-admin-link" style="display: none; color: #cc2369; font-weight: bold;">Administración</a>
 </nav>
 
 <section class="hero" id="inicio">
@@ -104,7 +104,7 @@
 <footer id="contacto">
     <h3>Contáctanos</h3>
     <p>es.freechair@gmail.com</p>
-    <p>📍 La Coruña, Ciudad Bolívar, Bogotá, Colombia</p>
+    <p>La Coruña, Ciudad Bolívar, Bogotá, Colombia</p>
 
     <!-- Mapa con Leaflet + OpenStreetMap (gratuito, sin API Key) -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -149,19 +149,19 @@
 
             let actionsHtml = ``;
             if (rol === ROLES.SUPERADMIN || rol === ROLES.ADMINISTRADOR) {
-                actionsHtml += `<a href="admin.htm" class="btn-nav-action" style="background: #2b1122; color: #fff;">👑 Admin</a>`;
-                actionsHtml += `<a href="panel.html" class="btn-nav-action btn-nav-panel">⚙️ Panel</a>`;
+                actionsHtml += `<a href="admin.htm" class="btn-nav-action" style="background: #2b1122; color: #fff;">Admin</a>`;
+                actionsHtml += `<a href="panel.html" class="btn-nav-action btn-nav-panel">Panel</a>`;
                 if (navPanelLink) navPanelLink.style.display = "inline-block";
                 if (navAdminLink) navAdminLink.style.display = "inline-block";
             } else if (rol === ROLES.TRABAJADOR) {
-                actionsHtml += `<a href="panel.html" class="btn-nav-action btn-nav-panel">⚙️ Panel</a>`;
+                actionsHtml += `<a href="panel.html" class="btn-nav-action btn-nav-panel">Panel</a>`;
                 if (navPanelLink) navPanelLink.style.display = "inline-block";
                 if (navAdminLink) navAdminLink.style.display = "none";
             } else {
-                actionsHtml += `<a href="cliente.html" class="btn-nav-action btn-nav-panel" style="background: #da345d; color: #ffffff;">🍽️ Mis Reservaciones</a>`;
+                actionsHtml += `<a href="cliente.html" class="btn-nav-action btn-nav-panel" style="background: #da345d; color: #ffffff;">Mis Reservaciones</a>`;
                 if (navPanelLink) {
                     navPanelLink.href = "cliente.html";
-                    navPanelLink.textContent = "🍽️ Mis Reservas";
+                    navPanelLink.textContent = "Mis Reservas";
                     navPanelLink.style.display = "inline-block";
                 }
                 if (navAdminLink) navAdminLink.style.display = "none";

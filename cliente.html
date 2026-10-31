@@ -602,7 +602,7 @@
 
   <!-- Pantalla de carga mientras se valida la sesión -->
   <div id="cliente-loading" class="cliente-loading-screen">
-    <p>⏳ Cargando tu experiencia y reservaciones FreeChair...</p>
+    <p>Cargando tu experiencia y reservaciones FreeChair...</p>
   </div>
 
   <!-- Contenedor Principal del Cliente -->
@@ -623,10 +623,10 @@
 
       <nav class="cliente-nav-actions">
         <a href="index.html" class="btn-portal btn-portal-pink">
-          🥽 Visor VR 3D / Inicio
+          Visor VR 3D / Inicio
         </a>
         <button id="btn-cliente-logout" class="btn-portal btn-portal-outline">
-          🚪 Cerrar Sesión
+          Cerrar Sesión
         </button>
       </nav>
     </header>
@@ -634,7 +634,7 @@
     <!-- Banner Hero de Bienvenida -->
     <section class="cliente-hero">
       <div>
-        <h1>🍽️ ¡Bienvenido a tu Espacio FreeChair!</h1>
+        <h1>¡Bienvenido a tu Espacio FreeChair!</h1>
         <p>
           Explora nuestros diferentes ambientes gastronómicos en Realidad Virtual 3D interactiva y asegura tu mesa favorita sin filas ni complicaciones.
         </p>
@@ -655,13 +655,13 @@
     <section class="cliente-section">
       <div class="section-title">
         <div>
-          <h2>🍽️ Nuestros Restaurantes y Zonas Disponibles</h2>
+          <h2>Nuestros Restaurantes y Zonas Disponibles</h2>
           <p>Descubre cada ambiente antes de visitarnos interactuando con nuestros visores 3D</p>
         </div>
         <input
           type="text"
           id="buscar-restaurante"
-          placeholder="🔍 Buscar zona o ambiente..."
+          placeholder="Buscar zona o ambiente..."
           oninput="filtrarRestaurantes(this.value)"
           style="padding: 9px 14px; border: 1.5px solid #ffd2e5; border-radius: 8px; font-size: 13.5px; outline: none; min-width: 220px; color: #2b1122; background: #fff; transition: border-color 0.2s;"
           onfocus="this.style.borderColor='#da345d'"
@@ -670,13 +670,13 @@
       </div>
 
       <p id="sin-resultados-restaurantes" style="display:none; color:#cc2369; font-size:14px; text-align:center; padding:20px 0;">
-        😕 No se encontraron zonas que coincidan con tu búsqueda.
+        No se encontraron zonas que coincidan con tu búsqueda.
       </p>
 
       <div class="restaurantes-grid" id="restaurantes-grid">
         <!-- Salón Principal -->
         <div class="restaurante-card">
-          <div class="restaurante-img-header">🏛️</div>
+          <div class="restaurante-img-header"><svg width="40" height="40" viewBox="0 0 24 24" fill="#cc2369"><path d="M12 3L2 12h3v8h14v-8h3L12 3zm0 4.5l6 5.4V18H6v-5.1l6-5.4z"/></svg></div>
           <div class="restaurante-card-body">
             <h3>Salón Principal FreeChair</h3>
             <p>Ambiente acogedor, climatizado y con iluminación cálida. Perfecto para almuerzos familiares o cenas especiales con vista panorámica.</p>
@@ -686,15 +686,15 @@
               <span class="tag">Climatizado</span>
             </div>
             <div class="restaurante-card-actions">
-              <a href="restaurante.html" class="btn-card-vr">🥽 Visor 3D</a>
-              <button class="btn-card-reservar btn-seleccionar-zona" data-zona="Salón Principal">📅 Reservar</button>
+              <a href="restaurante.html" class="btn-card-vr">Visor 3D</a>
+              <button class="btn-card-reservar btn-seleccionar-zona" data-zona="Salón Principal">Reservar</button>
             </div>
           </div>
         </div>
 
         <!-- Terraza Libre -->
         <div class="restaurante-card">
-          <div class="restaurante-img-header">🌿</div>
+          <div class="restaurante-img-header"><svg width="40" height="40" viewBox="0 0 24 24" fill="#2b8a3e"><path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3 8 0 14-8 14-14-.67.67-1.33 1.33-2 2z"/></svg></div>
           <div class="restaurante-card-body">
             <h3>Terraza Libre & Jardín</h3>
             <p>Espacio al aire libre con brisa natural, sombrillas y vegetación fresca. Ideal para reuniones distendidas en tardes soleadas.</p>
@@ -704,15 +704,15 @@
               <span class="tag">Mesas Amplias</span>
             </div>
             <div class="restaurante-card-actions">
-              <a href="restaurante.html" class="btn-card-vr">🥽 Visor 3D</a>
-              <button class="btn-card-reservar btn-seleccionar-zona" data-zona="Terraza Libre">📅 Reservar</button>
+              <a href="restaurante.html" class="btn-card-vr">Visor 3D</a>
+              <button class="btn-card-reservar btn-seleccionar-zona" data-zona="Terraza Libre">Reservar</button>
             </div>
           </div>
         </div>
 
         <!-- Zona VIP -->
         <div class="restaurante-card">
-          <div class="restaurante-img-header">⭐</div>
+          <div class="restaurante-img-header"><svg width="40" height="40" viewBox="0 0 24 24" fill="#f59f00"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .55-.45 1-1 1H6c-.55 0-1-.45-1-1v-1h14v1z"/></svg></div>
           <div class="restaurante-card-body">
             <h3>Zona VIP & Eventos Privados</h3>
             <p>Espacio reservado con atención personalizada, menú de degustación exclusivo y privacidad absoluta para negocios o celebraciones.</p>
@@ -722,15 +722,15 @@
               <span class="tag">Grupos hasta 8 pax</span>
             </div>
             <div class="restaurante-card-actions">
-              <a href="restaurante.html" class="btn-card-vr">🥽 Visor 3D</a>
-              <button class="btn-card-reservar btn-seleccionar-zona" data-zona="Zona VIP">📅 Reservar</button>
+              <a href="restaurante.html" class="btn-card-vr">Visor 3D</a>
+              <button class="btn-card-reservar btn-seleccionar-zona" data-zona="Zona VIP">Reservar</button>
             </div>
           </div>
         </div>
 
         <!-- Barra Lounge -->
         <div class="restaurante-card">
-          <div class="restaurante-img-header">🍸</div>
+          <div class="restaurante-img-header"><svg width="40" height="40" viewBox="0 0 24 24" fill="#7048e8"><path d="M11 13v6H6v2h12v-2h-5v-6l8-10H3l8 10zm-3.66-8h9.32l2.4 3H4.94l2.4-3z"/></svg></div>
           <div class="restaurante-card-body">
             <h3>Barra Lounge & Coctelería</h3>
             <p>Punto dinámico para disfrutar coctelería de autor, cafés selectos y piqueos rápidos en un ambiente moderno y vibrante.</p>
@@ -740,8 +740,8 @@
               <span class="tag">Atención Rápida</span>
             </div>
             <div class="restaurante-card-actions">
-              <a href="entrada.html" class="btn-card-vr">🥽 Visor 3D</a>
-              <button class="btn-card-reservar btn-seleccionar-zona" data-zona="Barra Lounge">📅 Reservar</button>
+              <a href="entrada.html" class="btn-card-vr">Visor 3D</a>
+              <button class="btn-card-reservar btn-seleccionar-zona" data-zona="Barra Lounge">Reservar</button>
             </div>
           </div>
         </div>
@@ -752,7 +752,7 @@
     <section class="cliente-section" id="seccion-formulario">
       <div class="section-title">
         <div>
-          <h2>📅 Haz tu Reservación en Línea</h2>
+          <h2>Haz tu Reservación en Línea</h2>
           <p>Completa los datos y recibirás la confirmación inmediata de tu mesa</p>
         </div>
       </div>
@@ -816,10 +816,10 @@
             <label for="reserva-ocasion">Motivo u Ocasión Especial</label>
             <select id="reserva-ocasion">
               <option value="ninguna" selected>Cena Casual / Normal</option>
-              <option value="Cumpleaños">🎂 Cumpleaños</option>
-              <option value="Aniversario">💑 Aniversario</option>
-              <option value="Cita Romántica">🌹 Cita Romántica</option>
-              <option value="Reunión de Negocios">💼 Reunión de Negocios</option>
+              <option value="Cumpleaños">Cumpleaños</option>
+              <option value="Aniversario">Aniversario</option>
+              <option value="Cita Romántica">Cita Romántica</option>
+              <option value="Reunión de Negocios">Reunión de Negocios</option>
             </select>
           </div>
 
@@ -829,7 +829,7 @@
           </div>
 
           <button type="submit" class="btn-submit-reserva">
-            🍽️ Confirmar y Asegurar mi Reservación
+            Confirmar y Asegurar mi Reservación
           </button>
         </div>
       </form>
@@ -839,7 +839,7 @@
     <section class="cliente-section" id="seccion-mis-reservas">
       <div class="section-title">
         <div>
-          <h2>📋 Mis Reservaciones</h2>
+          <h2>Mis Reservaciones</h2>
           <p>Gestiona y consulta el estado de tus reservas en tiempo real</p>
         </div>
       </div>
@@ -853,7 +853,7 @@
     <section class="cliente-section" id="seccion-menu">
       <div class="section-title">
         <div>
-          <h2>📖 Menú Gastronómico FreeChair</h2>
+          <h2>Menú Gastronómico FreeChair</h2>
           <p>Explora nuestras especialidades culinarias, bebidas y postres preparados al instante</p>
         </div>
       </div>
@@ -876,7 +876,7 @@
     <section class="cliente-section" id="seccion-calificaciones">
       <div class="section-title">
         <div>
-          <h2>⭐ Califica a Nuestro Equipo & Da una Propina</h2>
+          <h2>Califica a Nuestro Equipo y Envía una Propina</h2>
           <p>Tu opinión nos ayuda a mejorar. Reconoce la atención de tu mesero o persona de servicio</p>
         </div>
       </div>
@@ -908,7 +908,7 @@
           </div>
 
           <div class="form-group-reserva" style="grid-column: 1 / -1; border-top: 1px solid #ffd2e5; padding-top: 15px; margin-top: 5px;">
-            <label style="display: block; margin-bottom: 8px;">💰 Propina para el Trabajador (Opcional)</label>
+            <label style="display: block; margin-bottom: 8px;">Propina para el Trabajador (Opcional)</label>
             <div class="tip-preset-buttons">
               <button type="button" class="btn-tip-preset" data-monto="0">Sin Propina</button>
               <button type="button" class="btn-tip-preset" data-monto="2000">$2.000</button>
@@ -925,7 +925,7 @@
           </div>
 
           <button type="submit" id="btn-submit-calif-propina" class="btn-submit-reserva" style="grid-column: 1 / -1;">
-            ⭐ Enviar Calificación y Propina
+            Enviar Calificación y Propina
           </button>
         </div>
       </form>
@@ -966,7 +966,7 @@
     <div class="cliente-section">
       <div class="section-title">
         <div>
-          <h2>📍 Nuestra Ubicación</h2>
+          <h2>Nuestra Ubicación</h2>
           <p>La Coruña, Ciudad Bolívar, Bogotá, Colombia</p>
         </div>
       </div>
